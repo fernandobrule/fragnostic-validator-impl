@@ -99,8 +99,9 @@ lazy val frgValidatorImpl = Project(
       fragnosticI18n,
       fragnosticValidatorApi,
       logbackClassic,
-      slf4jApi,
       scalatest,
+      scalactic,
+      scalazCore
     ),
     description := "fragnostic validator impl"
   )
