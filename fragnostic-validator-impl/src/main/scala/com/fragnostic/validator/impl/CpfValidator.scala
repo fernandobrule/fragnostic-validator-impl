@@ -8,10 +8,14 @@ trait CpfValidator extends UnderValidation {
 
   private[this] val logger: Logger = LoggerFactory.getLogger(getClass.getName)
 
+  private def isAllDigits(x: String) = x forall Character.isDigit
+
   def validateCpf(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
     // TODO esta es una implementación absolutamente mínima
     logger.warn("validateCpf() - esta es una implementación absolutamente mínima")
     if (cpf.isEmpty) {
+      emptyTextMessage.failureNel
+    } else if (!isAllDigits(cpf)) {
       errorMessage.failureNel
     } else {
       cpf.trim.successNel
