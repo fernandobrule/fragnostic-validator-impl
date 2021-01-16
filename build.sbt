@@ -16,7 +16,7 @@ lazy val frgValidatorImplSettings = Seq(
   organization := "com.fragnostic",
   fork in Test := true,
   baseDirectory in Test := file("."),
-  crossScalaVersions := Seq("2.12.11", "2.11.12", "2.13.3"),
+  crossScalaVersions := Seq("2.12.12", "2.11.12", "2.13.4"),
   scalaVersion := crossScalaVersions.value.head,
   scalacOptions ++= unusedOptions.value,
   scalacOptions ++= Seq(
@@ -98,9 +98,11 @@ lazy val frgValidatorImpl = Project(
     libraryDependencies ++= Seq(
       fragnosticI18n,
       fragnosticValidatorApi,
+      javaxMail,
+      emailRfc2822Validator,
       logbackClassic,
-      scalatest,
       scalactic,
+      scalatest,
       scalazCore
     ),
     description := "fragnostic validator impl"

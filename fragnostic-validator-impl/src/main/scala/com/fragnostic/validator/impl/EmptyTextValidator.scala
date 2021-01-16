@@ -6,7 +6,7 @@ import scalaz.Scalaz._
 trait EmptyTextValidator extends UnderValidation {
 
   def validateEmptyText(text: String, emptyTextMessage: String): StringValidation[String] =
-    if (text.isEmpty) {
+    if (text.trim.isEmpty) {
       emptyTextMessage.failureNel
     } else {
       text.trim.successNel

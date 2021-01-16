@@ -11,7 +11,7 @@ trait MobileValidator extends UnderValidation {
   def validateMobile(mobile: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
     // TODO esta es una implementación absolutamente mínima
     logger.warn("validateMobile() - esta es una implementación absolutamente mínima")
-    if (mobile.isEmpty) {
+    if (mobile.trim.isEmpty) {
       emptyTextMessage.failureNel
     } else if (!mobile.trim.startsWith("55")) {
       errorMessage.failureNel

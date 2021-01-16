@@ -28,7 +28,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest with CpfValidator 
 
     it("Can Validate Empty CPF") {
 
-      val cpf: String = ""
+      val cpf: String = "  "
       val validation: StringValidation[String] = validateCpf(cpf, emptyTextMessage, errorMessage)
       validation.isFailure should be(true)
 

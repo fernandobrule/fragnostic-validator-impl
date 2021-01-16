@@ -7,11 +7,11 @@ import java.util.Locale
 
 trait RutValidator extends UnderValidation {
 
-  def validateRut(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (cpf.isEmpty) {
+  def validateRut(rut: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
+    if (rut.trim.isEmpty) {
       errorMessage.failureNel
     } else {
-      cpf.trim.successNel
+      rut.trim.successNel
     }
 
   private lazy val k = "k"

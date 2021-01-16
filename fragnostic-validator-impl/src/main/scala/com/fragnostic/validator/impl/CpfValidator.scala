@@ -9,17 +9,17 @@ import scalaz.Scalaz._
 //
 trait CpfValidator extends UnderValidation {
 
-  def validateCpf(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
-    if (cpf.isEmpty) {
+  def validateCpf(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
+    if (cpf.trim.isEmpty) {
       emptyTextMessage.failureNel
-    } else if (!isValid(cpf)) {
+    } else if (!isValid(cpf.trim)) {
       errorMessage.failureNel
     } else {
       cpf.trim.successNel
     }
-  }
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
+
   val BLACKLIST: Array[String] = Array(
     "00000000000",
     "11111111111",

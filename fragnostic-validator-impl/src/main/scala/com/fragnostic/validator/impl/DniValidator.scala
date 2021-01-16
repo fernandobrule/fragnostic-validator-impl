@@ -13,7 +13,7 @@ trait DniValidator extends UnderValidation {
   def validateDni(dni: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
     // TODO esta es una implementación absolutamente mínima
     logger.warn("validateDni() - esta es una implementación absolutamente mínima")
-    if (dni.isEmpty) {
+    if (dni.trim.isEmpty) {
       errorMessage.failureNel
     } else {
       dni.trim.successNel

@@ -11,7 +11,7 @@ trait CnpjValidator extends UnderValidation {
   def validateCnpj(cnpj: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
     // TODO esta es una implementación absolutamente mínima
     logger.warn("validateCnpj() - esta es una implementación absolutamente mínima")
-    if (cnpj.isEmpty) {
+    if (cnpj.trim.isEmpty) {
       errorMessage.failureNel
     } else {
       cnpj.trim.successNel
