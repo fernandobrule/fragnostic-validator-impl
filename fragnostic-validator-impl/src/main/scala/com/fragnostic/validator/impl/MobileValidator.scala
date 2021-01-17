@@ -1,23 +1,26 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.glue.UnderValidation
-import org.slf4j.{ Logger, LoggerFactory }
 import scalaz.Scalaz._
 
 trait MobileValidator extends UnderValidation {
 
-  private[this] val logger: Logger = LoggerFactory.getLogger(getClass.getName)
+  private val brazilDigitsRegex = """^\d{11}$"""
 
-  def validateMobile(mobile: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] = {
-    // TODO esta es una implementación absolutamente mínima
-    logger.warn("validateMobile() - esta es una implementación absolutamente mínima")
-    if (mobile.trim.isEmpty) {
-      emptyTextMessage.failureNel
-    } else if (!mobile.trim.startsWith("55")) {
-      errorMessage.failureNel
+  private def validateBrazilMobile(mobile: String, errorMessage: String): StringValidation[String] = {
+    val mobileFiltered = mobile.trim.filter(c => c.isDigit)
+    if (mobileFiltered.matches(brazilDigitsRegex)) {
+      mobileFiltered.successNel
     } else {
-      mobile.trim.successNel
+      errorMessage.failureNel
     }
   }
+
+  def validateMobile(mobile: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
+    if (mobile.trim.isEmpty) {
+      emptyTextMessage.failureNel
+    } else {
+      validateBrazilMobile(mobile, errorMessage)
+    }
 
 }
