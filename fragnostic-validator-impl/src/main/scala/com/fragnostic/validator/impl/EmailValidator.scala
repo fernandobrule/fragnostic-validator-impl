@@ -60,7 +60,6 @@ trait EmailValidator extends UnderValidation {
       email.trim.successNel
     } catch {
       case e: AddressException => {
-        System.err.println(s"validateEmail() - $e")
         errorMessage.failureNel
       }
     }
