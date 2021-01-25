@@ -11,7 +11,7 @@ object Dependencies {
   lazy val javaxMail                  = "javax.mail"          % "javax.mail-api"                       % "1.6.2"
 
   
-  lazy val fragnosticI18n             = "com.fragnostic"      % "fragnostic-i18n_2.13"                 % "0.1.15-SNAPSHOT"
-  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.2.0-SNAPSHOT"
+  lazy val fragnosticI18n             = "com.fragnostic"      % "fragnostic-i18n-impl_2.13"            % "0.2.1"
+  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.2.0"
 
 }
