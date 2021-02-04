@@ -1,25 +1,17 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.glue.UnderValidation
+import com.fragnostic.validator.api.ValidatorApi
 import scalaz.Scalaz._
 
 //
 // Ref:
 // http://www.macoratti.net/alg_cpf.htm
 //
-trait CpfValidator extends UnderValidation {
-
-  def validateCpf(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (cpf.trim.isEmpty) {
-      emptyTextMessage.failureNel
-    } else if (!isValid(cpf.trim)) {
-      errorMessage.failureNel
-    } else {
-      cpf.trim.successNel
-    }
+trait CpfValidator extends ValidatorApi[String] {
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
 
+  // TODO esta lista tiene que estar en un archivo
   val BLACKLIST: Array[String] = Array(
     "00000000000",
     "11111111111",
@@ -57,6 +49,16 @@ trait CpfValidator extends UnderValidation {
       false
     } else {
       stripped == addDigit(addDigit(stripped.substring(0, 9)))
+    }
+  }
+
+  override def validate(cpf: String, hasToFormat: Boolean, messages: String*): Validated[String] = {
+    if (cpf.trim.isEmpty) {
+      messages(0).failureNel
+    } else if (!isValid(cpf.trim)) {
+      messages(1).failureNel
+    } else {
+      cpf.trim.successNel
     }
   }
 

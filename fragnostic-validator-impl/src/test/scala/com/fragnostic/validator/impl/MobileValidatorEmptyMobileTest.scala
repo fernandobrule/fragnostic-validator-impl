@@ -9,7 +9,7 @@ class MobileValidatorEmptyMobileTest extends AgnosticLifeCycleValidatorTest with
     it("Can Validate Empty Mobile") {
 
       val mobile: String = "  "
-      val validation: StringValidation[String] = validateMobile(mobile, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
+      val validation: Validated[String] = validate(mobile, hasToFormat = true, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
       validation.isFailure should be(true)
 
       (validation match {

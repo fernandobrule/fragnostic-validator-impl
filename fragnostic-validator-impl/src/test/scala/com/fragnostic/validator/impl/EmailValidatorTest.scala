@@ -13,7 +13,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
 
       val email = "fernandobrule@gmail.com"
 
-      val validation: StringValidation[String] = validateEmail(email, emptyTextMessage, errorMessage)
+      val validation: Validated[String] = validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
 
       validation.isSuccess should be(true)
       validation.toList.head should be(email)
@@ -24,8 +24,8 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
 
       val email = "fernandobrule#gmail.com"
 
-      val validation: StringValidation[String] =
-        validateEmail(email, emptyTextMessage, errorMessage)
+      val validation: Validated[String] =
+        validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
 
       validation.isFailure should be(true)
 
@@ -45,7 +45,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
   it("Can Validate Empty Email") {
 
     val email: String = "  "
-    val validation: StringValidation[String] = validateEmail(email, emptyTextMessage, errorMessage)
+    val validation: Validated[String] = validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
 
     validation.isFailure should be(true)
 

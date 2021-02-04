@@ -1,13 +1,13 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.glue.UnderValidation
+import com.fragnostic.validator.api.ValidatorApi
 import scalaz.Scalaz._
 
-trait EmptyTextValidator extends UnderValidation {
+trait EmptyTextValidator extends ValidatorApi[String] {
 
-  def validateEmptyText(text: String, emptyTextMessage: String): StringValidation[String] =
+  override def validate(text: String, hasToFormat: Boolean, messages: String*): Validated[String] =
     if (text.trim.isEmpty) {
-      emptyTextMessage.failureNel
+      messages(0).failureNel // emptyTextMessage
     } else {
       text.trim.successNel
     }

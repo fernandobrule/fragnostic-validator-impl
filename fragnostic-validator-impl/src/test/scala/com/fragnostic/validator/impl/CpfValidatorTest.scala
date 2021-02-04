@@ -20,7 +20,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest with CpfValidator 
         "111.444.777-35")
 
       cpfs foreach (cpf => {
-        val validation: StringValidation[String] = validateCpf(cpf, emptyTextMessage, errorMessage)
+        val validation: Validated[String] = validate(cpf, hasToFormat = true, emptyTextMessage, errorMessage)
         validation.isSuccess should be(true)
         validation.toList.head should be(cpf)
       })
@@ -29,7 +29,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest with CpfValidator 
     it("Can Validate Empty CPF") {
 
       val cpf: String = "  "
-      val validation: StringValidation[String] = validateCpf(cpf, emptyTextMessage, errorMessage)
+      val validation: Validated[String] = validate(cpf, hasToFormat = true, emptyTextMessage, errorMessage)
       validation.isFailure should be(true)
 
       (validation match {
@@ -45,7 +45,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest with CpfValidator 
     it("Can Validate Black List") {
 
       BLACKLIST foreach (cpf => {
-        val validation: StringValidation[String] = validateCpf(cpf, emptyTextMessage, errorMessage)
+        val validation: Validated[String] = validate(cpf, hasToFormat = true, emptyTextMessage, errorMessage)
         validation.isFailure should be(true)
 
         (validation match {
@@ -63,7 +63,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest with CpfValidator 
 
       val cpf: String = "uyuyiuyiu89789"
 
-      val validation: StringValidation[String] = validateCpf(cpf, emptyTextMessage, errorMessage)
+      val validation: Validated[String] = validate(cpf, hasToFormat = true, emptyTextMessage, errorMessage)
       validation.isFailure should be(true)
 
       (validation match {

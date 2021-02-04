@@ -11,7 +11,7 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
       val mobile: String = " (11) 9 5197 6773   "
       val mobileRaw: String = "11951976773"
 
-      val validation: StringValidation[String] = validateMobile(mobile, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
+      val validation: Validated[String] = validate(mobile, hasToFormat = true, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
       validation.isFailure should be(true)
 
       (validation match {

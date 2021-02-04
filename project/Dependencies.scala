@@ -12,6 +12,6 @@ object Dependencies {
 
   
   lazy val fragnosticI18n             = "com.fragnostic"      % "fragnostic-i18n-impl_2.13"            % "0.2.1"
-  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.2.1"
+  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.2.2-SNAPSHOT"
 
 }
