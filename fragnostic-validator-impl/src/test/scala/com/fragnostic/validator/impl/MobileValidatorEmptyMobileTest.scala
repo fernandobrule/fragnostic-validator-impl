@@ -1,15 +1,16 @@
 package com.fragnostic.validator.impl
 
+import com.fragnostic.validator.api.Validated
 import scalaz.{ Failure, NonEmptyList, Success }
 
-class MobileValidatorEmptyMobileTest extends AgnosticLifeCycleValidatorTest with MobileValidator {
+class MobileValidatorEmptyMobileTest extends AgnosticLifeCycleValidatorTest {
 
   describe("Mobile Validator Empty Mobile Test") {
 
     it("Can Validate Empty Mobile") {
 
       val mobile: String = "  "
-      val validation: Validated[String] = validate(mobile, hasToFormat = true, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
+      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWhitoutCountryCode)
       validation.isFailure should be(true)
 
       (validation match {
@@ -19,7 +20,7 @@ class MobileValidatorEmptyMobileTest extends AgnosticLifeCycleValidatorTest with
             case _ =>
           }
         case Success(s) =>
-      }) should be(mobileValidatorEmptyTextErrorMessage)
+      }) should be(msgMobileEmpty)
 
     }
 

@@ -1,3 +1,5 @@
 #!/bin/bash
 
+source /Users/fernandobrule/Clones/vil/vil-code/backend/vil-conf/envars/vil-fat-backend-i18n-envars
+
 ./sbt -v -213 -Dsbt.io.implicit.relative.glob.conversion=allow

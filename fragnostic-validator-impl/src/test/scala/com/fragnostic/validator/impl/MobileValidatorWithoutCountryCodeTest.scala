@@ -1,17 +1,17 @@
 package com.fragnostic.validator.impl
 
+import com.fragnostic.validator.api.Validated
 import scalaz.{ Failure, NonEmptyList, Success }
 
-class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTest with MobileValidator {
+class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTest {
 
   describe("Mobile Validator Without Country Code Test") {
 
     it("Can Validate Mobile Without Country Code Test") {
 
       val mobile: String = " (11) 9 5197 6773   "
-      val mobileRaw: String = "11951976773"
 
-      val validation: Validated[String] = validate(mobile, hasToFormat = true, mobileValidatorEmptyTextErrorMessage, mobileValidatorWithoutCountryCodeErrorMessage, mobileValidatorGenericErrorMessage)
+      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWhitoutCountryCode)
       validation.isFailure should be(true)
 
       (validation match {
@@ -21,7 +21,7 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
             case _ =>
           }
         case Success(s) =>
-      }) should be(mobileValidatorWithoutCountryCodeErrorMessage)
+      }) should be(msgMobileWhitoutCountryCode)
 
     }
 

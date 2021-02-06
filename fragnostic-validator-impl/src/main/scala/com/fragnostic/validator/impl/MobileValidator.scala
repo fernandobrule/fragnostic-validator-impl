@@ -1,25 +1,17 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.ValidatorApi
+import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
-trait MobileValidator extends ValidatorApi[String] {
+import java.util.Locale
 
-  //
-  // TODO colocar en un archivo
-  // 54 - Argentina
-  // 55 - Brasil
-  // 56 - Chile
-  // 598 - Uruguay
-  private val countryCodes: List[String] = List("54", "55", "56", "598")
+class MobileValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  private def format(mobile: String): String = {
-    // TODO implementar format
-    mobile
-  }
-
-  override def validate(rawMobile: String, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (rawMobile.trim.isEmpty) {
+  override def validate(rawMobile: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
+    if (argsAreValid(numberExpected = 3, messages: _*)) {
+      "mobile.validator.wrong.number.of.messages".failureNel
+    } else if (rawMobile.trim.isEmpty) {
       messages(0).failureNel
     } else {
       val numbers: List[Int] = rawMobile.filter(c => c.isDigit).map(c => c.asDigit).toList
@@ -35,9 +27,22 @@ trait MobileValidator extends ValidatorApi[String] {
             mobile.successNel
           }
         } else {
-          messages(1).failureNel // withoutCountryCodeErrorMessage
+          messages(2).failureNel
         }
       }
     }
+
+  //
+  // TODO colocar en un archivo
+  // 54 - Argentina
+  // 55 - Brasil
+  // 56 - Chile
+  // 598 - Uruguay
+  private val countryCodes: List[String] = List("54", "55", "56", "598")
+
+  private def format(mobile: String): String = {
+    // TODO implementar format
+    mobile
+  }
 
 }

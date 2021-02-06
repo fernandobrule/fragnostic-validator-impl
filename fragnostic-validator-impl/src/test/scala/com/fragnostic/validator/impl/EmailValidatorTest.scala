@@ -1,11 +1,9 @@
 package com.fragnostic.validator.impl
 
+import com.fragnostic.validator.api.Validated
 import scalaz.{ Failure, NonEmptyList, Success }
 
-class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValidator {
-
-  val emptyTextMessage: String = "No ingresaste el Email"
-  val errorMessage: String = "Email no válido"
+class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   describe("Email Validator Test") {
 
@@ -13,7 +11,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
 
       val email = "fernandobrule@gmail.com"
 
-      val validation: Validated[String] = validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
+      val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
 
       validation.isSuccess should be(true)
       validation.toList.head should be(email)
@@ -24,8 +22,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
 
       val email = "fernandobrule#gmail.com"
 
-      val validation: Validated[String] =
-        validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
+      val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
 
       validation.isFailure should be(true)
 
@@ -36,7 +33,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
             case _ =>
           }
         case Success(s) =>
-      }) should be(errorMessage)
+      }) should be(msgEmailNotValid)
 
     }
 
@@ -44,8 +41,8 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
 
   it("Can Validate Empty Email") {
 
-    val email: String = "  "
-    val validation: Validated[String] = validate(email, hasToFormat = true, emptyTextMessage, errorMessage)
+    val email = "  "
+    val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
 
     validation.isFailure should be(true)
 
@@ -56,7 +53,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest with EmailValida
           case _ =>
         }
       case Success(s) =>
-    }) should be(emptyTextMessage)
+    }) should be(msgEmailEmpty)
 
   }
 

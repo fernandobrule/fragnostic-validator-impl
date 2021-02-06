@@ -1,13 +1,27 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.ValidatorApi
+import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
+
+import java.util.Locale
 
 //
 // Ref:
 // http://www.macoratti.net/alg_cpf.htm
 //
-trait CpfValidator extends ValidatorApi[String] {
+class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
+
+  override def validate(cpf: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
+    if (argsAreValid(numberExpected = 2, messages: _*)) {
+      "cpf.validator.wrong.number.of.messages".failureNel
+    } else if (cpf.trim.isEmpty) {
+      messages(0).failureNel
+    } else if (!isValid(cpf.trim)) {
+      messages(1).failureNel
+    } else {
+      cpf.successNel
+    }
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
 
@@ -49,16 +63,6 @@ trait CpfValidator extends ValidatorApi[String] {
       false
     } else {
       stripped == addDigit(addDigit(stripped.substring(0, 9)))
-    }
-  }
-
-  override def validate(cpf: String, hasToFormat: Boolean, messages: String*): Validated[String] = {
-    if (cpf.trim.isEmpty) {
-      messages(0).failureNel
-    } else if (!isValid(cpf.trim)) {
-      messages(1).failureNel
-    } else {
-      cpf.trim.successNel
     }
   }
 
