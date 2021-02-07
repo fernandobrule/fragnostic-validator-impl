@@ -16,17 +16,21 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val mobileValidator = new MobileValidator()
   val emailValidator = new EmailValidator()
   val cpfValidator = new CpfValidator()
+  val dateTimeValidator = new DateTimeValidator()
 
-  val i18n = new ValidatorI18n()
+  val validatorI18n = new ValidatorI18n()
 
-  val msgMobileEmpty: String = i18n.getString(locale, "mobile.validator.mobile.empty")
-  val msgMobileNotValid: String = i18n.getString(locale, "mobile.validator.mobile.not.valid")
-  val msgMobileWhitoutCountryCode: String = i18n.getString(locale, "mobile.validator.mobile.whitout.country.code")
+  val msgMobileEmpty: String = validatorI18n.getString(locale, "mobile.validator.mobile.empty")
+  val msgMobileNotValid: String = validatorI18n.getString(locale, "mobile.validator.mobile.not.valid")
+  val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
 
-  val msgCpfEmpty: String = i18n.getString(locale, "cpf.validator.cpf.empty")
-  val msgCpfNotValid: String = i18n.getString(locale, "cpf.validator.cpf.not.valid")
+  val msgCpfEmpty: String = validatorI18n.getString(locale, "cpf.validator.cpf.empty")
+  val msgCpfNotValid: String = validatorI18n.getString(locale, "cpf.validator.cpf.not.valid")
 
-  val msgEmailEmpty: String = i18n.getString(locale, "email.validator.email.empty")
-  val msgEmailNotValid: String = i18n.getString(locale, "email.validator.email.not.valid")
+  val msgEmailEmpty: String = validatorI18n.getString(locale, "email.validator.email.empty")
+  val msgEmailNotValid: String = validatorI18n.getString(locale, "email.validator.email.not.valid")
+
+  val msgDateTimeEmpty: String = validatorI18n.getString(locale, "date.time.validator.date.time.is.empty")
+  val msgDateTimeNotValid: String = validatorI18n.getString(locale, "date.time.validator.date.time.not.valid")
 
 }

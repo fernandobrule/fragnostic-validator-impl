@@ -11,7 +11,7 @@ class MobileValidatorWithCountryCodeTest extends AgnosticLifeCycleValidatorTest 
       val mobile: String = " +55 11 9 5197 6773"
       val mobileRaw: String = "5511951976773"
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWhitoutCountryCode)
+      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWithoutCountryCode)
       validation.isSuccess should be(true)
       validation.toList.head should be(mobileRaw)
 

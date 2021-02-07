@@ -11,7 +11,7 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
 
       val mobile: String = " (11) 9 5197 6773   "
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWhitoutCountryCode)
+      val validation: Validated[String] = mobileValidator.validate(mobile, locale, hasToFormat, msgMobileEmpty, msgMobileNotValid, msgMobileWithoutCountryCode)
       validation.isFailure should be(true)
 
       (validation match {
@@ -21,7 +21,7 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgMobileWhitoutCountryCode)
+      }) should be(msgMobileWithoutCountryCode)
 
     }
 
