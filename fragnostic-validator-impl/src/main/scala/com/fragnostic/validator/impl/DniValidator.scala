@@ -12,7 +12,7 @@ class DniValidator extends ValidatorApi[String] with ValidatorSupport {
 
   override def validate(dni: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
-    if (argsAreValid(numberExpected = 1, messages: _*)) {
+    if (!argsAreValid(numberExpected = 1, messages: _*)) {
       "dni.validator.wrong.number.of.messages".failureNel
     } else if (dni.trim.isEmpty) {
       messages(0).failureNel // i18n.getString(locale, "dni.validator.dni.empty").failureNel

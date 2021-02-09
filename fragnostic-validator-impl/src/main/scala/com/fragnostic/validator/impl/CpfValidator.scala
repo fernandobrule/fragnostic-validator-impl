@@ -13,7 +13,7 @@ import java.util.Locale
 class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
 
   override def validate(cpf: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (argsAreValid(numberExpected = 2, messages: _*)) {
+    if (!argsAreValid(numberExpected = 2, messages: _*)) {
       "cpf.validator.wrong.number.of.messages".failureNel
     } else if (cpf.trim.isEmpty) {
       messages(0).failureNel

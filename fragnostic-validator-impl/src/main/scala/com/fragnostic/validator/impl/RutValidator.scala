@@ -9,7 +9,7 @@ import java.util.Locale
 class RutValidator extends ValidatorApi[String] with ValidatorSupport {
 
   override def validate(rut: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (argsAreValid(numberExpected = 3, messages: _*)) {
+    if (!argsAreValid(numberExpected = 3, messages: _*)) {
       "rut.validator.wrong.number.of.messages".failureNel
     } else if (rut.trim.nonEmpty) {
       val rutFiltrado = rut.trim.filter(p => p.isDigit || p.toString.toLowerCase.equals(k)).toLowerCase

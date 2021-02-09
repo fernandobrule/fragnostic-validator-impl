@@ -33,4 +33,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgDateTimeEmpty: String = validatorI18n.getString(locale, "date.time.validator.date.time.is.empty")
   val msgDateTimeNotValid: String = validatorI18n.getString(locale, "date.time.validator.date.time.not.valid")
 
+  val msgCepEmpty: String = validatorI18n.getString(locale, "cep.validator.cep.is.empty")
+  val msgCepNotValid: String = validatorI18n.getString(locale, "cep.validator.cep.not.valid")
+
 }

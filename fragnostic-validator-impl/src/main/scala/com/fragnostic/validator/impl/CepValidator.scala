@@ -8,14 +8,18 @@ import java.util.Locale
 
 class CepValidator extends ValidatorApi[String] with ValidatorSupport {
 
+  private val cepPattern = """(\d{5})(\d{3})""".r
+
   override def validate(cep: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    // TODO esta es una implementación absolutamente mínima
-    if (argsAreValid(numberExpected = 1, messages: _*)) {
+    if (!argsAreValid(numberExpected = 2, messages: _*)) {
       "cep.validator.wrong.number.of.messages".failureNel
     } else if (cep.trim.isEmpty) {
-      messages(0).failureNel // i18n.getString(locale, "cep.validator.cep.empty").failureNel
+      messages(0).failureNel
     } else {
-      cep.trim.successNel
+      cep.filter(c => c.isDigit) match {
+        case cepPattern(l, r) => if (hasToFormat) s"$l-$r".successNel else s"$l$r".successNel
+        case _ => messages(1).failureNel
+      }
     }
 
 }

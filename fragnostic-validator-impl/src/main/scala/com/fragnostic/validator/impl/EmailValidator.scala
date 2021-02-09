@@ -12,7 +12,7 @@ import org.hazlewood.connor.bottema.emailaddress.{ EmailAddressCriteria, EmailAd
 class EmailValidator extends ValidatorApi[String] with ValidatorSupport {
 
   override def validate(email: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] = {
-    if (argsAreValid(numberExpected = 2, messages: _*)) {
+    if (!argsAreValid(numberExpected = 2, messages: _*)) {
       "email.validator.wrong.number.of.messages".failureNel
     } else if (email.trim.isEmpty) {
       messages(0).failureNel
