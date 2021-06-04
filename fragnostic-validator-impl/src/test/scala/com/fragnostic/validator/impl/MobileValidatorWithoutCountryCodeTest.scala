@@ -11,10 +11,13 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
 
       val mobile: String = " (11) 9 5197 6773   "
       val params: Map[String, String] = Map(
+        "maxLength" -> "16",
         "hasToFormat" -> "true",
-        "validateCountryCode" -> "true")
+        "validateCountryCode" -> "true",
+        "countryCodesWhiteList" -> "54;55;56;598" //
+      )
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, List(msgMobileEmpty, msgMobileNotValid, msgMobileWithoutCountryCode))
+      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, mobileValidatorMessages)
 
       validation.isFailure should be(true)
 

@@ -35,6 +35,8 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgMobileEmpty: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.empty")
   val msgMobileNotValid: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.not.valid")
   val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
+  val msgMobileNotValidIsLenghtier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.not.valid.is.lenghtier")
+  var mobileValidatorMessages: List[String] = List(msgMobileEmpty, msgMobileNotValid, msgMobileWithoutCountryCode, msgMobileNotValidIsLenghtier)
 
   val msgTextEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")
   val msgTextLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.lengthier")
