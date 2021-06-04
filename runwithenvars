@@ -1,5 +1,6 @@
 #!/bin/bash
 
-source /Users/fernandobrule/Clones/vil/vil-code/backend/vil-conf/envars/vil-fat-backend-i18n-envars
+export VALIDATOR_I18N_BASE_DIR=./fragnostic-validator-impl/src/test/resources/i18n
+export VALIDATOR_I18N_BASE_NAME=com.fragnostic.validator.i18n.messages-test
 
 ./sbt -v -213 -Dsbt.io.implicit.relative.glob.conversion=allow

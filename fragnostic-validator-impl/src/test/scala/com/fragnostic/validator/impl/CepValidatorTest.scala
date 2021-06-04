@@ -9,11 +9,11 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Valid CEP") {
 
       val cepValidator = new CepValidator
-
+      val params: Map[String, String] = Map("hasToFormat" -> "true")
       val list = List("01414-000", "13214-206")
 
       list foreach (cep => {
-        val validation: Validated[String] = cepValidator.validate(cep, locale, hasToFormat, msgCepEmpty, msgCepNotValid)
+        val validation: Validated[String] = cepValidator.validate(cep, locale, params, List(msgCepEmpty, msgCepNotValid))
         validation.isSuccess should be(true)
         validation.toList.head should be(cep)
       })

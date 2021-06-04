@@ -8,25 +8,23 @@ import java.util.Locale
 
 class RutValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(rut: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (!argsAreValid(numberExpected = 3, messages: _*)) {
-      "rut.validator.wrong.number.of.messages".failureNel
-    } else if (rut.trim.nonEmpty) {
+  override def validate(rut: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
+    if (rut.trim.nonEmpty) {
       val rutFiltrado = rut.trim.filter(p => p.isDigit || p.toString.toLowerCase.equals(k)).toLowerCase
-      val lenght = rutFiltrado.length
-      if (lenght >= 8) {
-        val base = rutFiltrado.substring(0, lenght - 1).toInt
-        val dig = rutFiltrado.substring(lenght - 1)
+      val length = rutFiltrado.length
+      if (length >= 8) {
+        val base = rutFiltrado.substring(0, length - 1).toInt
+        val dig = rutFiltrado.substring(length - 1)
         if (isValidContraDv(base, dig)) {
           s"$base-$dig".successNel
         } else {
-          messages(1).failureNel // i18n.getString(locale, "rut.validator.rut.nv")
+          getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
         }
       } else {
-        messages(2).failureNel // i18n.getString(locale, "rut.validator.rut.mal.constituido")
+        getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
       }
     } else {
-      messages(0).failureNel // i18n.getString(locale, "rut.validator.rut.empty")
+      getErrorMessage(locale, "rut.validator.rut.is.empty", Nil, validatorI18n, 0, messages).failureNel
     }
 
   private lazy val k = "k"

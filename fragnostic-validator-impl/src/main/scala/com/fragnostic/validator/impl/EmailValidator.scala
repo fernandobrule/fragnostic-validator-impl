@@ -11,13 +11,19 @@ import org.hazlewood.connor.bottema.emailaddress.{ EmailAddressCriteria, EmailAd
 
 class EmailValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(email: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] = {
-    if (!argsAreValid(numberExpected = 2, messages: _*)) {
-      "email.validator.wrong.number.of.messages".failureNel
-    } else if (email.trim.isEmpty) {
-      messages(0).failureNel
+  private def textMaxLengthValidator = new TextMaxLengthValidator
+
+  override def validate(email: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] = {
+    if (email.trim.isEmpty) {
+      getErrorMessage(locale, "email.validator.email.is.empty", Nil, validatorI18n, 0, messages).failureNel
     } else {
-      validateByRfc2822Validator(email, messages(1))
+
+      (textMaxLengthValidator.validate(email, locale, params, messages)
+        |@| validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, validatorI18n, 1, messages)) //
+      ) {
+          (emaillv, email) => email
+        }
+
     }
   }
 

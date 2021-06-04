@@ -7,11 +7,13 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   describe("Email Validator Test") {
 
+    val params: Map[String, String] = Map("maxLength" -> "255")
+
     it("Can Validate Valid Email") {
 
       val email = "fernandobrule@gmail.com"
 
-      val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
+      val validation: Validated[String] = emailValidator.validate(email, locale, params)
 
       validation.isSuccess should be(true)
       validation.toList.head should be(email)
@@ -22,7 +24,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val email = "fernandobrule#gmail.com"
 
-      val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
+      val validation: Validated[String] = emailValidator.validate(email, locale, params)
 
       validation.isFailure should be(true)
 
@@ -42,7 +44,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
   it("Can Validate Empty Email") {
 
     val email = "  "
-    val validation: Validated[String] = emailValidator.validate(email, locale, hasToFormat, msgEmailEmpty, msgEmailNotValid)
+    val validation: Validated[String] = emailValidator.validate(email, locale, params)
 
     validation.isFailure should be(true)
 

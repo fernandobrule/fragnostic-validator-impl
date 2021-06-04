@@ -12,13 +12,12 @@ import java.util.Locale
 //
 class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(cpf: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (!argsAreValid(numberExpected = 2, messages: _*)) {
-      "cpf.validator.wrong.number.of.messages".failureNel
-    } else if (cpf.trim.isEmpty) {
-      messages(0).failureNel
+  override def validate(cpf: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
+    if (cpf.trim.isEmpty) {
+      getErrorMessage(locale, "cpf.validator.cpf.is.empty", Nil, validatorI18n, 0, messages).failureNel
     } else if (!isValid(cpf.trim)) {
       messages(1).failureNel
+      getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
     } else {
       cpf.successNel
     }

@@ -1,26 +1,29 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api.{ Validated, ValidatorApi }
-import com.fragnostic.validator.support.ValidatorSupport
+import com.fragnostic.validator.support.{ TypeShortHandler, ValidatorSupport }
 import scalaz.Scalaz._
 
 import java.util.Locale
 
-class PasswordValidator extends ValidatorApi[String] with ValidatorSupport {
+class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with TypeShortHandler {
 
-  val passwordMinimumLength: Short = 8
-  val passwordMaximumLength: Short = 64
-
-  override def validate(password: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
+  override def validate(password: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] = {
     // TODO esta es una implementación absolutamente mínima
-    if (!argsAreValid(numberExpected = 2, messages: _*)) {
-      "password.validator.wrong.number.of.messages".failureNel
-    } else if (password.trim.length < passwordMinimumLength || password.trim.length > passwordMaximumLength) {
-      messages(1).failureNel
-    } else if (password.trim.isEmpty) {
-      messages(0).failureNel
-    } else {
-      password.trim.successNel
-    }
+    (for {
+      passwordMinimumLength <- handleShort("passwordMinimumLength", params)
+      passwordMaximumLength <- handleShort("passwordMaximumLength", params)
+    } yield {
+      if (password.trim.isEmpty) {
+        getErrorMessage(locale, "password.validator.password.is.empty", Nil, validatorI18n, 0, messages)
+      } else if (password.trim.length < passwordMinimumLength || password.trim.length > passwordMaximumLength) {
+        getErrorMessage(locale, "password.validator.password.length.is.not.valid", List(password.trim.length.toString, passwordMinimumLength.toString, passwordMaximumLength.toString), validatorI18n, 1, messages)
+      } else {
+        password.trim
+      }
+    }) fold (
+      error => error.failureNel,
+      validated => validated.successNel)
+  }
 
 }

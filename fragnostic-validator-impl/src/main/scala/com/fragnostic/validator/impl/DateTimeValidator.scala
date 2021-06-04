@@ -10,15 +10,13 @@ class DateTimeValidator extends ValidatorApi[String] with ValidatorSupport {
 
   private val dateTimePattern = """\s*(\d{4}-\d{2}-\d{2})\s*(\d{2}:\d{2}:\d{2})\s*""".r
 
-  override def validate(dateTime: String, locale: Locale, hasToFormat: Boolean, messages: String*): Validated[String] =
-    if (!argsAreValid(numberExpected = 2, messages: _*)) {
-      "date.time.validator.wrong.number.of.messages".failureNel
-    } else if (dateTime.trim.isEmpty) {
-      messages(0).failureNel
+  override def validate(dateTime: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
+    if (dateTime.trim.isEmpty) {
+      getErrorMessage(locale, "date.time.validator.date.time.is.empty", Nil, validatorI18n, 0, messages).failureNel
     } else {
       dateTime match {
         case dateTimePattern(date, time) => s"$date $time".successNel
-        case _ => messages(1).failureNel
+        case _ => getErrorMessage(locale, "date.time.validator.date.time.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
       }
     }
 
