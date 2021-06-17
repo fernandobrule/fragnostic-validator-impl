@@ -9,20 +9,22 @@ class MobileValidatorLengthierTest extends AgnosticLifeCycleValidatorTest {
   describe("***MobileValidatorLengthierTest***") {
 
     def validatorI18n = new ValidatorI18n()
+    val domain = "Mobile"
 
     it("Can Validate Lengthier Mobile Number") {
 
-      val maxLength = 16
+      val maxLength = "16"
       val params: Map[String, String] = Map(
-        "maxLength" -> maxLength.toString,
+        "maxLength" -> maxLength,
         "hasToFormat" -> "true",
         "validateCountryCode" -> "true",
         "countryCodesWhiteList" -> "54;55;56;598" //
       )
 
       val mobile: String = "12345678901234567"
-
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, mobileValidatorMessages)
+      val msgMobileNotValidIsLenghtier: String = validatorI18n.getFormattedString(locale, "mobile.validator.mobile.is.lengthier", List(mobile.length.toString, maxLength))
+      val mobileValidatorMessages: List[String] = List(msgMobileIsEmpty, msgMobileIsNotValid, msgMobileNotValidIsLenghtier, msgMobileWithoutCountryCode)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
       validation.isFailure should be(true)
 
       (validation match {
@@ -32,7 +34,7 @@ class MobileValidatorLengthierTest extends AgnosticLifeCycleValidatorTest {
             case _ =>
           }
         case Success(s) =>
-      }) should be(validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.lengthier", List(mobile.length.toString, maxLength.toString)))
+      }) should be(msgMobileNotValidIsLenghtier)
 
     }
 

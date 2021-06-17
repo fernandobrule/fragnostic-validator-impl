@@ -8,9 +8,11 @@ class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBoo
 
   describe("***Type Boolean Handler Test***") {
 
+    val domain = "TypeBoolean"
+
     it("Can Handle Right Parameter") {
       val params: Map[String, String] = Map(param -> "true")
-      val message: String = handleBoolean(param, params) fold (
+      val message: String = handleBoolean(param, domain, params) fold (
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 
@@ -20,11 +22,11 @@ class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBoo
     it("Can Handle Wrong Parameter") {
       val paramValue = "true123"
       val params: Map[String, String] = Map(param -> paramValue)
-      val message: String = handleBoolean(param, params) fold (
+      val message: String = handleBoolean(param, domain, params) fold (
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 
-      message should be(s"type.boolean.handler.error.param.value.not.valid_$paramValue")
+      message should be(s"type.boolean.handler.error.param.value.not.valid_$paramValue.domain.is\u005b$domain\u005d")
     }
 
   }

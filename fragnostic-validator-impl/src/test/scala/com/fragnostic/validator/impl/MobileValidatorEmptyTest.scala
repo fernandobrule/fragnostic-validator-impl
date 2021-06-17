@@ -7,6 +7,8 @@ class MobileValidatorEmptyTest extends AgnosticLifeCycleValidatorTest {
 
   describe("Mobile Validator Empty Test") {
 
+    val domain = "Mobile"
+
     it("Can Validate Empty Mobile") {
 
       val params: Map[String, String] = Map(
@@ -18,7 +20,7 @@ class MobileValidatorEmptyTest extends AgnosticLifeCycleValidatorTest {
 
       val mobile: String = "  "
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
       validation.isFailure should be(true)
 
       (validation match {
@@ -28,7 +30,7 @@ class MobileValidatorEmptyTest extends AgnosticLifeCycleValidatorTest {
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgMobileEmpty)
+      }) should be(msgMobileIsEmpty)
 
     }
 

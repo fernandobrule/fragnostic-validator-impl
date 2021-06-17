@@ -8,10 +8,10 @@ import java.util.Locale
 
 class CnpjValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(cnpj: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
+  override def validate(locale: Locale, domain: String, cnpj: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
     if (cnpj.trim.isEmpty) {
-      getErrorMessage(locale, "cnpj.validator.cnpj.is.empty", Nil, validatorI18n, 0, messages).failureNel
+      getErrorMessage(locale, "cnpj.validator.cnpj.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
     } else {
       cnpj.trim.successNel
     }

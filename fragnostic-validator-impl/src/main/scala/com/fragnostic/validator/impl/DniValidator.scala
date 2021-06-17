@@ -10,10 +10,10 @@ import java.util.Locale
 // https://es.wikipedia.org/wiki/Documento_Nacional_de_Identidad_(Argentina)
 class DniValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(dni: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
+  override def validate(locale: Locale, domain: String, dni: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
     if (dni.trim.isEmpty) {
-      getErrorMessage(locale, "dni.validator.dni.is.empty", Nil, validatorI18n, 0, messages).failureNel
+      getErrorMessage(locale, "dni.validator.dni.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
     } else {
       dni.trim.successNel
     }

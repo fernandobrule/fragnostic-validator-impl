@@ -8,16 +8,16 @@ import java.util.Locale
 
 class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with TypeShortHandler {
 
-  override def validate(password: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] = {
+  override def validate(locale: Locale, domain: String, password: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] = {
     // TODO esta es una implementación absolutamente mínima
     (for {
-      passwordMinimumLength <- handleShort("passwordMinimumLength", params)
-      passwordMaximumLength <- handleShort("passwordMaximumLength", params)
+      minLength <- handleShort("minLength", domain, params)
+      maxLength <- handleShort("maxLength", domain, params)
     } yield {
       if (password.trim.isEmpty) {
-        getErrorMessage(locale, "password.validator.password.is.empty", Nil, validatorI18n, 0, messages)
-      } else if (password.trim.length < passwordMinimumLength || password.trim.length > passwordMaximumLength) {
-        getErrorMessage(locale, "password.validator.password.length.is.not.valid", List(password.trim.length.toString, passwordMinimumLength.toString, passwordMaximumLength.toString), validatorI18n, 1, messages)
+        getErrorMessage(locale, "password.validator.password.is.empty", Nil, validatorI18n, idxTextEmpty, messages)
+      } else if (password.trim.length < minLength || password.trim.length > maxLength) {
+        getErrorMessage(locale, "password.validator.password.length.is.not.valid", List(password.trim.length.toString, minLength.toString, maxLength.toString), validatorI18n, idxTextLengthier, messages)
       } else {
         password.trim
       }

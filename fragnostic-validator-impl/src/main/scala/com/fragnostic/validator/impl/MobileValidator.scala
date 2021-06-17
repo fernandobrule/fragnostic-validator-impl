@@ -19,7 +19,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     '\u0028',
     '\u0029')
 
-  private def textMaxLengthValidator = new TextMaxLengthValidator
+  private def textBoundariesValidator = new TextBoundariesValidator
 
   private def isValid(c: Char): Boolean =
     c.isDigit || validChars.contains(c)
@@ -40,40 +40,49 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     }
   }
 
-  private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, params: Map[String, String], messages: List[String]): Validated[String] =
-    handleList("countryCodesWhiteList", params) fold (
+  private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: List[String]): Validated[String] =
+    handleList("countryCodesWhiteList", domain, params) fold (
       error => {
         logger.error(s"validate() - $error")
         error.failureNel
       },
       countryCodesWhiteList => {
-        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, getErrorMessage(locale, "mobile.validator.mobile.without.country.code", Nil, validatorI18n, 2, messages))
+        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, getErrorMessage(locale, "mobile.validator.mobile.without.country.code", Nil, validatorI18n, idxCountryCode, messages))
       } //
     ) //
 
-  private def validateMobile(locale: Locale, rawMobile: String, params: Map[String, String], messages: List[String]): Validated[String] = {
+  private def validateMobile(locale: Locale, domain: String, rawMobile: String, params: Map[String, String], messages: List[String], mandatory: Boolean): Validated[String] = {
     val notNumbers = rawMobile.filter(c => !isValid(c)).toList
     if (notNumbers.nonEmpty) {
-      getErrorMessage(locale, "mobile.validator.mobile.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
+      if (mandatory) {
+        getErrorMessage(locale, "mobile.validator.mobile.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+      } else {
+        "".successNel
+      }
     } else {
       val numbers: List[Int] = rawMobile.filter(c => c.isDigit).map(c => c.asDigit).toList
       if (numbers.isEmpty) {
-        getErrorMessage(locale, "mobile.validator.mobile.is.empty", Nil, validatorI18n, 0, messages).failureNel
+        //ifMandatory(locale, "mobile.validator.mobile.is.empty", Nil, mandatory)
+        if (mandatory) {
+          getErrorMessage(locale, "mobile.validator.mobile.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
+        } else {
+          "".successNel
+        }
       } else {
         val mobile: String = numbers.mkString("")
 
         (for {
-          hasToFormat <- handleBoolean("hasToFormat", params)
-          needsValidateCountryCode <- handleBoolean("validateCountryCode", params)
+          hasToFormat <- handleBoolean("hasToFormat", domain, params)
+          needsValidateCountryCode <- handleBoolean("validateCountryCode", domain, params)
         } yield {
           if (needsValidateCountryCode) {
-            validateCountryCode(locale, mobile, hasToFormat, params, messages)
+            validateCountryCode(locale, mobile, hasToFormat, domain, params, messages)
           } else {
             hasToFormat2(mobile, hasToFormat)
           }
         }).fold(
           error => {
-            logger.error(s"***validate() - $error")
+            logger.error(s"validate() - $error")
             error.failureNel
           },
           ans => ans)
@@ -81,15 +90,15 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     }
   }
 
-  override def validate(rawMobile: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
-    if (rawMobile.trim.isEmpty) {
-      getErrorMessage(locale, "mobile.validator.mobile.is.empty", Nil, validatorI18n, 0, messages).failureNel
-    } else {
-
-      textMaxLengthValidator.validate(rawMobile.trim, locale, params) fold (
-        error => error.head.failureNel,
-        dummy => validateMobile(locale, rawMobile, params, messages))
-
-    }
+  override def validate(locale: Locale, domain: String, rawMobile: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, domain, rawMobile.trim, params, messages, mandatory) fold (
+      error => error.head.failureNel,
+      dummy =>
+        if (!mandatory && dummy.trim.isEmpty) {
+          "".successNel
+        } else {
+          validateMobile(locale, domain, rawMobile, params, messages, mandatory)
+        } //
+    )
 
 }

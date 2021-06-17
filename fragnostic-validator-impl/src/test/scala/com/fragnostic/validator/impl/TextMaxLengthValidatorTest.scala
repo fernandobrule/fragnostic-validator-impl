@@ -9,13 +9,14 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
   describe("***Text Max Length Validator Test***") {
 
     val validatorI18n = new ValidatorI18n()
+    val domain = "TextMaxLength"
 
     it("Can Validate Text Max Length That Compliant") {
 
       val textMaxLengthValidator = new TextMaxLengthValidator
       val params: Map[String, String] = Map("maxLength" -> "5")
       val text = "abcde"
-      val validation: Validated[String] = textMaxLengthValidator.validate(text, locale, params)
+      val validation: Validated[String] = textMaxLengthValidator.validate(locale, domain, text, params)
       validation.isSuccess should be(true)
       validation.toList.head should be(text)
     }
@@ -27,7 +28,7 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
       val params: Map[String, String] = Map("maxLength" -> maxLength)
       val text = "abcdef"
 
-      val nel = textMaxLengthValidator.validate(text, locale, params) fold (
+      val nel = textMaxLengthValidator.validate(locale, domain, text, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
@@ -43,7 +44,7 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
       val params: Map[String, String] = Map("maxLength" -> maxLength)
       val text = "abcdef"
 
-      val nel = textMaxLengthValidator.validate(text, locale, params, List("wqeqw", "def")) fold (
+      val nel = textMaxLengthValidator.validate(locale, domain, text, params, List("wqeqw", "wqasdeqw", "def")) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 

@@ -8,19 +8,17 @@ import java.util.Locale
 
 class EmailValidator extends ValidatorApi[String] with ValidatorSupport with EmailValidatorByRfc2822Validator {
 
-  private def textMaxLengthValidator = new TextMaxLengthValidator
+  private def textBoundariesValidator = new TextBoundariesValidator
 
-  override def validate(email: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] = {
-    if (email.trim.isEmpty) {
-      getErrorMessage(locale, "email.validator.email.is.empty", Nil, validatorI18n, 0, messages).failureNel
-    } else {
-
-      textMaxLengthValidator.validate(email, locale, params, messages) fold (
-        error => error.head.failureNel,
-        email => validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, validatorI18n, 1, messages)) //
-      )
-
-    }
-  }
+  override def validate(locale: Locale, domain: String, email: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, domain, email, params, messages, mandatory) fold (
+      error => error.head.failureNel,
+      email =>
+        if (!mandatory && email.trim.isEmpty) {
+          "".successNel
+        } else {
+          validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages))
+        } //
+    )
 
 }

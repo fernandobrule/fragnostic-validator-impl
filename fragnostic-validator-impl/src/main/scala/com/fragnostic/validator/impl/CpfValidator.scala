@@ -12,15 +12,20 @@ import java.util.Locale
 //
 class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  override def validate(cpf: String, locale: Locale, params: Map[String, String], messages: List[String]): Validated[String] =
-    if (cpf.trim.isEmpty) {
-      getErrorMessage(locale, "cpf.validator.cpf.is.empty", Nil, validatorI18n, 0, messages).failureNel
-    } else if (!isValid(cpf.trim)) {
-      messages(1).failureNel
-      getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, 1, messages).failureNel
-    } else {
-      cpf.successNel
-    }
+  private def textBoundariesValidator = new TextBoundariesValidator
+
+  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, domain, cpf, params, messages, mandatory) fold (
+      error => error.head.failureNel,
+      cpf =>
+        if (cpf.trim.isEmpty && !mandatory) {
+          cpf.successNel
+        } else if (!isValid(cpf.trim)) {
+          messages(1).failureNel
+          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+        } else {
+          cpf.successNel
+        })
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
 

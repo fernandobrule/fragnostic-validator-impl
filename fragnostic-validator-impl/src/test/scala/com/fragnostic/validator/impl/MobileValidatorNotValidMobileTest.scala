@@ -6,6 +6,8 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
 
   describe("*** Mobile Validator Not Valid Mobile Test ***") {
 
+    val domain = ""
+
     it("Can Validate Not Valid Mobile") {
 
       val params: Map[String, String] = Map(
@@ -17,7 +19,7 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
 
       val mobile: String = "ascsddsfds"
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
 
       validation.isFailure should be(true)
 
@@ -25,7 +27,7 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
         error => error.head,
         success => "ooops")
 
-      msg should be(msgMobileNotValid)
+      msg should be(msgMobileIsNotValid)
 
     }
 

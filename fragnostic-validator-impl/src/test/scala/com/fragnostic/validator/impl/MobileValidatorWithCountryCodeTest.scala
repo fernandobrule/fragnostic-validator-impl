@@ -6,6 +6,8 @@ class MobileValidatorWithCountryCodeTest extends AgnosticLifeCycleValidatorTest 
 
   describe("***Mobile Validator With Country Code Test***") {
 
+    val domain = "Mobile"
+
     it("Can Validate Mobile With Country Code Test") {
 
       val mobile: String = " +55 11 9 5197 6773"
@@ -17,7 +19,7 @@ class MobileValidatorWithCountryCodeTest extends AgnosticLifeCycleValidatorTest 
         "countryCodesWhiteList" -> "54;55;56;598" //
       )
 
-      val validation: Validated[String] = mobileValidator.validate(mobile, locale, params, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
 
       validation.isSuccess should be(true)
       validation.toList.head should be(mobileRaw)
