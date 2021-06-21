@@ -1,17 +1,30 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.glue.UnderValidation
+import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
 import java.util.Locale
 
-trait RutValidator extends UnderValidation {
+class RutValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  def validateRut(rut: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (rut.trim.isEmpty) {
-      errorMessage.failureNel
+  override def validate(locale: Locale, domain: String, rut: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    if (rut.trim.nonEmpty) {
+      val rutFiltrado = rut.trim.filter(p => p.isDigit || p.toString.toLowerCase.equals(k)).toLowerCase
+      val length = rutFiltrado.length
+      if (length >= 8) {
+        val base = rutFiltrado.substring(0, length - 1).toInt
+        val dig = rutFiltrado.substring(length - 1)
+        if (isValidContraDv(base, dig)) {
+          s"$base-$dig".successNel
+        } else {
+          getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+        }
+      } else {
+        getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+      }
     } else {
-      rut.trim.successNel
+      getErrorMessage(locale, "rut.validator.rut.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
     }
 
   private lazy val k = "k"
@@ -23,7 +36,7 @@ trait RutValidator extends UnderValidation {
     val resto = suma % 11
     val diff = 11 - resto
     if (diff == 10) {
-      "k"
+      k
     } else {
       diff.toString
     }
@@ -31,30 +44,5 @@ trait RutValidator extends UnderValidation {
 
   private def isValidContraDv(rol: Long, dv: String): Boolean =
     dv.equals(calculaDigitoVerificador(rol.toString))
-
-  def sdfsd(locale: Locale, rut: String, args: Map[String, String]): Either[List[String], String] = {
-    if (rut.trim.nonEmpty) {
-
-      val rutFiltrado = rut.trim.filter(p => p.isDigit || p.toString.toLowerCase.equals(k)).toLowerCase
-
-      val lenght = rutFiltrado.length
-
-      if (lenght >= 8) {
-        val base = rutFiltrado.substring(0, lenght - 1).toInt
-        val dig = rutFiltrado.substring(lenght - 1)
-        if (isValidContraDv(base, dig)) {
-          Right(s"$base-$dig")
-        } else {
-          Left(List("rut.nv"))
-        }
-
-      } else {
-        Left(List("rut.mal.constituido"))
-      }
-
-    } else {
-      Left(List("rut.empty"))
-    }
-  }
 
 }

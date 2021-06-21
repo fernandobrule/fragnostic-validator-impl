@@ -1,67 +1,24 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.glue.UnderValidation
+import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
-import javax.mail.internet.InternetAddress
-import javax.mail.internet.AddressException
-// https://github.com/bbottema/email-rfc2822-validator
-import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator
-import org.hazlewood.connor.bottema.emailaddress.EmailAddressCriteria
-import java.util.EnumSet
 
-trait EmailValidator extends UnderValidation {
+import java.util.Locale
 
-  def validateEmail(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (email.trim.isEmpty) {
-      emptyTextMessage.failureNel
-    } else {
-      validateByRfc2822Validator(email, emptyTextMessage, errorMessage)
-    }
+class EmailValidator extends ValidatorApi[String] with ValidatorSupport with EmailValidatorByRfc2822Validator {
 
-  private def validateByRfc2822Validator(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (EmailAddressValidator.isValid(email)) {
-      email.trim.successNel
-    } else {
-      errorMessage.failureNel
-    }
+  private def textBoundariesValidator = new TextBoundariesValidator
 
-  private def validateByRfc2822ValidatorWithAllows(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (EmailAddressValidator.isValid(email, EnumSet.of(EmailAddressCriteria.ALLOW_DOT_IN_A_TEXT, EmailAddressCriteria.ALLOW_SQUARE_BRACKETS_IN_A_TEXT))) {
-      email.trim.successNel
-    } else {
-      errorMessage.failureNel
-    }
-
-  private def validateByRfc2822ValidatorRfcCompliant(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (EmailAddressValidator.isValid(email, EmailAddressCriteria.RFC_COMPLIANT)) {
-      email.trim.successNel
-    } else {
-      errorMessage.failureNel
-    }
-
-  private def validateByRfc2822ValidatorRecommended(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (EmailAddressValidator.isValid(email, EmailAddressCriteria.RECOMMENDED)) {
-      email.trim.successNel
-    } else {
-      errorMessage.failureNel
-    }
-
-  private val owaspEmailValidatorRegex = """^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"""
-  private def validateByOwaspRegex(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (email.matches(owaspEmailValidatorRegex)) {
-      email.trim.successNel
-    } else {
-      errorMessage.failureNel
-    }
-
-  private def validateByInternetAddress(email: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    try {
-      new InternetAddress(email.trim).validate()
-      email.trim.successNel
-    } catch {
-      case e: AddressException => {
-        errorMessage.failureNel
-      }
-    }
+  override def validate(locale: Locale, domain: String, email: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, domain, email, params, messages, mandatory) fold (
+      error => error.head.failureNel,
+      email =>
+        if (!mandatory && email.trim.isEmpty) {
+          "".successNel
+        } else {
+          validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages))
+        } //
+    )
 
 }
