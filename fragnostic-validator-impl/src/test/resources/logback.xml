@@ -7,6 +7,8 @@
         </encoder>
     </appender>
 
+    <logger name="com.fragnostic.validator.i18n.ValidatorI18n" level="WARN"/>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>

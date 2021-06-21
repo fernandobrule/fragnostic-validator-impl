@@ -99,6 +99,7 @@ lazy val frgValidatorImpl = Project(
     libraryDependencies ++= Seq(
       fragnosticI18n,
       fragnosticValidatorApi,
+      fragnosticFormatter,
       emailRfc2822Validator,
       javaxMail,
       logbackClassic,

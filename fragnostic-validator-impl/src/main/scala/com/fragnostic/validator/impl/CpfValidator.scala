@@ -1,25 +1,35 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.glue.UnderValidation
+import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
+
+import java.util.Locale
 
 //
 // Ref:
 // http://www.macoratti.net/alg_cpf.htm
 //
-trait CpfValidator extends UnderValidation {
+class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  def validateCpf(cpf: String, emptyTextMessage: String, errorMessage: String): StringValidation[String] =
-    if (cpf.trim.isEmpty) {
-      emptyTextMessage.failureNel
-    } else if (!isValid(cpf.trim)) {
-      errorMessage.failureNel
-    } else {
-      cpf.trim.successNel
-    }
+  private def textBoundariesValidator = new TextBoundariesValidator
+
+  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, domain, cpf, params, messages, mandatory) fold (
+      error => error.head.failureNel,
+      cpf =>
+        if (cpf.trim.isEmpty && !mandatory) {
+          cpf.successNel
+        } else if (!isValid(cpf.trim)) {
+          messages(1).failureNel
+          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+        } else {
+          cpf.successNel
+        })
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
 
+  // TODO esta lista tiene que estar en un archivo
   val BLACKLIST: Array[String] = Array(
     "00000000000",
     "11111111111",
