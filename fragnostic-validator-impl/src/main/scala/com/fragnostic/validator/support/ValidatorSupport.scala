@@ -12,6 +12,11 @@ trait ValidatorSupport {
   val idxTextNotValid: Int = 1
   val idxTextLengthier: Int = 2
   val idxCountryCode: Int = 3
+  val idxTextShorter: Int = 4
+  val idxPasswordMustHaveAtLeastOneUppercaseLetter: Int = 5
+  val idxPasswordMustHaveAtLeastOneLowercaseLetter: Int = 6
+  val idxPasswordMustHaveAtLeastOneNumber: Int = 7
+  val idxPasswordMustHaveAtLeastOneSymbol: Int = 8
 
   def validatorI18n = new ValidatorI18n()
 
@@ -39,14 +44,14 @@ trait ValidatorSupport {
     }
   }
 
-  def lookForKey(params: Map[String, String], keyDomain: List[(String, String)], newMap: Map[String, String]): Map[String, String] =
+  def lookForKeys(params: Map[String, String], keyDomain: List[(String, String)], newMap: Map[String, String]): Map[String, String] =
     keyDomain match {
       case Nil => newMap
       case head :: Nil => lookForKey(params, head, newMap)
-      case head :: tail => {
+      case head :: tail =>
         val key = head._1
         val domain = head._2
-        lookForKey(params, tail, newMap) + {
+        lookForKeys(params, tail, newMap) + {
           if (params.contains(s"$key$domain")) {
             key -> params(s"$key$domain")
           } else if (params.contains(key)) {
@@ -55,7 +60,6 @@ trait ValidatorSupport {
             ("" -> "")
           }
         }
-      }
     }
 
   def lookForKey(params: Map[String, String], key: String, domain: String): Map[String, String] =
