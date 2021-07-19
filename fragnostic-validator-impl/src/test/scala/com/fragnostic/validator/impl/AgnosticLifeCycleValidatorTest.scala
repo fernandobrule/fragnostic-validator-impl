@@ -9,7 +9,7 @@ import java.util.Locale
 
 class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with BeforeAndAfterEach with ValidatorSupport {
 
-  val params: Map[String, String] = Map[String, String]()
+  val paramsEmpty: Map[String, String] = Map.empty
 
   val locale: Locale = new Locale.Builder().setRegion("BR").setLanguage("pt").build()
 
@@ -46,7 +46,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
 
   val msgMobileIsEmpty: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.empty")
   val msgMobileIsNotValid: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.not.valid")
-  val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.lengthier")
+  val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.too.long")
   val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
   val mobileValidatorMessages: List[String] = List(
     msgMobileIsEmpty,
@@ -56,6 +56,6 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   )
 
   val msgTextIsEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")
-  val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.lengthier")
+  val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long")
 
 }

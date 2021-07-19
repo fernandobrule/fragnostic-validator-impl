@@ -3,8 +3,6 @@ package com.fragnostic.validator.impl;
 import com.fragnostic.validator.api.Validated
 import scalaz.{ Failure, NonEmptyList, Success }
 
-import java.util.Locale
-
 class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   def passwordValidator = new PasswordValidator()
@@ -18,12 +16,12 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   val msgPasswordIsEmpty: String = validatorI18n.getString(locale, "password.validator.password.is.empty")
   val msgPasswordIsNotValid: String = validatorI18n.getString(locale, "password.validator.password.is.not.valid")
-  val msgPasswordIsShorter: String = validatorI18n.getString(locale, "password.validator.password.is.shorter")
+  val msgPasswordIsShorter: String = validatorI18n.getString(locale, "password.validator.password.is.too.short")
   val msgPasswordMustToHaveAtLeastOneLowercaseLetter: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.lowercase.letter")
   val msgPasswordMustToHaveAtLeastOneNumber: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.number")
   val msgPasswordMustToHaveAtLeastOneSymbol: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.symbol")
   val msgPasswordMustToHaveAtLeastOneUppercaseLetter: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.uppercase.letter")
-  def msgPasswordIsLengthier(passwordLength: String, passwordValidatorMaxLength: String): String = validatorI18n.getFormattedString(locale, "password.validator.password.is.lengthier", List(passwordLength, passwordValidatorMaxLength))
+  def msgPasswordIsLengthier(passwordLength: String, passwordValidatorMaxLength: String): String = validatorI18n.getFormattedString(locale, "password.validator.password.is.too.long", List(passwordLength, passwordValidatorMaxLength))
 
   def messagesPasswordValidator(passwordLength: String, passwordValidatorMaxLength: String) = List(
     msgPasswordIsEmpty,

@@ -22,7 +22,7 @@ class MobileValidatorLengthierTest extends AgnosticLifeCycleValidatorTest {
       )
 
       val mobile: String = "12345678901234567"
-      val msgMobileNotValidIsLenghtier: String = validatorI18n.getFormattedString(locale, "mobile.validator.mobile.is.lengthier", List(mobile.length.toString, maxLength))
+      val msgMobileNotValidIsLenghtier: String = validatorI18n.getFormattedString(locale, "mobile.validator.mobile.is.too.long", List(mobile.length.toString, maxLength))
       val mobileValidatorMessages: List[String] = List(msgMobileIsEmpty, msgMobileIsNotValid, msgMobileNotValidIsLenghtier, msgMobileWithoutCountryCode)
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
       validation.isFailure should be(true)

@@ -58,7 +58,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Lengthier Email") {
 
       val email = "sdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsa@sdfasdfas.com"
-      val messageLengthier = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.lengthier", List(email.length.toString, emailValidatorMaxLength))
+      val messageLengthier = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(email.length.toString, emailValidatorMaxLength))
       val messages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid, messageLengthier)
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, messages)
 

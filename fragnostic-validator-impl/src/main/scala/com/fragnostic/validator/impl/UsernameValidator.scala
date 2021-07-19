@@ -10,19 +10,25 @@ class UsernameValidator extends ValidatorApi[String] with ValidatorSupport with 
 
   override def validate(locale: Locale, domain: String, username: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
-    (for {
-      usernameMinimumLength <- handleShort("usernameMinimumLength", domain, params)
-      usernameMaximumLength <- handleShort("usernameMaximumLength", domain, params)
-    } yield {
-      if (username.trim.isEmpty) {
-        getErrorMessage(locale, "username.validator.username.is.empty", Nil, validatorI18n, idxTextEmpty, messages)
-      } else if (username.trim.length < usernameMinimumLength || username.trim.length > usernameMaximumLength) {
-        getErrorMessage(locale, "username.validator.username.length.is.not.valid", List(username.trim.length.toString, usernameMinimumLength.toString, usernameMaximumLength.toString), validatorI18n, idxTextNotValid, messages)
-      } else {
-        username.trim
-      }
-    }) fold (
+    handleShort("minLength", domain, params) fold (
       error => error.failureNel,
-      validated => validated.successNel)
+      usernameMinimumLength => handleShort("maxLength", domain, params) fold (
+        error => error.failureNel,
+        usernameMaximumLength =>
+          if (username.trim.isEmpty) {
+            if (mandatory) {
+              getErrorMessage(locale, "username.validator.username.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
+            } else {
+              "".successNel
+            }
+          } else if (username.trim.length < usernameMinimumLength) {
+            getErrorMessage(locale, "username.validator.username.is.too.short", List(username.trim.length.toString, usernameMinimumLength.toString, usernameMaximumLength.toString), validatorI18n, idxTextTooShort, messages).failureNel
+          } else if (username.trim.length > usernameMaximumLength) {
+            getErrorMessage(locale, "username.validator.username.is.too.long", List(username.trim.length.toString, usernameMaximumLength.toString, usernameMaximumLength.toString), validatorI18n, idxTextTooLong, messages).failureNel
+          } else {
+            username.trim.successNel
+          } //
+      ) //
+    )
 
 }

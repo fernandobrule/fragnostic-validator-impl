@@ -20,7 +20,7 @@ class TextBoundariesValidator extends ValidatorApi[String] with ValidatorSupport
       maxLength => {
         val textLength = text.length
         if (textLength > maxLength) {
-          getErrorMessage(locale, "text.boundaries.validator.text.is.lengthier", List(textLength.toString, maxLength.toString), validatorI18n, idxTextLengthier, messages).failureNel
+          getErrorMessage(locale, "text.boundaries.validator.text.is.too.long", List(textLength.toString, maxLength.toString), validatorI18n, idxTextTooLong, messages).failureNel
         } else if (text.trim.isEmpty) {
           if (mandatory) {
             getErrorMessage(locale, "text.boundaries.validator.text.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel

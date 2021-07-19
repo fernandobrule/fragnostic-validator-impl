@@ -13,7 +13,8 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
   private val CONTAINS_AT_LEAST_ONE_UPPERCASE_LETTER: Regex = """.*([A-Z]).*""".r
   private val CONTAINS_AT_LEAST_ONE_LOWERCASE_LETTER: Regex = """.*([a-z]).*""".r
   private val CONTAINS_AT_LEAST_ONE_NUMBER: Regex = """.*(\d).*""".r
-  private val CONTAINS_AT_LEAST_ONE_SYMBOL: Regex = """.*([~`!@#$%^&*()-+={\[}]|\\:;"'<,>.?/_]).*""".r
+  // https://owasp.org/www-community/password-special-characters
+  private val CONTAINS_AT_LEAST_ONE_SYMBOL: Regex = """.*([ !"#$%&'()*+,-./:;<=>?@\[\\\]^_`{|}~]).*""".r
 
   private def containsAtLeastOneUppercaseLetter(password: String): Either[String, String] =
     password match {
@@ -49,9 +50,9 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
           error => error.failureNel,
           maxLength =>
             if (password.trim.length < minLength) {
-              getErrorMessage(locale, "password.validator.password.is.shorter", List(password.trim.length.toString, minLength.toString), validatorI18n, idxTextShorter, messages).failureNel
+              getErrorMessage(locale, "password.validator.password.is.too.short", List(password.trim.length.toString, minLength.toString), validatorI18n, idxTextTooShort, messages).failureNel
             } else if (password.trim.length > maxLength) {
-              getErrorMessage(locale, "password.validator.password.is.lengthier", List(password.trim.length.toString, maxLength.toString), validatorI18n, idxTextLengthier, messages).failureNel
+              getErrorMessage(locale, "password.validator.password.is.too.long", List(password.trim.length.toString, maxLength.toString), validatorI18n, idxTextTooLong, messages).failureNel
             } else {
               containsAtLeastOneUppercaseLetter(password) fold (
                 error => getErrorMessage(locale, error, Nil, validatorI18n, idxPasswordMustHaveAtLeastOneUppercaseLetter, messages).failureNel,

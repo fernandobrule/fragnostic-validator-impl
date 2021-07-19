@@ -10,9 +10,9 @@ trait ValidatorSupport {
 
   val idxTextEmpty: Int = 0
   val idxTextNotValid: Int = 1
-  val idxTextLengthier: Int = 2
+  val idxTextTooLong: Int = 2
   val idxCountryCode: Int = 3
-  val idxTextShorter: Int = 4
+  val idxTextTooShort: Int = 4
   val idxPasswordMustHaveAtLeastOneUppercaseLetter: Int = 5
   val idxPasswordMustHaveAtLeastOneLowercaseLetter: Int = 6
   val idxPasswordMustHaveAtLeastOneNumber: Int = 7
