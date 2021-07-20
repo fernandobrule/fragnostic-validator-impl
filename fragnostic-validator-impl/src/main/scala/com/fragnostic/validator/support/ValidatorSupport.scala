@@ -32,7 +32,7 @@ trait ValidatorSupport {
       i18n.getFormattedString(locale, key, args)
     }
 
-  private def lookForKey(params: Map[String, String], head: (String, String), newMap: Map[String, String]): Map[String, String] = {
+  private def lookForKey(params: Map[String, String], head: (String, String), newMap: Map[String, String] = Map.empty): Map[String, String] = {
     val key = head._1
     val domain = head._2
     if (params.contains(s"$key$domain")) {
@@ -44,7 +44,7 @@ trait ValidatorSupport {
     }
   }
 
-  def lookForKeys(params: Map[String, String], keyDomain: List[(String, String)], newMap: Map[String, String]): Map[String, String] =
+  def lookForKeys(params: Map[String, String], keyDomain: List[(String, String)], newMap: Map[String, String] = Map.empty): Map[String, String] =
     keyDomain match {
       case Nil => newMap
       case head :: Nil => lookForKey(params, head, newMap)

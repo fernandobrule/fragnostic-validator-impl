@@ -19,7 +19,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   // Email Validator
   val emailValidator = new EmailValidator()
   val emailValidatorMaxLength = "255"
-  val emailValidatorParams: Map[String, String] = Map("maxLength" -> emailValidatorMaxLength)
+  val emailValidatorParams: Map[String, String] = Map("minLength" -> "6", "maxLength" -> emailValidatorMaxLength)
   val msgEmailIsEmpty: String = validatorI18n.getString(locale, "email.validator.email.is.empty")
   val msgEmailIsNotValid: String = validatorI18n.getString(locale, "email.validator.email.is.not.valid")
   val emailValidatorMessages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid)
@@ -57,5 +57,16 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
 
   val msgTextIsEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")
   val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long")
+
+  //
+  // Mobile Validator
+  val mobileValidatorParamMaxLength: String = "22"
+  val mobileValidatorParams: Map[String, String] = Map(
+    "minLength" -> "11",
+    "maxLength" -> mobileValidatorParamMaxLength,
+    "hasToFormat" -> "true",
+    "validateCountryCode" -> "true",
+    "countryCodesWhiteList" -> "54;55;56;598" //
+  )
 
 }

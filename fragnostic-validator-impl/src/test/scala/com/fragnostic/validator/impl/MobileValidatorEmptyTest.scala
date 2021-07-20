@@ -11,16 +11,9 @@ class MobileValidatorEmptyTest extends AgnosticLifeCycleValidatorTest {
 
     it("Can Validate Empty Mobile") {
 
-      val params: Map[String, String] = Map(
-        "maxLength" -> "16",
-        "hasToFormat" -> "true",
-        "validateCountryCode" -> "true",
-        "countryCodesWhiteList" -> "54;55;56;598" //
-      )
-
       val mobile: String = "  "
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
       validation.isFailure should be(true)
 
       (validation match {

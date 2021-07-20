@@ -1,34 +1,33 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.Validated
-import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.NonEmptyList
 
 class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
-  describe("***Text Boundaries Validator Test***") {
+  val textBoundariesValidator = new TextBoundariesValidator
+  val domain = "CPF"
+  val minLength = "6"
+  val maxLength = "15"
+  val params: Map[String, String] = Map("minLength" -> minLength, "maxLength" -> maxLength)
 
-    val validatorI18n = new ValidatorI18n()
-    val textBoundariesValidator = new TextBoundariesValidator
-    val domain = "TextBoundaries"
+  describe("***Text Boundaries Validator Test***") {
 
     it("Can Validate Empty Text") {
 
-      val params: Map[String, String] = Map("maxLength" -> "5")
       val text = ""
+
       val nel = textBoundariesValidator.validate(locale, domain, text, params, Nil) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getString(locale, "text.boundaries.validator.text.is.empty"))
+      nel.head should be(validatorI18n.getFormattedString(locale, "text.boundaries.validator.text.is.empty", List(domain)))
 
     }
 
     it("Can Validate Not Mandatory Empty Text") {
 
-      val params: Map[String, String] = Map("maxLength" -> "5")
       val text = ""
       val mandatory = false
 
@@ -36,20 +35,9 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
       validation.isSuccess should be(true)
     }
 
-    it("Can Validate Text Max Length That Is Compliant") {
+    it("Can Validate Text Too Short") {
 
-      val params: Map[String, String] = Map("maxLength" -> "5")
-      val text = "abcde"
-      val validation: Validated[String] = textBoundariesValidator.validate(locale, domain, text, params)
-      validation.isSuccess should be(true)
-      validation.toList.head should be(text)
-    }
-
-    it("Can Validate Text Max Length That Is Not Compliant") {
-
-      val maxLength = "5"
-      val params: Map[String, String] = Map("maxLength" -> maxLength)
-      val text = "abcdef"
+      val text = "abc"
 
       val nel = textBoundariesValidator.validate(locale, domain, text, params) fold (
         error => error,
@@ -57,22 +45,20 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, "text.boundaries.validator.text.is.too.long", List(text.length.toString, maxLength)))
+      nel.head should be(validatorI18n.getFormattedString(locale, "text.boundaries.validator.text.is.too.short", List(domain, text.length.toString, minLength)))
     }
 
-    it("Can Validate Text Max Length That Is Not Compliant With External Message") {
+    it("Can Validate Text Too Long") {
 
-      val maxLength = "5"
-      val params: Map[String, String] = Map("maxLength" -> maxLength)
-      val text = "abcdef"
+      val text = "abcdedfjhskdlfjklsdjfkljsdklfjksldjfklsdjflkjfjsdf"
 
-      val nel = textBoundariesValidator.validate(locale, domain, text, params, List("wqeqw", "wertqeqw", "def")) fold (
+      val nel = textBoundariesValidator.validate(locale, domain, text, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be("def")
+      nel.head should be(validatorI18n.getFormattedString(locale, "text.boundaries.validator.text.is.too.long", List(domain, text.length.toString, maxLength)))
     }
 
   }
