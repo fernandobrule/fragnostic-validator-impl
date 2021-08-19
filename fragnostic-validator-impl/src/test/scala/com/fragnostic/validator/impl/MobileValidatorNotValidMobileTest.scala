@@ -10,16 +10,9 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
 
     it("Can Validate Not Valid Mobile") {
 
-      val params: Map[String, String] = Map(
-        "maxLength" -> "16",
-        "hasToFormat" -> "false",
-        "validateCountryCode" -> "false",
-        "countryCodesWhiteList" -> "54;55;56;598" //
-      )
-
       val mobile: String = "ascsddsfds"
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
       validation.isFailure should be(true)
 

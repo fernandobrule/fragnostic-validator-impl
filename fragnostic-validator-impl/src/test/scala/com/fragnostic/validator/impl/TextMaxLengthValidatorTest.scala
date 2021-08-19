@@ -34,7 +34,7 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.lengthier", List(text.length.toString, maxLength)))
+      nel.head should be(validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(text.length.toString, maxLength)))
     }
 
     it("Can Validate Text Max Length That Does Not Compliant With External Message") {

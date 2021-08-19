@@ -10,17 +10,10 @@ class MobileNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     it("Can Validate Empty Mobile") {
 
-      val params: Map[String, String] = Map(
-        "maxLength" -> "16",
-        "hasToFormat" -> "true",
-        "validateCountryCode" -> "true",
-        "countryCodesWhiteList" -> "54;55;56;598" //
-      )
-
       val mobile: String = "  "
       val mandatory = false
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages, mandatory)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages, mandatory)
       validation.isSuccess should be(true)
 
     }
