@@ -9,7 +9,7 @@ import java.util.Locale
 
 class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with BeforeAndAfterEach with ValidatorSupport {
 
-  val params: Map[String, String] = Map[String, String]()
+  val paramsEmpty: Map[String, String] = Map.empty
 
   val locale: Locale = new Locale.Builder().setRegion("BR").setLanguage("pt").build()
 
@@ -19,7 +19,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   // Email Validator
   val emailValidator = new EmailValidator()
   val emailValidatorMaxLength = "255"
-  val emailValidatorParams: Map[String, String] = Map("maxLength" -> emailValidatorMaxLength)
+  val emailValidatorParams: Map[String, String] = Map("minLength" -> "6", "maxLength" -> emailValidatorMaxLength)
   val msgEmailIsEmpty: String = validatorI18n.getString(locale, "email.validator.email.is.empty")
   val msgEmailIsNotValid: String = validatorI18n.getString(locale, "email.validator.email.is.not.valid")
   val emailValidatorMessages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid)
@@ -46,7 +46,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
 
   val msgMobileIsEmpty: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.empty")
   val msgMobileIsNotValid: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.not.valid")
-  val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.lengthier")
+  val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.too.long")
   val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
   val mobileValidatorMessages: List[String] = List(
     msgMobileIsEmpty,
@@ -56,6 +56,17 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   )
 
   val msgTextIsEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")
-  val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.lengthier")
+  val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long")
+
+  //
+  // Mobile Validator
+  val mobileValidatorParamMaxLength: String = "22"
+  val mobileValidatorParams: Map[String, String] = Map(
+    "minLength" -> "11",
+    "maxLength" -> mobileValidatorParamMaxLength,
+    "hasToFormat" -> "true",
+    "validateCountryCode" -> "true",
+    "countryCodesWhiteList" -> "54;55;56;598" //
+  )
 
 }
