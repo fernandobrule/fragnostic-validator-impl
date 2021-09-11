@@ -11,8 +11,8 @@ object Dependencies {
   lazy val emailRfc2822Validator      = "com.github.bbottema" % "emailaddress-rfc2822"                 % "2.2.0"
   lazy val javaxMail                  = "javax.mail"          % "javax.mail-api"                       % "1.6.2"
 
-  lazy val fragnosticI18n             = "com.fragnostic"      % "fragnostic-i18n-impl_2.13"            % "0.2.2"
-  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.3.2"
+  lazy val fragnosticI18n             = "com.fragnostic"      % "fragnostic-i18n-impl_2.13"            % "0.2.3"
+  lazy val fragnosticValidatorApi     = "com.fragnostic"      % "fragnostic-validator-api_2.13"        % "0.3.3"
   lazy val fragnosticFormatter        = "com.fragnostic"      % "fragnostic-formatter_2.13"            % "0.1.0"
 
 }
