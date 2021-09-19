@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.Validated
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
 
 class CpfNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
@@ -13,7 +13,7 @@ class CpfNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val cpf = "  "
       val mandatory = false
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, params, List(msgCpfIsEmpty, msgCpfIsNotValid), mandatory)
+      val validation: Validated[String] = cpfValidator.validate(locale, i18n, domain, cpf, params, Map(VALIDATOR_TEXT_EMPTY -> msgCpfIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgCpfIsNotValid), mandatory)
       validation.isSuccess should be(true)
 
     }

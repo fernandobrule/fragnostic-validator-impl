@@ -81,7 +81,7 @@ lazy val frgValidatorImpl = Project(
   base = file("fragnostic-validator-impl")).settings(
     frgValidatorImplSettings ++ Seq(
     libraryDependencies ++= Seq(
-      fragnosticI18n,
+      fragnosticI18nImpl,
       fragnosticValidatorApi,
       fragnosticFormatter,
       emailRfc2822Validator,

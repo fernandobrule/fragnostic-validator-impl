@@ -1,5 +1,8 @@
 package com.fragnostic.validator.impl
 
+import com.fragnostic.i18n.api.ResourceI18n
+import com.fragnostic.validator.api.{ VALIDATOR_COUNTRY_CODE, VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, VALIDATOR_TEXT_TOO_SHORT }
+import com.fragnostic.validator.i18n.ValidatorI18n
 import com.fragnostic.validator.support.ValidatorSupport
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
@@ -8,6 +11,8 @@ import org.scalatest.matchers.should.Matchers
 import java.util.Locale
 
 class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with BeforeAndAfterEach with ValidatorSupport {
+
+  def i18n: ResourceI18n = new ValidatorI18n
 
   val paramsEmpty: Map[String, String] = Map.empty
 
@@ -19,10 +24,15 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   // Email Validator
   val emailValidator = new EmailValidator()
   val emailValidatorMaxLength = "255"
-  val emailValidatorParams: Map[String, String] = Map("minLength" -> "6", "maxLength" -> emailValidatorMaxLength)
+  val emailValidatorParams: Map[String, String] = Map( //
+    "minLength" -> "6", //
+    "maxLength" -> emailValidatorMaxLength //
+  )
   val msgEmailIsEmpty: String = validatorI18n.getString(locale, "email.validator.email.is.empty")
   val msgEmailIsNotValid: String = validatorI18n.getString(locale, "email.validator.email.is.not.valid")
-  val emailValidatorMessages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid)
+  val emailValidatorMessages: Map[String, String] = Map(
+    VALIDATOR_TEXT_EMPTY -> msgEmailIsEmpty,
+    VALIDATOR_TEXT_NOT_VALID -> msgEmailIsNotValid)
   val emailValidatorDomain = "Email"
 
   //
@@ -32,6 +42,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   //
   // Date Time Validator
   val dateTimeValidator = new DateTimeValidator()
+  val dateValidator = new DateValidator()
 
   //
   // Validator Messages
@@ -44,15 +55,18 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgDateTimeIsEmpty: String = validatorI18n.getString(locale, "date.time.validator.date.time.is.empty")
   val msgDateTimeIsNotValid: String = validatorI18n.getString(locale, "date.time.validator.date.time.is.not.valid")
 
+  val msgDateIsEmpty: String = validatorI18n.getString(locale, "date.validator.date.is.empty")
+  val msgDateIsNotValid: String = validatorI18n.getString(locale, "date.validator.date.is.not.valid")
+
   val msgMobileIsEmpty: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.empty")
   val msgMobileIsNotValid: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.not.valid")
   val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.too.long")
   val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
-  val mobileValidatorMessages: List[String] = List(
-    msgMobileIsEmpty,
-    msgMobileIsNotValid,
-    msgMobileIsLengthier,
-    msgMobileWithoutCountryCode //
+  val mobileValidatorMessages: Map[String, String] = Map(
+    VALIDATOR_TEXT_EMPTY -> msgMobileIsEmpty,
+    VALIDATOR_TEXT_NOT_VALID -> msgMobileIsNotValid,
+    VALIDATOR_TEXT_TOO_SHORT -> msgMobileIsLengthier,
+    VALIDATOR_COUNTRY_CODE -> msgMobileWithoutCountryCode //
   )
 
   val msgTextIsEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")

@@ -13,7 +13,7 @@ class MobileNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val mobile: String = "  "
       val mandatory = false
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages, mandatory)
+      val validation: Validated[String] = mobileValidator.validate(locale, i18n, domain, mobile, mobileValidatorParams, mobileValidatorMessages, mandatory)
       validation.isSuccess should be(true)
 
     }

@@ -1,6 +1,7 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.i18n.api.ResourceI18n
+import com.fragnostic.validator.api._
 import com.fragnostic.validator.support.{ TypeShortHandler, ValidatorSupport }
 import scalaz.Scalaz._
 
@@ -40,9 +41,9 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
       case _ => Left("password.validator.password.should.contain.at.least.one.symbol")
     }
 
-  override def validate(locale: Locale, domain: String, password: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
+  override def validate(locale: Locale, i18n: ResourceI18n, domain: String, password: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (password.trim.isEmpty) {
-      getErrorMessage(locale, "password.validator.password.is.empty", Nil, validatorI18n, idxTextEmpty, messages).failureNel
+      getErrorMessage(locale, "password.validator.password.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
     } else {
       handleShort("minLength", domain, params) fold (
         error => error.failureNel,
@@ -50,18 +51,18 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
           error => error.failureNel,
           maxLength =>
             if (password.trim.length < minLength) {
-              getErrorMessage(locale, "password.validator.password.is.too.short", List(password.trim.length.toString, minLength.toString), validatorI18n, idxTextTooShort, messages).failureNel
+              getErrorMessage(locale, "password.validator.password.is.too.short", List(password.trim.length.toString, minLength.toString), validatorI18n, VALIDATOR_TEXT_TOO_SHORT, messages).failureNel
             } else if (password.trim.length > maxLength) {
-              getErrorMessage(locale, "password.validator.password.is.too.long", List(password.trim.length.toString, maxLength.toString), validatorI18n, idxTextTooLong, messages).failureNel
+              getErrorMessage(locale, "password.validator.password.is.too.long", List(password.trim.length.toString, maxLength.toString), validatorI18n, VALIDATOR_TEXT_TOO_LONG, messages).failureNel
             } else {
               containsAtLeastOneUppercaseLetter(password) fold (
-                error => getErrorMessage(locale, error, Nil, validatorI18n, idxPasswordMustHaveAtLeastOneUppercaseLetter, messages).failureNel,
+                error => getErrorMessage(locale, error, Nil, validatorI18n, VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER, messages).failureNel,
                 password => containsAtLeastOneLowercaseLetter(password) fold (
-                  error => getErrorMessage(locale, error, Nil, validatorI18n, idxPasswordMustHaveAtLeastOneLowercaseLetter, messages).failureNel,
+                  error => getErrorMessage(locale, error, Nil, validatorI18n, VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER, messages).failureNel,
                   password => containsAtLeastOneNumber(password) fold (
-                    error => getErrorMessage(locale, error, Nil, validatorI18n, idxPasswordMustHaveAtLeastOneNumber, messages).failureNel,
+                    error => getErrorMessage(locale, error, Nil, validatorI18n, VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER, messages).failureNel,
                     password => containsAtLeastOneSymbol(password) fold (
-                      error => getErrorMessage(locale, error, Nil, validatorI18n, idxPasswordMustHaveAtLeastOneSymbol, messages).failureNel,
+                      error => getErrorMessage(locale, error, Nil, validatorI18n, VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL, messages).failureNel,
                       password => password.trim.successNel) //
                   ) //
                 ) //

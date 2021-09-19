@@ -1,6 +1,7 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ Validated, ValidatorApi }
+import com.fragnostic.i18n.api.ResourceI18n
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_NOT_VALID, Validated, ValidatorApi }
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
@@ -14,15 +15,15 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
 
   private def textBoundariesValidator = new TextBoundariesValidator
 
-  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: List[String], mandatory: Boolean = true): Validated[String] =
-    textBoundariesValidator.validate(locale, domain, cpf, params, messages, mandatory) fold (
+  override def validate(locale: Locale, i18n: ResourceI18n, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
+    textBoundariesValidator.validate(locale, i18n, domain, cpf, params, messages, mandatory) fold (
       error => error.head.failureNel,
       cpf =>
         if (cpf.trim.isEmpty && !mandatory) {
           cpf.successNel
         } else if (!isValid(cpf.trim)) {
-          messages(1).failureNel
-          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, idxTextNotValid, messages).failureNel
+          //messages(1).failureNel
+          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
         } else {
           cpf.successNel
         })

@@ -1,7 +1,6 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api.Validated
-import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.{ Failure, Success }
 
 class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -15,13 +14,13 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
   val usernameValidatorParams: Map[String, String] = Map(
     "minLength" -> usernameMinLength,
     "maxLength" -> usernameMaxLength)
-  val usernameValidatorMessages: List[String] = Nil
+  val usernameValidatorMessages: Map[String, String] = Map.empty
   val usernameValidatorMandatory: Boolean = true
 
   describe("*** Username Validator Test ***") {
 
     it("Can Validate Username") {
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
       validation.isSuccess should be(true)
       validation.toList.head should be(username)
     }
@@ -30,7 +29,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = ""
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -46,7 +45,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = ""
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isSuccess should be(true)
     }
@@ -56,7 +55,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = "asd"
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -71,7 +70,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = "asda"
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -87,7 +86,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -102,7 +101,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 

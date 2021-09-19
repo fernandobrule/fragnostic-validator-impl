@@ -1,12 +1,13 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.Validated
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
 
 class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   describe("***CepNotMandatoryValidatorTest***") {
 
     val domain = "CEP"
+    val messages = Map(VALIDATOR_TEXT_EMPTY -> msgCepIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgCepIsNotValid)
 
     it("Can Validate Not Mandatory Empty CEP") {
 
@@ -15,7 +16,7 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val cep = ""
       val mandatory = false
 
-      val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, List(msgCepIsEmpty, msgCepIsNotValid), mandatory)
+      val validation: Validated[String] = cepValidator.validate(locale, i18n, domain, cep, params, messages, mandatory)
       validation.isSuccess should be(true)
 
     }
@@ -26,9 +27,9 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val params: Map[String, String] = Map("hasToFormat" -> "true")
       val mandatory = false
 
-      cepValidator.validate(locale, domain, "01414-000", params, List(msgCepIsEmpty, msgCepIsNotValid), mandatory).isSuccess should be(true)
+      cepValidator.validate(locale, i18n, domain, "01414-000", params, messages, mandatory).isSuccess should be(true)
 
-      cepValidator.validate(locale, domain, "01414-00X", params, List(msgCepIsEmpty, msgCepIsNotValid), mandatory).isSuccess should be(false)
+      cepValidator.validate(locale, i18n, domain, "01414-00X", params, messages, mandatory).isSuccess should be(false)
     }
 
   }

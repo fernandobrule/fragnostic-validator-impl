@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.Validated
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, VALIDATOR_TEXT_TOO_LONG, Validated }
 import scalaz.{ Failure, NonEmptyList, Success }
 
 class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -11,7 +11,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val email = "fernandobrule@gmail.com"
 
-      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
+      val validation: Validated[String] = emailValidator.validate(locale, i18n, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
       validation.isSuccess should be(true)
       validation.toList.head should be(email)
@@ -22,7 +22,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val email = "fernandobrule#gmail.com"
 
-      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
+      val validation: Validated[String] = emailValidator.validate(locale, i18n, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
       validation.isFailure should be(true)
 
@@ -40,7 +40,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Empty Email") {
 
       val email = "  "
-      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
+      val validation: Validated[String] = emailValidator.validate(locale, i18n, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
       validation.isFailure should be(true)
 
@@ -59,8 +59,8 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val email = "sdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsa@sdfasdfas.com"
       val messageLengthier = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(email.length.toString, emailValidatorMaxLength))
-      val messages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid, messageLengthier)
-      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, messages)
+      val messages: Map[String, String] = Map(VALIDATOR_TEXT_EMPTY -> msgEmailIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgEmailIsNotValid, VALIDATOR_TEXT_TOO_LONG -> messageLengthier)
+      val validation: Validated[String] = emailValidator.validate(locale, i18n, emailValidatorDomain, email, emailValidatorParams, messages)
 
       validation.isFailure should be(true)
 

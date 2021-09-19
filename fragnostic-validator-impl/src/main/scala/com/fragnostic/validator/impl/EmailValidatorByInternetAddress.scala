@@ -1,8 +1,9 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api.Validated
-import javax.mail.internet.{ AddressException, InternetAddress }
 import scalaz.Scalaz._
+
+import javax.mail.internet.{ AddressException, InternetAddress }
 
 trait EmailValidatorByInternetAddress {
 

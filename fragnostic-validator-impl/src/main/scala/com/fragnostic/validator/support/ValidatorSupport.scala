@@ -1,30 +1,20 @@
 package com.fragnostic.validator.support
 
 import com.fragnostic.i18n.api.ResourceI18n
-import com.fragnostic.validator.api.Validated
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, Validated }
 import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.Scalaz._
+
 import java.util.Locale
 
 trait ValidatorSupport {
 
-  val idxTextEmpty: Int = 0
-  val idxTextNotValid: Int = 1
-  val idxTextTooLong: Int = 2
-  val idxCountryCode: Int = 3
-  val idxTextTooShort: Int = 4
-  val idxPasswordMustHaveAtLeastOneUppercaseLetter: Int = 5
-  val idxPasswordMustHaveAtLeastOneLowercaseLetter: Int = 6
-  val idxPasswordMustHaveAtLeastOneNumber: Int = 7
-  val idxPasswordMustHaveAtLeastOneSymbol: Int = 8
-
   def validatorI18n = new ValidatorI18n()
 
-  def argsAreValid(numberExpected: Int, messages: List[String]): Boolean =
-    numberExpected == messages.length
+  def argsAreValid(numberExpected: Int, messages: Map[String, String]): Boolean = numberExpected == messages.size
 
-  def getErrorMessage(locale: Locale, key: String, args: List[String], i18n: ResourceI18n, idx: Int, messages: List[String]): String =
-    if (messages.nonEmpty && messages.length > idx) {
+  def getErrorMessage(locale: Locale, key: String, args: List[String], i18n: ResourceI18n, idx: String, messages: Map[String, String]): String =
+    if (messages.nonEmpty) {
       messages(idx)
     } else if (args.isEmpty) {
       i18n.getString(locale, key)
@@ -71,9 +61,9 @@ trait ValidatorSupport {
       Map.empty[String, String]
     }
 
-  def _ifMandatory(locale: Locale, key: String, messages: List[String], mandatory: Boolean): Validated[String] =
+  def _ifMandatory(locale: Locale, key: String, messages: Map[String, String], mandatory: Boolean): Validated[String] =
     if (mandatory) {
-      getErrorMessage(locale, key, Nil, validatorI18n, idxTextEmpty, messages).failureNel
+      getErrorMessage(locale, key, Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
     } else {
       "".successNel
     }
