@@ -9,19 +9,22 @@ import java.util.Locale
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport {
 
-  private val dateTimePattern = """\s*(\d{4}-\d{2}-\d{2})\s*""".r
+  val DATE_REGEX = "DATE_REGEX"
 
   override def validate(locale: Locale, i18n: ResourceI18n, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (dateTime.trim.isEmpty) {
       if (mandatory) {
-        getErrorMessage(locale, "date.validator.date.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+        getErrorMessage(locale, "date.validator.date.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
       } else {
         "".successNel
       }
     } else {
+
+      val dateRegex = params.getOrElse(DATE_REGEX, """\s*(\d{4}-\d{2}-\d{2})\s*""").r
+
       dateTime match {
-        case dateTimePattern(date) => s"$date".successNel
-        case _ => getErrorMessage(locale, "date.validator.date.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+        case dateRegex(date) => s"$date".successNel
+        case _ => getErrorMessage(locale, "date.validator.date.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
       }
     }
 

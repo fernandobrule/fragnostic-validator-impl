@@ -14,14 +14,14 @@ class DateTimeValidator extends ValidatorApi[String] with ValidatorSupport {
   override def validate(locale: Locale, i18n: ResourceI18n, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (dateTime.trim.isEmpty) {
       if (mandatory) {
-        getErrorMessage(locale, "date.time.validator.date.time.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+        getErrorMessage(locale, "date.time.validator.date.time.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
       } else {
         "".successNel
       }
     } else {
       dateTime match {
         case dateTimePattern(date, time) => s"$date $time".successNel
-        case _ => getErrorMessage(locale, "date.time.validator.date.time.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+        case _ => getErrorMessage(locale, "date.time.validator.date.time.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
       }
     }
 

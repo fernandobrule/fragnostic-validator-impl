@@ -18,14 +18,14 @@ class UsernameValidator extends ValidatorApi[String] with ValidatorSupport with 
         usernameMaximumLength =>
           if (username.trim.isEmpty) {
             if (mandatory) {
-              getErrorMessage(locale, "username.validator.username.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+              getErrorMessage(locale, "username.validator.username.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
             } else {
               "".successNel
             }
           } else if (username.trim.length < usernameMinimumLength) {
-            getErrorMessage(locale, "username.validator.username.is.too.short", List(username.trim.length.toString, usernameMinimumLength.toString, usernameMaximumLength.toString), validatorI18n, VALIDATOR_TEXT_TOO_SHORT, messages).failureNel
+            getErrorMessage(locale, "username.validator.username.is.too.short", List(username.trim.length.toString, usernameMinimumLength.toString, usernameMaximumLength.toString), i18n, VALIDATOR_TEXT_TOO_SHORT, messages).failureNel
           } else if (username.trim.length > usernameMaximumLength) {
-            getErrorMessage(locale, "username.validator.username.is.too.long", List(username.trim.length.toString, usernameMaximumLength.toString, usernameMaximumLength.toString), validatorI18n, VALIDATOR_TEXT_TOO_LONG, messages).failureNel
+            getErrorMessage(locale, "username.validator.username.is.too.long", List(username.trim.length.toString, usernameMaximumLength.toString, usernameMaximumLength.toString), i18n, VALIDATOR_TEXT_TOO_LONG, messages).failureNel
           } else {
             username.trim.successNel
           } //

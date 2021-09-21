@@ -16,7 +16,7 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = ""
 
-      val nel = textBoundariesValidator.validate(locale, i18n, domain, text, params) fold (
+      val nel = textBoundariesValidator.validate(locale, validatorI18n, domain, text, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
@@ -31,7 +31,7 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
       val text = ""
       val mandatory = false
 
-      val validation = textBoundariesValidator.validate(locale, i18n, domain, text, params, Map.empty, mandatory)
+      val validation = textBoundariesValidator.validate(locale, validatorI18n, domain, text, params, Map.empty, mandatory)
       validation.isSuccess should be(true)
     }
 
@@ -39,7 +39,7 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = "abc"
 
-      val nel = textBoundariesValidator.validate(locale, i18n, domain, text, params) fold (
+      val nel = textBoundariesValidator.validate(locale, validatorI18n, domain, text, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
@@ -52,7 +52,7 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = "abcdedfjhskdlfjklsdjfkljsdklfjksldjfklsdjflkjfjsdf"
 
-      val nel = textBoundariesValidator.validate(locale, i18n, domain, text, params) fold (
+      val nel = textBoundariesValidator.validate(locale, validatorI18n, domain, text, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 

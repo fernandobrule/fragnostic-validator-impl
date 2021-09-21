@@ -41,26 +41,26 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     }
   }
 
-  private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] =
+  private def validateCountryCode(locale: Locale, i18n: ResourceI18n, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] =
     handleList("countryCodesWhiteList", domain, params) fold (
       error => {
         logger.error(s"validate() - $error")
         error.failureNel
       },
       countryCodesWhiteList => {
-        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, getErrorMessage(locale, "mobile.validator.mobile.without.country.code", Nil, validatorI18n, VALIDATOR_COUNTRY_CODE, messages))
+        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, getErrorMessage(locale, "mobile.validator.mobile.without.country.code", Nil, i18n, VALIDATOR_COUNTRY_CODE, messages))
       } //
     ) //
 
   override def validate(locale: Locale, i18n: ResourceI18n, domain: String, rawMobile: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     val notNumbers = rawMobile.filter(c => !isValid(c)).toList
     if (notNumbers.nonEmpty) {
-      getErrorMessage(locale, "mobile.validator.mobile.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+      getErrorMessage(locale, "mobile.validator.mobile.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
     } else {
       val numbers: List[Int] = rawMobile.filter(c => c.isDigit).map(c => c.asDigit).toList
       if (numbers.isEmpty) {
         if (mandatory) {
-          getErrorMessage(locale, "mobile.validator.mobile.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+          getErrorMessage(locale, "mobile.validator.mobile.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
         } else {
           "".successNel
         }
@@ -74,7 +74,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
               needsValidateCountryCode <- handleBoolean("validateCountryCode", domain, params)
             } yield {
               if (needsValidateCountryCode) {
-                validateCountryCode(locale, mobile, hasToFormat, domain, params, messages)
+                validateCountryCode(locale, i18n, mobile, hasToFormat, domain, params, messages)
               } else {
                 hasToFormat2(mobile, hasToFormat)
               }

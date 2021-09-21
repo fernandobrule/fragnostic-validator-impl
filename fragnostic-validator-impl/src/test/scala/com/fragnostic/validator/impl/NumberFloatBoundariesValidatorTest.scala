@@ -19,7 +19,7 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 3.5f
 
-      val nel = numberFloatBoundariesValidator.validate(locale, i18n, domain, number, params) fold (
+      val nel = numberFloatBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
@@ -32,7 +32,7 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 45.0f
 
-      val nel = numberFloatBoundariesValidator.validate(locale, i18n, domain, number, params) fold (
+      val nel = numberFloatBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 

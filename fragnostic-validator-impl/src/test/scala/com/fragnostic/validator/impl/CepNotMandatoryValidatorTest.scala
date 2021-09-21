@@ -16,7 +16,7 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val cep = ""
       val mandatory = false
 
-      val validation: Validated[String] = cepValidator.validate(locale, i18n, domain, cep, params, messages, mandatory)
+      val validation: Validated[String] = cepValidator.validate(locale, validatorI18n, domain, cep, params, messages, mandatory)
       validation.isSuccess should be(true)
 
     }
@@ -27,9 +27,9 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val params: Map[String, String] = Map("hasToFormat" -> "true")
       val mandatory = false
 
-      cepValidator.validate(locale, i18n, domain, "01414-000", params, messages, mandatory).isSuccess should be(true)
+      cepValidator.validate(locale, validatorI18n, domain, "01414-000", params, messages, mandatory).isSuccess should be(true)
 
-      cepValidator.validate(locale, i18n, domain, "01414-00X", params, messages, mandatory).isSuccess should be(false)
+      cepValidator.validate(locale, validatorI18n, domain, "01414-00X", params, messages, mandatory).isSuccess should be(false)
     }
 
   }

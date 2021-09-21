@@ -20,7 +20,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
   describe("*** Username Validator Test ***") {
 
     it("Can Validate Username") {
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
       validation.isSuccess should be(true)
       validation.toList.head should be(username)
     }
@@ -29,7 +29,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = ""
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -45,7 +45,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = ""
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isSuccess should be(true)
     }
@@ -55,7 +55,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = "asd"
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -70,7 +70,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = "asda"
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -86,7 +86,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 
@@ -101,7 +101,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
 
-      val validation: Validated[String] = usernameValidator.validate(locale, i18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, validatorI18n, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
 
       validation.isFailure should be(true)
 

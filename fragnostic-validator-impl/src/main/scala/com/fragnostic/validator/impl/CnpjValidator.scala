@@ -12,7 +12,7 @@ class CnpjValidator extends ValidatorApi[String] with ValidatorSupport {
   override def validate(locale: Locale, i18n: ResourceI18n, domain: String, cnpj: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
     if (cnpj.trim.isEmpty) {
-      getErrorMessage(locale, "cnpj.validator.cnpj.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+      getErrorMessage(locale, "cnpj.validator.cnpj.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
     } else {
       cnpj.trim.successNel
     }

@@ -17,12 +17,12 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
       val list = List("01414-000", "13214-206")
 
       list foreach (cep => {
-        val validation: Validated[String] = cepValidator.validate(locale, i18n, domain, cep, params, messages)
+        val validation: Validated[String] = cepValidator.validate(locale, validatorI18n, domain, cep, params, messages)
         validation.isSuccess should be(true)
         validation.toList.head should be(cep)
       })
 
-      val validation: Validated[String] = cepValidator.validate(locale, i18n, domain, "", params, messages)
+      val validation: Validated[String] = cepValidator.validate(locale, validatorI18n, domain, "", params, messages)
 
       validation.isFailure should be(true)
       (validation match {

@@ -14,7 +14,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "    "
 
-      val list = dateTimeValidator.validate(locale, i18n, domain, dateTime, paramsEmpty, messages) fold (
+      val list = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -27,7 +27,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-10-03 23:50:0o"
 
-      val list = dateTimeValidator.validate(locale, i18n, domain, dateTime, paramsEmpty, messages) fold (
+      val list = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -40,7 +40,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-02-03 23:50:03"
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, i18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }
@@ -49,7 +49,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "   2020-02-03     23:50:03   "
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, i18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }
@@ -58,7 +58,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-02-0323:50:03"
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, i18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }

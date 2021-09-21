@@ -12,7 +12,7 @@ import java.util.Locale
 
 class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with BeforeAndAfterEach with ValidatorSupport {
 
-  def i18n: ResourceI18n = new ValidatorI18n
+  def validatorI18n: ResourceI18n = new ValidatorI18n
 
   val paramsEmpty: Map[String, String] = Map.empty
 

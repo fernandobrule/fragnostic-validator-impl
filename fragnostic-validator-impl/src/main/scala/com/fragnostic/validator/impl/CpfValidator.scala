@@ -22,8 +22,7 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport {
         if (cpf.trim.isEmpty && !mandatory) {
           cpf.successNel
         } else if (!isValid(cpf.trim)) {
-          //messages(1).failureNel
-          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+          getErrorMessage(locale, "cpf.validator.cpf.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
         } else {
           cpf.successNel
         })

@@ -11,7 +11,7 @@ class TextEmptyValidator extends ValidatorApi[String] with ValidatorSupport {
 
   override def validate(locale: Locale, i18n: ResourceI18n, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (text.trim.isEmpty) {
-      getErrorMessage(locale, "text.empty.validator.text.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+      getErrorMessage(locale, "text.empty.validator.text.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
     } else {
       text.trim.successNel
     }

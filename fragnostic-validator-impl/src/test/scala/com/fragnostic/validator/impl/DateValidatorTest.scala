@@ -14,7 +14,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "    "
 
-      val list = dateValidator.validate(locale, i18n, domain, date, paramsEmpty, messages) fold (
+      val list = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -27,7 +27,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "2020-10-03 23:50:0o"
 
-      val list = dateValidator.validate(locale, i18n, domain, date, paramsEmpty, messages) fold (
+      val list = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -40,18 +40,20 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "2020-02-03"
 
-      val validation: Validated[String] = dateValidator.validate(locale, i18n, domain, date, paramsEmpty, messages)
+      val validation: Validated[String] = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03")
     }
 
     it("Can Validate Right Date Case 2") {
 
-      val date = "   2020-02-03     "
+      val params: Map[String, String] = Map(dateValidator.DATE_REGEX -> """\s*(\d{2}-\d{2}-\d{4})\s*""")
 
-      val validation: Validated[String] = dateValidator.validate(locale, i18n, domain, date, paramsEmpty, messages)
+      val date = "   03-02-2020     "
+
+      val validation: Validated[String] = dateValidator.validate(locale, validatorI18n, domain, date, params, messages)
       validation.isSuccess should be(true)
-      validation.toList.head should be("2020-02-03")
+      validation.toList.head should be("03-02-2020")
     }
 
   }

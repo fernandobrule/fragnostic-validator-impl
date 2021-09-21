@@ -19,13 +19,13 @@ class RutValidator extends ValidatorApi[String] with ValidatorSupport {
         if (isValidContraDv(base, dig)) {
           s"$base-$dig".successNel
         } else {
-          getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+          getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
         }
       } else {
-        getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+        getErrorMessage(locale, "rut.validator.rut.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
       }
     } else {
-      getErrorMessage(locale, "rut.validator.rut.is.empty", Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+      getErrorMessage(locale, "rut.validator.rut.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
     }
 
   private lazy val k = "k"

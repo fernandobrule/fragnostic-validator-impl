@@ -19,7 +19,7 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 3.5.toShort
 
-      val nel = numberShortBoundariesValidator.validate(locale, i18n, domain, number, params) fold (
+      val nel = numberShortBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 
@@ -32,7 +32,7 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 45.0.toShort
 
-      val nel = numberShortBoundariesValidator.validate(locale, i18n, domain, number, params) fold (
+      val nel = numberShortBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 

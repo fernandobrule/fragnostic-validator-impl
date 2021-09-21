@@ -46,7 +46,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "8f789sAd#7f89sd"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isSuccess should be(true)
 
@@ -58,7 +58,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "sdfddfssdfsdfsdfsdf"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -77,7 +77,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "324A8972389"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -96,7 +96,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "sdfddfssdfsdfsdfABsdf"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -115,7 +115,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "sdfddfssA6dfsdfsdfsdf"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -134,7 +134,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "  "
       val passwordLength: String = "0"
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(passwordLength, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(passwordLength, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -153,7 +153,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "sdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsa@sdfasdfas.com"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 
@@ -172,7 +172,7 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val password = "7s8df6"
 
-      val validation: Validated[String] = passwordValidator.validate(locale, i18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+      val validation: Validated[String] = passwordValidator.validate(locale, validatorI18n, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
       validation.isFailure should be(true)
 

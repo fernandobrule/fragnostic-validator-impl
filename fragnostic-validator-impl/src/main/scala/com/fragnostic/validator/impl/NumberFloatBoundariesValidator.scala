@@ -17,9 +17,9 @@ class NumberFloatBoundariesValidator extends ValidatorApi[Float] with ValidatorS
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              getErrorMessage(locale, "number.float.boundaries.validator.number.is.too.short", List(domain, someNumber.toString, minValue.toString), validatorI18n, VALIDATOR_TEXT_TOO_SHORT, messages).failureNel
+              getErrorMessage(locale, "number.float.boundaries.validator.number.is.too.short", List(domain, someNumber.toString, minValue.toString), i18n, VALIDATOR_TEXT_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              getErrorMessage(locale, "number.float.boundaries.validator.number.is.too.long", List(domain, someNumber.toString, maxValue.toString), validatorI18n, VALIDATOR_TEXT_TOO_LONG, messages).failureNel
+              getErrorMessage(locale, "number.float.boundaries.validator.number.is.too.long", List(domain, someNumber.toString, maxValue.toString), i18n, VALIDATOR_TEXT_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }

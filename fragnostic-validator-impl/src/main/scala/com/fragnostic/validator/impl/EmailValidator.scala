@@ -18,7 +18,7 @@ class EmailValidator extends ValidatorApi[String] with ValidatorSupport with Ema
         if (!mandatory && email.trim.isEmpty) {
           "".successNel
         } else {
-          validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, validatorI18n, VALIDATOR_TEXT_NOT_VALID, messages))
+          validateByRfc2822Validator(email, getErrorMessage(locale, "email.validator.email.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages))
         } //
     )
 

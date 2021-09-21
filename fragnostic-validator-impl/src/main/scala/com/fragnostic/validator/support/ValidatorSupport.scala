@@ -1,15 +1,10 @@
 package com.fragnostic.validator.support
 
 import com.fragnostic.i18n.api.ResourceI18n
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, Validated }
-import com.fragnostic.validator.i18n.ValidatorI18n
-import scalaz.Scalaz._
 
 import java.util.Locale
 
 trait ValidatorSupport {
-
-  def validatorI18n = new ValidatorI18n()
 
   def argsAreValid(numberExpected: Int, messages: Map[String, String]): Boolean = numberExpected == messages.size
 
@@ -59,13 +54,6 @@ trait ValidatorSupport {
       Map(key -> params(key))
     } else {
       Map.empty[String, String]
-    }
-
-  def _ifMandatory(locale: Locale, key: String, messages: Map[String, String], mandatory: Boolean): Validated[String] =
-    if (mandatory) {
-      getErrorMessage(locale, key, Nil, validatorI18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
-    } else {
-      "".successNel
     }
 
 }

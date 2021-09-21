@@ -22,7 +22,7 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
         VALIDATOR_COUNTRY_CODE -> msgMobileWithoutCountryCode //
       )
 
-      val validation: Validated[String] = mobileValidator.validate(locale, i18n, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, validatorI18n, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
       validation.isFailure should be(true)
 
