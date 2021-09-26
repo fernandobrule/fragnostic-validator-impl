@@ -11,6 +11,11 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
   val minValue: Short = 6.8.toShort
   val maxValue: Short = 15.3.toShort
 
+  val messages: Map[String, String] = Map(
+    "number.short.boundaries.validator.number.is.too.short" -> validatorI18n.getString(locale, "number.short.boundaries.validator.number.is.too.short"),
+    "number.short.boundaries.validator.number.is.too.long" -> validatorI18n.getString(locale, "number.short.boundaries.validator.number.is.too.long") //
+  )
+
   val params: Map[String, String] = Map("minValue" -> minValue.toString, "maxValue" -> maxValue.toString)
 
   describe("***Number Short Boundaries Validator Test***") {
@@ -19,9 +24,10 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 3.5.toShort
 
-      val nel = numberShortBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
+      val nel = numberShortBoundariesValidator.validate(locale, domain, number, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)
@@ -32,9 +38,10 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
 
       val number = 45.0.toShort
 
-      val nel = numberShortBoundariesValidator.validate(locale, validatorI18n, domain, number, params) fold (
+      val nel = numberShortBoundariesValidator.validate(locale, domain, number, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)

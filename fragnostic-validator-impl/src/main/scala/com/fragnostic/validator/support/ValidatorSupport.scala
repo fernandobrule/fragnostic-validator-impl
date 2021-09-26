@@ -1,21 +1,8 @@
 package com.fragnostic.validator.support
 
-import com.fragnostic.i18n.api.ResourceI18n
-
-import java.util.Locale
-
 trait ValidatorSupport {
 
   def argsAreValid(numberExpected: Int, messages: Map[String, String]): Boolean = numberExpected == messages.size
-
-  def getErrorMessage(locale: Locale, key: String, args: List[String], i18n: ResourceI18n, idx: String, messages: Map[String, String]): String =
-    if (messages.nonEmpty) {
-      messages(idx)
-    } else if (args.isEmpty) {
-      i18n.getString(locale, key)
-    } else {
-      i18n.getFormattedString(locale, key, args)
-    }
 
   private def lookForKey(params: Map[String, String], head: (String, String), newMap: Map[String, String] = Map.empty): Map[String, String] = {
     val key = head._1

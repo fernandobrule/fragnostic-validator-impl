@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
+import com.fragnostic.validator.api.{ VALIDATOR_TEXT_NOT_VALID, Validated }
 import scalaz.{ Failure, NonEmptyList, Success }
 
 class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -8,7 +8,10 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
   describe("***CEP Validator Test***") {
 
     val domain = "CEP"
-    val messages = Map(VALIDATOR_TEXT_EMPTY -> msgCepIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgCepIsNotValid)
+    val messages = Map(
+      "cep.validator.cep.is.empty" -> msgCepIsEmpty,
+      VALIDATOR_TEXT_NOT_VALID -> msgCepIsNotValid //
+    )
 
     it("Can Validate CEP") {
 
@@ -17,12 +20,12 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
       val list = List("01414-000", "13214-206")
 
       list foreach (cep => {
-        val validation: Validated[String] = cepValidator.validate(locale, validatorI18n, domain, cep, params, messages)
+        val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, messages)
         validation.isSuccess should be(true)
         validation.toList.head should be(cep)
       })
 
-      val validation: Validated[String] = cepValidator.validate(locale, validatorI18n, domain, "", params, messages)
+      val validation: Validated[String] = cepValidator.validate(locale, domain, "", params, messages)
 
       validation.isFailure should be(true)
       (validation match {

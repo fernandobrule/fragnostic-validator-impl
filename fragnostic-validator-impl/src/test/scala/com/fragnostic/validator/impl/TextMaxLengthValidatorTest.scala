@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_TOO_LONG, Validated }
+import com.fragnostic.validator.api.Validated
 import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.NonEmptyList
 
@@ -10,13 +10,15 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val validatorI18n = new ValidatorI18n()
     val domain = "TextMaxLength"
+    val messages: Map[String, String] = Map(
+      "text.max.length.validator.text.is.too.long" -> validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long"))
 
     it("Can Validate Text Max Length That Compliant") {
 
       val textMaxLengthValidator = new TextMaxLengthValidator
       val params: Map[String, String] = Map("maxLength" -> "5")
       val text = "abcde"
-      val validation: Validated[String] = textMaxLengthValidator.validate(locale, validatorI18n, domain, text, params)
+      val validation: Validated[String] = textMaxLengthValidator.validate(locale, domain, text, params, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be(text)
     }
@@ -27,32 +29,19 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
       val maxLength = "5"
       val params: Map[String, String] = Map("maxLength" -> maxLength)
       val text = "abcdef"
+      val msgTooLong = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(text.length.toString, maxLength))
+      val messages: Map[String, String] = Map(
+        "text.max.length.validator.text.is.too.long" -> msgTooLong //
+      )
 
-      val nel = textMaxLengthValidator.validate(locale, validatorI18n, domain, text, params) fold (
+      val nel = textMaxLengthValidator.validate(locale, domain, text, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(text.length.toString, maxLength)))
-    }
-
-    it("Can Validate Text Max Length That Does Not Compliant With External Message") {
-
-      val textMaxLengthValidator = new TextMaxLengthValidator
-      val maxLength = "5"
-      val params: Map[String, String] = Map("maxLength" -> maxLength)
-      val text = "abcdef"
-
-      val messages = Map(VALIDATOR_TEXT_TOO_LONG -> "def")
-
-      val nel = textMaxLengthValidator.validate(locale, validatorI18n, domain, text, params, messages) fold (
-        error => error,
-        mistake => NonEmptyList((): Unit))
-
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be("def")
+      nel.head should be(msgTooLong)
     }
 
   }

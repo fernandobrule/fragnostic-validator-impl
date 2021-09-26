@@ -1,7 +1,7 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.i18n.api.ResourceI18n
-import com.fragnostic.validator.api.{ VALIDATOR_COUNTRY_CODE, VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, VALIDATOR_TEXT_TOO_SHORT }
+import com.fragnostic.validator.api.VALIDATOR_TEXT_TOO_LONG
 import com.fragnostic.validator.i18n.ValidatorI18n
 import com.fragnostic.validator.support.ValidatorSupport
 import org.scalatest.BeforeAndAfterEach
@@ -31,8 +31,8 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgEmailIsEmpty: String = validatorI18n.getString(locale, "email.validator.email.is.empty")
   val msgEmailIsNotValid: String = validatorI18n.getString(locale, "email.validator.email.is.not.valid")
   val emailValidatorMessages: Map[String, String] = Map(
-    VALIDATOR_TEXT_EMPTY -> msgEmailIsEmpty,
-    VALIDATOR_TEXT_NOT_VALID -> msgEmailIsNotValid)
+    "text.boundaries.validator.text.is.empty" -> msgEmailIsEmpty,
+    "email.validator.email.is.not.valid" -> msgEmailIsNotValid)
   val emailValidatorDomain = "Email"
 
   //
@@ -63,10 +63,9 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgMobileIsLengthier: String = validatorI18n.getString(locale, "mobile.validator.mobile.is.too.long")
   val msgMobileWithoutCountryCode: String = validatorI18n.getString(locale, "mobile.validator.mobile.without.country.code")
   val mobileValidatorMessages: Map[String, String] = Map(
-    VALIDATOR_TEXT_EMPTY -> msgMobileIsEmpty,
-    VALIDATOR_TEXT_NOT_VALID -> msgMobileIsNotValid,
-    VALIDATOR_TEXT_TOO_SHORT -> msgMobileIsLengthier,
-    VALIDATOR_COUNTRY_CODE -> msgMobileWithoutCountryCode //
+    "mobile.validator.mobile.is.empty" -> msgMobileIsEmpty,
+    "mobile.validator.mobile.is.not.valid" -> msgMobileIsNotValid,
+    "mobile.validator.mobile.without.country.code" -> msgMobileWithoutCountryCode //
   )
 
   val msgTextIsEmpty: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.empty")

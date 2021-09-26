@@ -1,6 +1,5 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.i18n.api.ResourceI18n
 import com.fragnostic.validator.api._
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
@@ -11,10 +10,10 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport {
 
   val DATE_REGEX = "DATE_REGEX"
 
-  override def validate(locale: Locale, i18n: ResourceI18n, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
+  override def validate(locale: Locale, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (dateTime.trim.isEmpty) {
       if (mandatory) {
-        getErrorMessage(locale, "date.validator.date.is.empty", Nil, i18n, VALIDATOR_TEXT_EMPTY, messages).failureNel
+        messages("date.validator.date.is.empty").failureNel
       } else {
         "".successNel
       }
@@ -24,7 +23,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport {
 
       dateTime match {
         case dateRegex(date) => s"$date".successNel
-        case _ => getErrorMessage(locale, "date.validator.date.is.not.valid", Nil, i18n, VALIDATOR_TEXT_NOT_VALID, messages).failureNel
+        case _ => messages("date.validator.date.is.not.valid").failureNel
       }
     }
 

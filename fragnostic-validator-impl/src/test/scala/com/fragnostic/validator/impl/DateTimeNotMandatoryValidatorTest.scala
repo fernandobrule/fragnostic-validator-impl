@@ -13,7 +13,7 @@ class DateTimeNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val dateTime = "    "
       val mandatory = false
 
-      dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, Map(VALIDATOR_TEXT_EMPTY -> msgDateTimeIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgDateTimeIsNotValid), mandatory).isSuccess should be(true)
+      dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, Map(VALIDATOR_TEXT_EMPTY -> msgDateTimeIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgDateTimeIsNotValid), mandatory).isSuccess should be(true)
 
     }
 

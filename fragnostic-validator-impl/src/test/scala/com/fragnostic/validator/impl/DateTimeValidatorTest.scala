@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
+import com.fragnostic.validator.api.Validated
 import scalaz.NonEmptyList
 
 class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -8,13 +8,16 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
   describe("*** DateTime Validator Test ***") {
 
     val domain = "DateTime"
-    val messages = Map(VALIDATOR_TEXT_EMPTY -> msgDateTimeIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgDateTimeIsNotValid)
+    val messages = Map(
+      "date.time.validator.date.time.is.empty" -> msgDateTimeIsEmpty,
+      "date.time.validator.date.time.is.not.valid" -> msgDateTimeIsNotValid //
+    )
 
     it("Can Validate Empty DateTime") {
 
       val dateTime = "    "
 
-      val list = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages) fold (
+      val list = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -27,7 +30,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-10-03 23:50:0o"
 
-      val list = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages) fold (
+      val list = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -40,7 +43,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-02-03 23:50:03"
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }
@@ -49,7 +52,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "   2020-02-03     23:50:03   "
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }
@@ -58,7 +61,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val dateTime = "2020-02-0323:50:03"
 
-      val validation: Validated[String] = dateTimeValidator.validate(locale, validatorI18n, domain, dateTime, paramsEmpty, messages)
+      val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03 23:50:03")
     }

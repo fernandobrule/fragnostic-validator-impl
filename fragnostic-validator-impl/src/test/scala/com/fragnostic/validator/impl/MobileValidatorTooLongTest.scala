@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_COUNTRY_CODE, VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, VALIDATOR_TEXT_TOO_LONG, Validated }
+import com.fragnostic.validator.api.{ VALIDATOR_COUNTRY_CODE, VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
 import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.{ Failure, NonEmptyList, Success }
 
@@ -18,11 +18,11 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
       val mobileValidatorMessages: Map[String, String] = Map(
         VALIDATOR_TEXT_EMPTY -> msgMobileIsEmpty,
         VALIDATOR_TEXT_NOT_VALID -> msgMobileIsNotValid,
-        VALIDATOR_TEXT_TOO_LONG -> msgMobileIsTooLong,
+        "text.boundaries.validator.text.is.too.long" -> msgMobileIsTooLong,
         VALIDATOR_COUNTRY_CODE -> msgMobileWithoutCountryCode //
       )
 
-      val validation: Validated[String] = mobileValidator.validate(locale, validatorI18n, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
       validation.isFailure should be(true)
 

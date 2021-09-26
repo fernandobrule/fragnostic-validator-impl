@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
+import com.fragnostic.validator.api.Validated
 import scalaz.NonEmptyList
 
 class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -8,13 +8,16 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
   describe("*** Date Validator Test ***") {
 
     val domain = "Date"
-    val messages = Map(VALIDATOR_TEXT_EMPTY -> msgDateIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgDateIsNotValid)
+    val messages = Map(
+      "date.validator.date.is.empty" -> msgDateIsEmpty,
+      "date.validator.date.is.not.valid" -> msgDateIsNotValid //
+    )
 
     it("Can Validate Empty Date") {
 
       val date = "    "
 
-      val list = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages) fold (
+      val list = dateValidator.validate(locale, domain, date, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -27,7 +30,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "2020-10-03 23:50:0o"
 
-      val list = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages) fold (
+      val list = dateValidator.validate(locale, domain, date, paramsEmpty, messages) fold (
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
@@ -40,7 +43,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "2020-02-03"
 
-      val validation: Validated[String] = dateValidator.validate(locale, validatorI18n, domain, date, paramsEmpty, messages)
+      val validation: Validated[String] = dateValidator.validate(locale, domain, date, paramsEmpty, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("2020-02-03")
     }
@@ -51,7 +54,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "   03-02-2020     "
 
-      val validation: Validated[String] = dateValidator.validate(locale, validatorI18n, domain, date, params, messages)
+      val validation: Validated[String] = dateValidator.validate(locale, domain, date, params, messages)
       validation.isSuccess should be(true)
       validation.toList.head should be("03-02-2020")
     }
