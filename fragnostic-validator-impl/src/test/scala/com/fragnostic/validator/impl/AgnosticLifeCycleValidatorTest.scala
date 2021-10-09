@@ -49,6 +49,9 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
   val msgCepIsEmpty: String = validatorI18n.getString(locale, "cep.validator.cep.is.empty")
   val msgCepIsNotValid: String = validatorI18n.getString(locale, "cep.validator.cep.is.not.valid")
 
+  val msgUrlIsEmpty: String = validatorI18n.getString(locale, "url.validator.url.is.empty")
+  val msgUrlIsNotValid: String = validatorI18n.getString(locale, "url.validator.url.is.not.valid")
+
   val msgCpfIsEmpty: String = validatorI18n.getString(locale, "cpf.validator.cpf.is.empty")
   val msgCpfIsNotValid: String = validatorI18n.getString(locale, "cpf.validator.cpf.is.not.valid")
 
