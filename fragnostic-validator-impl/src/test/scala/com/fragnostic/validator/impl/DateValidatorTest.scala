@@ -9,8 +9,8 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val domain = "Date"
     val messages = Map(
-      "date.validator.date.is.empty" -> msgDateIsEmpty,
-      "date.validator.date.is.not.valid" -> msgDateIsNotValid //
+      DATE_VALIDATOR_DATE_IS_EMPTY -> msgDateIsEmpty,
+      DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid //
     )
 
     it("Can Validate Empty Date") {
@@ -23,7 +23,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       list should not be Nil
       list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, "date.time.validator.date.time.is.empty"))
+      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
     }
 
     it("Can Validate Wrong Date") {
@@ -36,7 +36,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       list should not be Nil
       list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, "date.time.validator.date.time.is.not.valid"))
+      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
     }
 
     it("Can Validate Right Date Case 1") {
@@ -50,7 +50,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     it("Can Validate Right Date Case 2") {
 
-      val params: Map[String, String] = Map(dateValidator.DATE_REGEX -> """\s*(\d{2}-\d{2}-\d{4})\s*""")
+      val params: Map[String, String] = Map("DATE_REGEX" -> """\s*(\d{2}-\d{2}-\d{4})\s*""")
 
       val date = "   03-02-2020     "
 

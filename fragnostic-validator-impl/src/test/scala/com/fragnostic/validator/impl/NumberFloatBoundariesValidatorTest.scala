@@ -18,13 +18,15 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
     it("Can Validate Number Too Short") {
 
       val number = 3.5f
-      val msgTooShort = validatorI18n.getFormattedString(locale, "number.float.boundaries.validator.number.is.too.short", List(domain, number.toString, minValue.toString))
+      val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG, List(domain, number.toString, minValue.toString))
       val messages: Map[String, String] = Map(
-        "number.float.boundaries.validator.number.is.too.short" -> msgTooShort)
+        NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG -> msgTooShort //
+      )
 
       val nel = numberFloatBoundariesValidator.validate(locale, domain, number, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)
@@ -34,9 +36,10 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
     it("Can Validate Number Too Long") {
 
       val number = 45.0f
-      val msgTooLong = validatorI18n.getFormattedString(locale, "number.float.boundaries.validator.number.is.too.long", List(domain, number.toString, maxValue.toString))
+      val msgTooLong = validatorI18n.getFormattedString(locale, NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG, List(domain, number.toString, maxValue.toString))
       val messages: Map[String, String] = Map(
-        "number.float.boundaries.validator.number.is.too.long" -> msgTooLong)
+        NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG -> msgTooLong //
+      )
 
       val nel = numberFloatBoundariesValidator.validate(locale, domain, number, params, messages) fold (
         error => error,

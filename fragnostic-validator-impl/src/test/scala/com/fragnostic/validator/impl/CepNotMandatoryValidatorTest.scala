@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, Validated }
+import com.fragnostic.validator.api.Validated
 
 class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
@@ -8,8 +8,8 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val domain = "CEP"
     val messages = Map(
-      VALIDATOR_TEXT_EMPTY -> msgCepIsEmpty,
-      "cep.validator.cep.not.valid" -> msgCepIsNotValid //
+      CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty,
+      CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid //
     )
 
     it("Can Validate Not Mandatory Empty CEP") {
@@ -21,7 +21,6 @@ class CepNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, messages, mandatory)
       validation.isSuccess should be(true)
-
     }
 
     it("Can Validate Not Mandatory Wrong CEP") {

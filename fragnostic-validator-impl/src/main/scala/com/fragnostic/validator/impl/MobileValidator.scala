@@ -2,13 +2,14 @@ package com.fragnostic.validator.impl
 
 import com.fragnostic.formatter.support.MobileFormatter
 import com.fragnostic.validator.api._
+import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.{ TypeBooleanHandler, TypeListHandler, ValidatorSupport }
 import org.slf4j.{ Logger, LoggerFactory }
 import scalaz.Scalaz._
 
 import java.util.Locale
 
-class MobileValidator extends ValidatorApi[String] with ValidatorSupport with MobileFormatter with TypeBooleanHandler with TypeListHandler {
+class MobileValidator extends ValidatorApi[String] with ValidatorSupport with MobileFormatter with TypeBooleanHandler with TypeListHandler with ValidatorMessagesKeys {
 
   private[this] val logger: Logger = LoggerFactory.getLogger("MobileValidator")
 
@@ -17,7 +18,8 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     '\u002b',
     '\u0020',
     '\u0028',
-    '\u0029')
+    '\u0029' //
+  )
 
   private def textBoundariesValidator = new TextBoundariesValidator
 
@@ -47,19 +49,19 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
         error.failureNel
       },
       countryCodesWhiteList => {
-        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages("mobile.validator.mobile.without.country.code"))
+        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE))
       } //
     ) //
 
   override def validate(locale: Locale, domain: String, rawMobile: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     val notNumbers = rawMobile.filter(c => !isValid(c)).toList
     if (notNumbers.nonEmpty) {
-      messages("mobile.validator.mobile.is.not.valid").failureNel
+      messages(MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID).failureNel
     } else {
       val numbers: List[Int] = rawMobile.filter(c => c.isDigit).map(c => c.asDigit).toList
       if (numbers.isEmpty) {
         if (mandatory) {
-          messages("mobile.validator.mobile.is.empty").failureNel
+          messages(MOBILE_VALIDATOR_MOBILE_IS_EMPTY).failureNel
         } else {
           "".successNel
         }

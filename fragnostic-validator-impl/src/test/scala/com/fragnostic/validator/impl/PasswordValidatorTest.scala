@@ -14,24 +14,24 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
     "maxLength" -> passwordValidatorMaxLength //
   )
 
-  val msgPasswordIsEmpty: String = validatorI18n.getString(locale, "password.validator.password.is.empty")
-  val msgPasswordIsNotValid: String = validatorI18n.getString(locale, "password.validator.password.is.not.valid")
-  val msgPasswordIsTooShort: String = validatorI18n.getString(locale, "password.validator.password.is.too.short")
-  val msgPasswordMustToHaveAtLeastOneLowercaseLetter: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.lowercase.letter")
-  val msgPasswordMustToHaveAtLeastOneNumber: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.number")
-  val msgPasswordMustToHaveAtLeastOneSymbol: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.symbol")
-  val msgPasswordMustToHaveAtLeastOneUppercaseLetter: String = validatorI18n.getString(locale, "password.validator.password.should.contain.at.least.one.uppercase.letter")
-  def msgPasswordIsTooLong(passwordLength: String, passwordValidatorMaxLength: String): String = validatorI18n.getFormattedString(locale, "password.validator.password.is.too.long", List(passwordLength, passwordValidatorMaxLength))
+  val msgPasswordIsEmpty: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY)
+  val msgPasswordIsNotValid: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_IS_NOT_VALID)
+  val msgPasswordIsTooShort: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT)
+  val msgPasswordMustToHaveAtLeastOneLowercaseLetter: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER)
+  val msgPasswordMustToHaveAtLeastOneNumber: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER)
+  val msgPasswordMustToHaveAtLeastOneSymbol: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL)
+  val msgPasswordMustToHaveAtLeastOneUppercaseLetter: String = validatorI18n.getString(locale, PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER)
+  def msgPasswordIsTooLong(passwordLength: String, passwordValidatorMaxLength: String): String = validatorI18n.getFormattedString(locale, PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG, List(passwordLength, passwordValidatorMaxLength))
 
   def messagesPasswordValidator(passwordLength: String, passwordValidatorMaxLength: String) = Map(
-    "password.validator.password.is.empty" -> msgPasswordIsEmpty,
-    "" -> msgPasswordIsNotValid,
-    "password.validator.password.is.too.long" -> msgPasswordIsTooLong(passwordLength, passwordValidatorMaxLength),
-    "password.validator.password.is.too.short" -> msgPasswordIsTooShort,
-    VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER -> msgPasswordMustToHaveAtLeastOneUppercaseLetter,
-    VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER -> msgPasswordMustToHaveAtLeastOneLowercaseLetter,
-    VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER -> msgPasswordMustToHaveAtLeastOneNumber,
-    VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL -> msgPasswordMustToHaveAtLeastOneSymbol //
+    PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY -> msgPasswordIsEmpty,
+    PASSWORD_VALIDATOR_PASSWORD_IS_NOT_VALID -> msgPasswordIsNotValid,
+    PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG -> msgPasswordIsTooLong(passwordLength, passwordValidatorMaxLength),
+    PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT -> msgPasswordIsTooShort,
+    PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER -> msgPasswordMustToHaveAtLeastOneUppercaseLetter,
+    PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER -> msgPasswordMustToHaveAtLeastOneLowercaseLetter,
+    PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER -> msgPasswordMustToHaveAtLeastOneNumber,
+    PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL -> msgPasswordMustToHaveAtLeastOneSymbol //
   )
 
   describe("Password Validator Test") {

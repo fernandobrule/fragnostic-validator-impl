@@ -17,18 +17,19 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = ""
       val messages: Map[String, String] = Map(
-        "text.boundaries.validator.text.is.empty" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.empty"),
-        "text.boundaries.validator.text.is.too.short" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.too.short"),
-        "text.boundaries.validator.text.is.too.long" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.too.long") //
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG) //
       )
 
       val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getString(locale, "text.boundaries.validator.text.is.empty"))
+      nel.head should be(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY))
 
     }
 
@@ -37,9 +38,9 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
       val text = ""
       val mandatory = false
       val messages: Map[String, String] = Map(
-        "text.boundaries.validator.text.is.empty" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.empty"),
-        "text.boundaries.validator.text.is.too.short" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.too.short"),
-        "text.boundaries.validator.text.is.too.long" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.too.long") //
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG) //
       )
 
       val validation = textBoundariesValidator.validate(locale, domain, text, params, messages, mandatory)
@@ -49,16 +50,17 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Text Too Short") {
 
       val text = "abc"
-      val msgTooShort = validatorI18n.getFormattedString(locale, "text.boundaries.validator.text.is.too.short", List(domain, text.length.toString, minLength))
+      val msgTooShort = validatorI18n.getFormattedString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT, List(domain, text.length.toString, minLength))
       val messages: Map[String, String] = Map(
-        "text.boundaries.validator.text.is.empty" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.empty"),
-        "text.boundaries.validator.text.is.too.short" -> msgTooShort,
-        "text.boundaries.validator.text.is.too.long" -> validatorI18n.getString(locale, "text.boundaries.validator.text.is.too.long") //
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> msgTooShort,
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG) //
       )
 
       val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
         error => error,
-        mistake => NonEmptyList((): Unit))
+        mistake => NonEmptyList((): Unit) //
+      )
 
       nel should not be Nil
       nel.size should be(1)

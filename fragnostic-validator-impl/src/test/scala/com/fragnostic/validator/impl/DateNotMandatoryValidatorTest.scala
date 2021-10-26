@@ -1,7 +1,5 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID }
-
 class DateNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   val domain = "Date"
@@ -13,7 +11,9 @@ class DateNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val date = "    "
       val mandatory = false
 
-      dateValidator.validate(locale, domain, date, paramsEmpty, Map(VALIDATOR_TEXT_EMPTY -> msgDateIsEmpty, VALIDATOR_TEXT_NOT_VALID -> msgDateIsNotValid), mandatory).isSuccess should be(true)
+      dateValidator.validate(locale, domain, date, paramsEmpty, Map(
+        DATE_VALIDATOR_DATE_IS_EMPTY -> msgDateIsEmpty,
+        DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid), mandatory).isSuccess should be(true)
 
     }
 

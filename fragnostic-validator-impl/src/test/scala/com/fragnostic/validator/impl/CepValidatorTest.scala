@@ -1,7 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_TEXT_NOT_VALID, Validated }
-import scalaz.{ Failure, NonEmptyList, Success }
+import com.fragnostic.validator.api.Validated
 
 class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
 
@@ -9,8 +8,8 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val domain = "CEP"
     val messages = Map(
-      "cep.validator.cep.is.empty" -> msgCepIsEmpty,
-      VALIDATOR_TEXT_NOT_VALID -> msgCepIsNotValid //
+      CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty,
+      CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid //
     )
 
     it("Can Validate CEP") {
@@ -25,17 +24,17 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
         validation.toList.head should be(cep)
       })
 
-      val validation: Validated[String] = cepValidator.validate(locale, domain, "", params, messages)
+      (cepValidator.validate(locale, domain, "", params, messages) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong")) should be(msgCepIsEmpty)
 
-      validation.isFailure should be(true)
-      (validation match {
-        case Failure(f) =>
-          f match {
-            case NonEmptyList(a, value) => a
-            case _ =>
-          }
-        case Success(s) =>
-      }) should be(msgCepIsEmpty)
+      (cepValidator.validate(locale, domain, "", params, Map(CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid)) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong")) should be(s"message___${CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available")
+
+      (cepValidator.validate(locale, domain, "01414-00", params, Map(CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty)) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong")) should be(s"message___${CEP_VALIDATOR_CEP_IS_NOT_VALID}___is.not.vailable")
 
     }
 

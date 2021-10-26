@@ -1,12 +1,13 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api._
+import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
 import java.util.Locale
 
-class RutValidator extends ValidatorApi[String] with ValidatorSupport {
+class RutValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
   override def validate(locale: Locale, domain: String, rut: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (rut.trim.nonEmpty) {
@@ -18,13 +19,13 @@ class RutValidator extends ValidatorApi[String] with ValidatorSupport {
         if (isValidContraDv(base, dig)) {
           s"$base-$dig".successNel
         } else {
-          messages("rut.validator.rut.is.not.valid").failureNel
+          messages.getOrElse(RUT_VALIDATOR_RUT_IS_NOT_VALID, s"message___${RUT_VALIDATOR_RUT_IS_NOT_VALID}___is.not.available").failureNel
         }
       } else {
-        messages("rut.validator.rut.is.not.valid").failureNel
+        messages.getOrElse(RUT_VALIDATOR_RUT_IS_NOT_VALID, s"message___${RUT_VALIDATOR_RUT_IS_NOT_VALID}___is.not.available").failureNel
       }
     } else {
-      messages("rut.validator.rut.is.empty").failureNel
+      messages.getOrElse(RUT_VALIDATOR_RUT_IS_EMPTY, s"message___${RUT_VALIDATOR_RUT_IS_EMPTY}___is.not.available").failureNel
     }
 
   private lazy val k = "k"

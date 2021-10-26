@@ -1,29 +1,30 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api._
+import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
 import java.util.Locale
 
-class DateValidator extends ValidatorApi[String] with ValidatorSupport {
+class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  val DATE_REGEX = "DATE_REGEX"
+  val datePattern = """\s*(\d{4}-\d{2}-\d{2})\s*"""
 
   override def validate(locale: Locale, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (dateTime.trim.isEmpty) {
       if (mandatory) {
-        messages("date.validator.date.is.empty").failureNel
+        messages.getOrElse(DATE_VALIDATOR_DATE_IS_EMPTY, s"message___${DATE_VALIDATOR_DATE_IS_EMPTY}___is.not.available").failureNel
       } else {
         "".successNel
       }
     } else {
 
-      val dateRegex = params.getOrElse(DATE_REGEX, """\s*(\d{4}-\d{2}-\d{2})\s*""").r
+      val dateRegex = params.getOrElse("DATE_REGEX", datePattern).r
 
       dateTime match {
         case dateRegex(date) => s"$date".successNel
-        case _ => messages("date.validator.date.is.not.valid").failureNel
+        case _ => messages.getOrElse(DATE_VALIDATOR_DATE_IS_NOT_VALID, s"message___${DATE_VALIDATOR_DATE_IS_NOT_VALID}___is.not.available").failureNel
       }
     }
 

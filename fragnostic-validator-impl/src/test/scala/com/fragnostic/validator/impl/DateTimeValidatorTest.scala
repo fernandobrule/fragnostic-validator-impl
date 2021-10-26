@@ -9,8 +9,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val domain = "DateTime"
     val messages = Map(
-      "date.time.validator.date.time.is.empty" -> msgDateTimeIsEmpty,
-      "date.time.validator.date.time.is.not.valid" -> msgDateTimeIsNotValid //
+      DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY -> msgDateTimeIsEmpty,
+      DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID -> msgDateTimeIsNotValid //
     )
 
     it("Can Validate Empty DateTime") {
@@ -23,7 +23,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       list should not be Nil
       list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, "date.time.validator.date.time.is.empty"))
+      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
     }
 
     it("Can Validate Wrong DateTime") {
@@ -36,7 +36,7 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       list should not be Nil
       list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, "date.time.validator.date.time.is.not.valid"))
+      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
     }
 
     it("Can Validate Right DateTime Case 1") {

@@ -6,10 +6,6 @@ import scalaz.{ Failure, NonEmptyList, Success }
 class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   val cpfValidatorParams: Map[String, String] = Map("minLength" -> "11", "maxLength" -> "22")
-  val messages = Map(
-    "text.boundaries.validator.text.is.empty" -> msgCpfIsEmpty,
-    "cpf.validator.cpf.is.not.valid" -> msgCpfIsNotValid //
-  )
 
   describe("Cpf Validator Test") {
 
@@ -27,7 +23,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
       )
 
       cpfs foreach (cpf => {
-        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, messages)
+        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
         validation.isSuccess should be(true)
         validation.toList.head should be(cpf)
       } //
@@ -38,7 +34,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Empty CPF") {
 
       val cpf = "  "
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, messages)
+      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
       validation.isFailure should be(true)
 
       (validation match {
@@ -54,7 +50,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Black List") {
 
       cpfValidator.BLACKLIST foreach (cpf => {
-        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, messages)
+        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
         validation.isFailure should be(true)
 
         (validation match {
@@ -72,7 +68,7 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val cpf = "uyuyiuyiu89789"
 
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, messages)
+      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
       validation.isFailure should be(true)
 
       (validation match {

@@ -1,6 +1,6 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.{ VALIDATOR_COUNTRY_CODE, VALIDATOR_TEXT_EMPTY, VALIDATOR_TEXT_NOT_VALID, Validated }
+import com.fragnostic.validator.api.Validated
 import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.{ Failure, NonEmptyList, Success }
 
@@ -14,12 +14,12 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Mobile Number Too Long") {
 
       val mobile: String = "353453452345678901234567"
-      val msgMobileIsTooLong: String = validatorI18n.getFormattedString(locale, "mobile.validator.mobile.is.too.long", List(mobile.length.toString, mobileValidatorParamMaxLength))
+      val msgMobileIsTooLong: String = validatorI18n.getFormattedString(locale, MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, List(mobile.length.toString, mobileValidatorParamMaxLength))
       val mobileValidatorMessages: Map[String, String] = Map(
-        VALIDATOR_TEXT_EMPTY -> msgMobileIsEmpty,
-        VALIDATOR_TEXT_NOT_VALID -> msgMobileIsNotValid,
-        "text.boundaries.validator.text.is.too.long" -> msgMobileIsTooLong,
-        VALIDATOR_COUNTRY_CODE -> msgMobileWithoutCountryCode //
+        MOBILE_VALIDATOR_MOBILE_IS_EMPTY -> msgMobileIsEmpty,
+        MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID -> msgMobileIsNotValid,
+        MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG -> msgMobileIsTooLong,
+        MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE -> msgMobileWithoutCountryCode //
       )
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
