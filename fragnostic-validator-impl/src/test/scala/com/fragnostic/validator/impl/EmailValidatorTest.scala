@@ -55,10 +55,10 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     }
 
-    it("Can Validate Lengthier Email") {
+    it("Can Validate Email Too Long") {
 
       val email = "sdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsa@sdfasdfas.com"
-      val messageLengthier = validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG)
+      val messageEmailTooLong = validatorI18n.getString(locale, EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG)
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
       validation.isFailure should be(true)
@@ -70,7 +70,7 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
             case _ =>
           }
         case Success(s) =>
-      }) should be(messageLengthier)
+      }) should be(messageEmailTooLong)
 
     }
 

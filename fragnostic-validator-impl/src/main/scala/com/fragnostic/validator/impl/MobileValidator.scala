@@ -11,6 +11,14 @@ import java.util.Locale
 
 class MobileValidator extends ValidatorApi[String] with ValidatorSupport with MobileFormatter with TypeBooleanHandler with TypeListHandler with ValidatorMessagesKeys {
 
+  private def textBoundariesValidator = new TextBoundariesValidator
+
+  private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
+  )
+
   private[this] val logger: Logger = LoggerFactory.getLogger("MobileValidator")
 
   private val validChars = List(
@@ -21,12 +29,10 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
     '\u0029' //
   )
 
-  private def textBoundariesValidator = new TextBoundariesValidator
-
   private def isValid(c: Char): Boolean =
     c.isDigit || validChars.contains(c)
 
-  private def hasToFormat2(mobile: String, hasToFormat: Boolean): Validated[String] =
+  private def hasToFormatApply(mobile: String, hasToFormat: Boolean): Validated[String] =
     if (hasToFormat) {
       format(mobile).successNel
     } else {
@@ -36,7 +42,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
   private def validateCountryCode(mobile: String, countryCodesWhiteList: List[String], hasToFormat: Boolean, errorMessage: String): Validated[String] = {
     val code: String = mobile.substring(0, 2)
     if (countryCodesWhiteList.contains(code)) {
-      hasToFormat2(mobile, hasToFormat)
+      hasToFormatApply(mobile, hasToFormat)
     } else {
       errorMessage.failureNel
     }
@@ -67,7 +73,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
         }
       } else {
         val mobile = numbers.mkString("")
-        textBoundariesValidator.validate(locale, domain, mobile, params, messages, mandatory) fold (
+        textBoundariesValidator.validate(locale, domain, mobile, params, textBoundariesValidatorMessages(messages), mandatory) fold (
           error => error.head.failureNel,
           mobile => {
             (for {
@@ -77,7 +83,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
               if (needsValidateCountryCode) {
                 validateCountryCode(locale, mobile, hasToFormat, domain, params, messages)
               } else {
-                hasToFormat2(mobile, hasToFormat)
+                hasToFormatApply(mobile, hasToFormat)
               }
             }).fold(
               error => {

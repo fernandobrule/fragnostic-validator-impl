@@ -1,5 +1,8 @@
 package com.fragnostic.validator.support
 
+import com.fragnostic.validator.api.Validated
+import scalaz.Scalaz.ToValidationOps
+
 trait ValidatorSupport {
 
   def argsAreValid(numberExpected: Int, messages: Map[String, String]): Boolean = numberExpected == messages.size
@@ -42,5 +45,11 @@ trait ValidatorSupport {
     } else {
       Map.empty[String, String]
     }
+
+  def getMessage(key: String, messages: Map[String, String]): String =
+    messages.getOrElse(key, s"message___${key}___is.not.available")
+
+  def getFailureNel(key: String, messages: Map[String, String]): Validated[String] =
+    getMessage(key, messages).failureNel
 
 }

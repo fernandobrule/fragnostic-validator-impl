@@ -14,7 +14,7 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Mobile Number Too Long") {
 
       val mobile: String = "353453452345678901234567"
-      val msgMobileIsTooLong: String = validatorI18n.getFormattedString(locale, MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, List(mobile.length.toString, mobileValidatorParamMaxLength))
+      val msgMobileIsTooLong: String = validatorI18n.getString(locale, MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG)
       val mobileValidatorMessages: Map[String, String] = Map(
         MOBILE_VALIDATOR_MOBILE_IS_EMPTY -> msgMobileIsEmpty,
         MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID -> msgMobileIsNotValid,

@@ -9,8 +9,8 @@ class UrlValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     val domain = "URL"
     val messages = Map(
-      "url.validator.url.is.empty" -> msgUrlIsEmpty,
-      "url.validator.url.is.not.valid" -> msgUrlIsNotValid //
+      URL_VALIDATOR_URL_IS_EMPTY -> msgUrlIsEmpty,
+      URL_VALIDATOR_URL_IS_NOT_VALID -> msgUrlIsNotValid //
     )
 
     it("Can Validate URL") {

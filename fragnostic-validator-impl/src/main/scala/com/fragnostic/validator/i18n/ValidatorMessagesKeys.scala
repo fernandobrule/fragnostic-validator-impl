@@ -27,6 +27,7 @@ trait ValidatorMessagesKeys {
   val EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID = "email.validator.email.is.not.valid"
 
   val MOBILE_VALIDATOR_MOBILE_IS_EMPTY = "mobile.validator.mobile.is.empty"
+  val MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT = "mobile.validator.mobile.is.too.short"
   val MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG = "mobile.validator.mobile.is.too.long"
   val MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE = "mobile.validator.mobile.without.country.code"
   val MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID = "mobile.validator.mobile.is.not.valid"

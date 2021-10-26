@@ -82,9 +82,6 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with Befor
     MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE -> msgMobileWithoutCountryCode //
   )
 
-  //val msgTextIsEmpty: String = validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY)
-  //val msgTextIsLengthier: String = validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long")
-
   //
   // Mobile Validator
   val mobileValidatorParamMaxLength: String = "22"

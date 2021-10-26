@@ -20,7 +20,7 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
       val number = 3.5f
       val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG, List(domain, number.toString, minValue.toString))
       val messages: Map[String, String] = Map(
-        NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_LONG -> msgTooShort //
+        NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_FLOAT_IS_TOO_SHORT -> msgTooShort //
       )
 
       val nel = numberFloatBoundariesValidator.validate(locale, domain, number, params, messages) fold (

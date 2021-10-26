@@ -11,7 +11,7 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
     val validatorI18n = new ValidatorI18n()
     val domain = "TextMaxLength"
     val messages: Map[String, String] = Map(
-      "text.max.length.validator.text.is.too.long" -> validatorI18n.getString(locale, "text.max.length.validator.text.is.too.long"))
+      TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG))
 
     it("Can Validate Text Max Length That Compliant") {
 
@@ -29,9 +29,9 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
       val maxLength = "5"
       val params: Map[String, String] = Map("maxLength" -> maxLength)
       val text = "abcdef"
-      val msgTooLong = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(text.length.toString, maxLength))
+      val msgTooLong = validatorI18n.getFormattedString(locale, TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG, List(text.length.toString, maxLength))
       val messages: Map[String, String] = Map(
-        "text.max.length.validator.text.is.too.long" -> msgTooLong //
+        TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG -> msgTooLong //
       )
 
       val nel = textMaxLengthValidator.validate(locale, domain, text, params, messages) fold (

@@ -12,7 +12,7 @@ class TextBoundariesValidator extends ValidatorApi[String] with ValidatorSupport
   override def validate(locale: Locale, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[String] =
     if (text.trim.isEmpty) {
       if (mandatory) {
-        messages.getOrElse(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY, s"message___${TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY}___is.not.available").failureNel
+        getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY, messages)
       } else {
         "".successNel
       }
