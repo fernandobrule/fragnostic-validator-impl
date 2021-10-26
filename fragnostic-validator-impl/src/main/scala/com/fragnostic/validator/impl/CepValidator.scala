@@ -14,7 +14,7 @@ class CepValidator extends ValidatorApi[String] with ValidatorSupport with TypeB
   override def validate(locale: Locale, domain: String, cep: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     if (cep.trim.isEmpty) {
       if (mandatory) {
-        messages.getOrElse(CEP_VALIDATOR_CEP_IS_EMPTY, s"message___${CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available").failureNel
+        getFailureNel(CEP_VALIDATOR_CEP_IS_EMPTY, messages)
       } else {
         "".successNel
       }

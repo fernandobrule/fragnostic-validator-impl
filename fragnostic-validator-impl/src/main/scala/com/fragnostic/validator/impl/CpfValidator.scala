@@ -16,9 +16,9 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
   private def textBoundariesValidator = new TextBoundariesValidator
 
   private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> messages.getOrElse(CPF_VALIDATOR_CPF_IS_EMPTY, s"message___${CPF_VALIDATOR_CPF_IS_EMPTY}___is.not.available"),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> messages.getOrElse(CPF_VALIDATOR_CPF_IS_TOO_SHORT, s"message___${CPF_VALIDATOR_CPF_IS_TOO_SHORT}___is.not.available"),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> messages.getOrElse(CPF_VALIDATOR_CPF_IS_TOO_LONG, s"message___${CPF_VALIDATOR_CPF_IS_TOO_LONG}___is.not.available") //
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(CPF_VALIDATOR_CPF_IS_EMPTY, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
@@ -28,7 +28,7 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
         if (cpf.trim.isEmpty && !mandatory) {
           cpf.successNel
         } else if (!isValid(cpf.trim)) {
-          messages.getOrElse(CPF_VALIDATOR_CPF_IS_NOT_VALID, s"message___${CPF_VALIDATOR_CPF_IS_NOT_VALID}___is.not.available").failureNel
+          getFailureNel(CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
         } else {
           cpf.successNel
         })

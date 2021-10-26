@@ -14,7 +14,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
   override def validate(locale: Locale, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (dateTime.trim.isEmpty) {
       if (mandatory) {
-        messages.getOrElse(DATE_VALIDATOR_DATE_IS_EMPTY, s"message___${DATE_VALIDATOR_DATE_IS_EMPTY}___is.not.available").failureNel
+        getFailureNel(DATE_VALIDATOR_DATE_IS_EMPTY, messages)
       } else {
         "".successNel
       }
@@ -24,7 +24,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
 
       dateTime match {
         case dateRegex(date) => s"$date".successNel
-        case _ => messages.getOrElse(DATE_VALIDATOR_DATE_IS_NOT_VALID, s"message___${DATE_VALIDATOR_DATE_IS_NOT_VALID}___is.not.available").failureNel
+        case _ => getFailureNel(DATE_VALIDATOR_DATE_IS_NOT_VALID, messages)
       }
     }
 

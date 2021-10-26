@@ -21,7 +21,7 @@ class TextMaxLengthValidator extends ValidatorApi[String] with ValidatorSupport 
       maxLength => {
         val textLength = text.length
         if (textLength > maxLength) {
-          messages.getOrElse(TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG, s"message___${TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG}___is.not.available").failureNel
+          getFailureNel(TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG, messages)
         } else {
           text.trim.successNel
         }

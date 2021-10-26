@@ -1,7 +1,7 @@
 package com.fragnostic.validator.support
 
 import com.fragnostic.validator.api.Validated
-import scalaz.Scalaz.ToValidationOps
+import scalaz.Scalaz._
 
 trait ValidatorSupport {
 

@@ -17,9 +17,9 @@ class NumberIntBoundariesValidator extends ValidatorApi[Int] with ValidatorSuppo
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              messages.getOrElse(NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT, s"message___${NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT}___is.not.available").failureNel
+              getMessage(NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              messages.getOrElse(NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_LONG, s"message___${NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_LONG}___is.not.available").failureNel
+              getMessage(NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }

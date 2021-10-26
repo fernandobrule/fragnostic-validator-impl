@@ -12,9 +12,9 @@ class EmailValidator extends ValidatorApi[String] with ValidatorSupport with Ema
   private def textBoundariesValidator = new TextBoundariesValidator
 
   private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> messages.getOrElse(EMAIL_VALIDATOR_EMAIL_IS_EMPTY, s"message___${EMAIL_VALIDATOR_EMAIL_IS_EMPTY}___is.not.available"),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> messages.getOrElse(EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, s"message___${EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT}___is.not.available"),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> messages.getOrElse(EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, s"message___${EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG}___is.not.available") //
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(EMAIL_VALIDATOR_EMAIL_IS_EMPTY, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> getMessage(EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> getMessage(EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, email: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
@@ -24,7 +24,7 @@ class EmailValidator extends ValidatorApi[String] with ValidatorSupport with Ema
         if (!mandatory && email.trim.isEmpty) {
           "".successNel
         } else {
-          validateByRfc2822Validator(email, messages.getOrElse(EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID, s"message___${EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID}___is.not.available"))
+          validateByRfc2822Validator(email, getMessage(EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID, messages))
         } //
     )
 

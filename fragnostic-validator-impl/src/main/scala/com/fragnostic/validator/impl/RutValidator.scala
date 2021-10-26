@@ -19,13 +19,13 @@ class RutValidator extends ValidatorApi[String] with ValidatorSupport with Valid
         if (isValidContraDv(base, dig)) {
           s"$base-$dig".successNel
         } else {
-          messages.getOrElse(RUT_VALIDATOR_RUT_IS_NOT_VALID, s"message___${RUT_VALIDATOR_RUT_IS_NOT_VALID}___is.not.available").failureNel
+          getFailureNel(RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
         }
       } else {
-        messages.getOrElse(RUT_VALIDATOR_RUT_IS_NOT_VALID, s"message___${RUT_VALIDATOR_RUT_IS_NOT_VALID}___is.not.available").failureNel
+        getFailureNel(RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
       }
     } else {
-      messages.getOrElse(RUT_VALIDATOR_RUT_IS_EMPTY, s"message___${RUT_VALIDATOR_RUT_IS_EMPTY}___is.not.available").failureNel
+      getFailureNel(RUT_VALIDATOR_RUT_IS_EMPTY, messages)
     }
 
   private lazy val k = "k"

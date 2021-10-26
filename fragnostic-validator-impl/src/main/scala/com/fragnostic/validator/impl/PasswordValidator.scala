@@ -43,7 +43,7 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
 
   override def validate(locale: Locale, domain: String, password: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (password.trim.isEmpty) {
-      messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY, s"message___${PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY}___is.not.available").failureNel
+      getFailureNel(PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY, messages)
     } else {
       handleShort("minLength", domain, params) fold (
         error => error.failureNel,
@@ -51,18 +51,18 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
           error => error.failureNel,
           maxLength =>
             if (password.trim.length < minLength) {
-              messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT, s"message___${PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT}___is.not.available").failureNel
+              getFailureNel(PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT, messages)
             } else if (password.trim.length > maxLength) {
-              messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG, s"message___${PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG}___is.not.available").failureNel
+              getFailureNel(PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG, messages)
             } else {
               containsAtLeastOneUppercaseLetter(password) fold (
-                error => messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER, s"message___${PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER}___is.not.available").failureNel,
+                error => getFailureNel(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER, messages),
                 password => containsAtLeastOneLowercaseLetter(password) fold (
-                  error => messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER, s"message___${PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER}___is.not.available").failureNel,
+                  error => getFailureNel(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER, messages),
                   password => containsAtLeastOneNumber(password) fold (
-                    error => messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER, s"message___${PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER}___is.not.available").failureNel,
+                    error => getFailureNel(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER, messages),
                     password => containsAtLeastOneSymbol(password) fold (
-                      error => messages.getOrElse(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL, s"message___${PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL}___is.not.available").failureNel,
+                      error => getFailureNel(PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL, messages),
                       password => password.trim.successNel) //
                   ) //
                 ) //

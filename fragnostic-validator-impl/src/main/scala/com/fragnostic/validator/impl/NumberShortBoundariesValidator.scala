@@ -17,9 +17,9 @@ class NumberShortBoundariesValidator extends ValidatorApi[Short] with ValidatorS
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              messages.getOrElse(NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_SHORT, s"message___${NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_SHORT}___is.not.available").failureNel
+              getMessage(NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              messages.getOrElse(NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_LONG, s"message___${NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_LONG}___is.not.available").failureNel
+              getMessage(NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_SHORT_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }
