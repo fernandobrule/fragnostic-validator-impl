@@ -17,9 +17,9 @@ class NumberLongBoundariesValidator extends ValidatorApi[Long] with ValidatorSup
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              getMessage(NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT, messages).failureNel
+              getMessage(NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              getMessage(NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG, messages).failureNel
+              getMessage(NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }

@@ -11,8 +11,8 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
 
   val datePattern = """\s*(\d{4}-\d{2}-\d{2})\s*"""
 
-  override def validate(locale: Locale, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    if (dateTime.trim.isEmpty) {
+  override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
+    if (date.trim.isEmpty) {
       if (mandatory) {
         getFailureNel(DATE_VALIDATOR_DATE_IS_EMPTY, messages)
       } else {
@@ -22,7 +22,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
 
       val dateRegex = params.getOrElse("DATE_REGEX", datePattern).r
 
-      dateTime match {
+      date match {
         case dateRegex(date) => s"$date".successNel
         case _ => getFailureNel(DATE_VALIDATOR_DATE_IS_NOT_VALID, messages)
       }

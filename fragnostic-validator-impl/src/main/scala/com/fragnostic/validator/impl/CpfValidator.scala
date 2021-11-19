@@ -17,8 +17,8 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
 
   private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
     TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(CPF_VALIDATOR_CPF_IS_EMPTY, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =

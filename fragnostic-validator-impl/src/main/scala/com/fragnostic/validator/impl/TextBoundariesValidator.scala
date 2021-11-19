@@ -25,9 +25,9 @@ class TextBoundariesValidator extends ValidatorApi[String] with ValidatorSupport
             minLength => {
               val textLength = text.length
               if (textLength < minLength) {
-                getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT, messages)
+                getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT, messages)
               } else if (textLength > maxLength) {
-                getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG, messages)
+                getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG, messages)
               } else {
                 text.trim.successNel
               }

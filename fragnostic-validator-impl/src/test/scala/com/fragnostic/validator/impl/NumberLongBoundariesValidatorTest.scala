@@ -12,8 +12,8 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
   val maxValue: Long = 15.3.toLong
 
   val messages: Map[String, String] = Map(
-    NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT),
-    NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG) //
+    NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT),
+    NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG) //
   )
 
   val params: Map[String, String] = Map("minValue" -> minValue.toString, "maxValue" -> maxValue.toString)
@@ -31,7 +31,7 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
+      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
     }
 
     it("Can Validate Number Too Long") {
@@ -45,14 +45,14 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
+      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
     }
 
     it("Can Validate Message for Too Short does not exists") {
 
       val number = 5.0.toLong
       val messages: Map[String, String] = Map(
-        NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG) //
+        NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG) //
       )
 
       val nel = numberLongBoundariesValidator.validate(locale, domain, number, params, messages) fold (
@@ -62,14 +62,14 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT}___is.not.available")
+      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT}___is.not.available")
     }
 
     it("Can Validate Message for Too Long does not exists") {
 
       val number = 45.0.toLong
       val messages: Map[String, String] = Map(
-        NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_SHORT) //
+        NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT -> validatorI18n.getString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT) //
       )
 
       val nel = numberLongBoundariesValidator.validate(locale, domain, number, params, messages) fold (
@@ -79,7 +79,7 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       nel should not be Nil
       nel.size should be(1)
-      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_LONG_IS_TOO_LONG}___is.not.available")
+      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG}___is.not.available")
     }
 
   }

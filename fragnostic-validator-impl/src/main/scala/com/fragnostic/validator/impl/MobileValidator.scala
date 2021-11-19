@@ -4,7 +4,6 @@ import com.fragnostic.formatter.support.MobileFormatter
 import com.fragnostic.validator.api._
 import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.{ TypeBooleanHandler, TypeListHandler, ValidatorSupport }
-import org.slf4j.{ Logger, LoggerFactory }
 import scalaz.Scalaz._
 
 import java.util.Locale
@@ -15,11 +14,9 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
 
   private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
     TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_SHORT -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_BOUNDARIES_IS_TOO_LONG -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
+    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
   )
-
-  private[this] val logger: Logger = LoggerFactory.getLogger("MobileValidator")
 
   private val validChars = List(
     '\u002d',
@@ -50,10 +47,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
 
   private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] =
     handleList("countryCodesWhiteList", domain, params) fold (
-      error => {
-        logger.error(s"validate() - $error")
-        error.failureNel
-      },
+      error => error.failureNel,
       countryCodesWhiteList => {
         validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE))
       } //
@@ -86,10 +80,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
                 hasToFormatApply(mobile, hasToFormat)
               }
             }).fold(
-              error => {
-                logger.error(s"validate() - $error")
-                error.failureNel
-              },
+              error => error.failureNel,
               ans => ans //
             )
           })

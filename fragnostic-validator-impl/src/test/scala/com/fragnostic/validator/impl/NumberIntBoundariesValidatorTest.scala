@@ -18,9 +18,9 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Number") {
 
       val number: Int = 100
-      val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT, List(domain, number.toString, minValue.toString))
+      val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString))
       val messages: Map[String, String] = Map(
-        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT -> msgTooShort //
+        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT -> msgTooShort //
       )
 
       val validatedNumber: Int = numberIntBoundariesValidator.validate(locale, domain, number, params, messages) fold (
@@ -34,9 +34,9 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Number Too Short") {
 
       val number: Int = 35
-      val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT, List(domain, number.toString, minValue.toString))
+      val msgTooShort = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString))
       val messages: Map[String, String] = Map(
-        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_SHORT -> msgTooShort //
+        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT -> msgTooShort //
       )
 
       val nel = numberIntBoundariesValidator.validate(locale, domain, number, params, messages) fold (
@@ -51,9 +51,9 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Number Too Long") {
 
       val number: Int = 450
-      val msgTooLong = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_LONG, List(domain, number.toString, maxValue.toString))
+      val msgTooLong = validatorI18n.getFormattedString(locale, NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString))
       val messages: Map[String, String] = Map(
-        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_INT_IS_TOO_LONG -> msgTooLong //
+        NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG -> msgTooLong //
       )
 
       val nel = numberIntBoundariesValidator.validate(locale, domain, number, params, messages) fold (
