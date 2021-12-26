@@ -21,41 +21,41 @@ class UrlValidatorTest extends AgnosticLifeCycleValidatorTest {
       {
         val url = "http://google.com   "
         val validation: Validated[String] = urlValidator.validate(locale, domain, url, params, messages)
-        validation.isSuccess should be(true)
-        validation.toList.head should be(url.trim)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(url.trim)
       }
 
       {
         val url = "    http://www.google.com"
         val validation: Validated[String] = urlValidator.validate(locale, domain, url, params, messages)
-        validation.isSuccess should be(true)
-        validation.toList.head should be(url.trim)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(url.trim)
       }
 
       {
         val url = "   www.google.com    "
         val validation: Validated[String] = urlValidator.validate(locale, domain, url, params, messages)
-        validation.isSuccess should be(true)
-        validation.toList.head should be(url.trim)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(url.trim)
       }
 
       {
         val url = "google.com"
         val validation: Validated[String] = urlValidator.validate(locale, domain, url, params, messages)
-        validation.isFailure should be(true)
+        assertResult(validation.isFailure)(true)
       }
 
       val validation: Validated[String] = urlValidator.validate(locale, domain, "", params, messages)
 
-      validation.isFailure should be(true)
-      (validation match {
+      assertResult(validation.isFailure)(true)
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgUrlIsEmpty)
+      }))(msgUrlIsEmpty)
 
     }
 

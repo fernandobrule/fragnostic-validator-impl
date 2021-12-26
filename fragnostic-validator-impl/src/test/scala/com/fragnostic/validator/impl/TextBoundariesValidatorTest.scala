@@ -27,10 +27,28 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY))
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY))
 
+    }
+
+    it("Can Validate Null Text") {
+
+      val text = null
+      val messages: Map[String, String] = Map(
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
+        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
+      )
+
+      val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
+        error => error,
+        mistake => NonEmptyList((): Unit) //
+      )
+
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL))
     }
 
     it("Can Validate Not Mandatory Empty Text") {
@@ -44,7 +62,7 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
       )
 
       val validation = textBoundariesValidator.validate(locale, domain, text, params, messages, mandatory)
-      validation.isSuccess should be(true)
+      assertResult(validation.isSuccess)(true)
     }
 
     it("Can Validate Text Too Short") {
@@ -62,9 +80,8 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooShort)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooShort)
     }
 
     it("Can Validate Text Too Long") {
@@ -81,9 +98,9 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         error => error,
         mistake => NonEmptyList((): Unit))
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooLong)
+      // nel should not be Nil
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooLong)
     }
 
   }

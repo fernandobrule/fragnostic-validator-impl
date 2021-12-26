@@ -57,6 +57,7 @@ trait ValidatorMessagesKeys {
   val RUT_VALIDATOR_RUT_IS_EMPTY = "rut.validator.rut.is.empty"
 
   val TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY = "text.boundaries.validator.text.is.empty"
+  val TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL = "text.boundaries.validator.text.is.null"
   val TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT = "text.boundaries.validator.text.is.too.short"
   val TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG = "text.boundaries.validator.text.is.too.long"
 

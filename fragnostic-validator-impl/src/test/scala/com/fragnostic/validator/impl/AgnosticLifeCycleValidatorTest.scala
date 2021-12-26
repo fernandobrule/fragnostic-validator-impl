@@ -5,11 +5,10 @@ import com.fragnostic.validator.i18n.{ ValidatorI18n, ValidatorMessagesKeys }
 import com.fragnostic.validator.support.ValidatorSupport
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funspec.AnyFunSpec
-import org.scalatest.matchers.should.Matchers
 
 import java.util.Locale
 
-class AgnosticLifeCycleValidatorTest extends AnyFunSpec with Matchers with BeforeAndAfterEach with ValidatorSupport with ValidatorMessagesKeys {
+class AgnosticLifeCycleValidatorTest extends AnyFunSpec with BeforeAndAfterEach with ValidatorSupport with ValidatorMessagesKeys {
 
   def validatorI18n: ResourceI18n = new ValidatorI18n
 

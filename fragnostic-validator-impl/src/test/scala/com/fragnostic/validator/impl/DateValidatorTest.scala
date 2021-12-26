@@ -19,11 +19,11 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val list = dateValidator.validate(locale, domain, date, paramsEmpty, messages) fold (
         errors => errors,
-        signupReq => NonEmptyList((): Unit))
+        signupReq => NonEmptyList((): Unit) //
+      )
 
-      list should not be Nil
-      list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
+      assertResult(list.size)(1)
+      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
     }
 
     it("Can Validate Wrong Date") {
@@ -34,9 +34,8 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
-      list should not be Nil
-      list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
+      assertResult(list.size)(1)
+      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
     }
 
     it("Can Validate Right Date Case 1") {
@@ -44,8 +43,8 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
       val date = "2020-02-03"
 
       val validation: Validated[String] = dateValidator.validate(locale, domain, date, paramsEmpty, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be("2020-02-03")
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)("2020-02-03")
     }
 
     it("Can Validate Right Date Case 2") {
@@ -55,8 +54,8 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
       val date = "   03-02-2020     "
 
       val validation: Validated[String] = dateValidator.validate(locale, domain, date, params, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be("03-02-2020")
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)("03-02-2020")
     }
 
   }

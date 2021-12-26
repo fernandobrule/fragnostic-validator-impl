@@ -13,7 +13,7 @@ class EmailNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages, mandatory)
 
-      validation.isSuccess should be(true)
+      assertResult(validation.isSuccess)(true)
 
     }
 

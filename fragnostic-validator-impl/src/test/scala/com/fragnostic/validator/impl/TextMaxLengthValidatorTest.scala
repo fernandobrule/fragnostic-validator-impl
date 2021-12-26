@@ -19,8 +19,8 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
       val params: Map[String, String] = Map("maxLength" -> "5")
       val text = "abcde"
       val validation: Validated[String] = textMaxLengthValidator.validate(locale, domain, text, params, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be(text)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(text)
     }
 
     it("Can Validate Text Max Length That Does Not Compliant") {
@@ -39,9 +39,8 @@ class TextMaxLengthValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooLong)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooLong)
     }
 
   }

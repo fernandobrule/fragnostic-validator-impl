@@ -48,9 +48,9 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isSuccess should be(true)
+      assertResult(validation.isSuccess)(true)
 
-      validation.toList.head should be(password)
+      assertResult(validation.toList.head)(password)
 
     }
 
@@ -60,16 +60,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordMustToHaveAtLeastOneUppercaseLetter)
+      }))(msgPasswordMustToHaveAtLeastOneUppercaseLetter)
 
     }
 
@@ -79,16 +79,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordMustToHaveAtLeastOneLowercaseLetter)
+      }))(msgPasswordMustToHaveAtLeastOneLowercaseLetter)
 
     }
 
@@ -98,16 +98,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordMustToHaveAtLeastOneNumber)
+      }))(msgPasswordMustToHaveAtLeastOneNumber)
 
     }
 
@@ -117,16 +117,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordMustToHaveAtLeastOneSymbol)
+      }))(msgPasswordMustToHaveAtLeastOneSymbol)
 
     }
 
@@ -136,16 +136,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
       val passwordLength: String = "0"
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(passwordLength, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordIsEmpty)
+      }))(msgPasswordIsEmpty)
 
     }
 
@@ -155,16 +155,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordIsTooLong(password.length.toString, passwordValidatorMaxLength))
+      }))(msgPasswordIsTooLong(password.length.toString, passwordValidatorMaxLength))
 
     }
 
@@ -174,16 +174,16 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = passwordValidator.validate(locale, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgPasswordIsTooShort)
+      }))(msgPasswordIsTooShort)
 
     }
 

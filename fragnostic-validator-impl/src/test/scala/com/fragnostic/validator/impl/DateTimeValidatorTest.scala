@@ -21,9 +21,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
-      list should not be Nil
-      list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
+      assertResult(list.size)(1)
+      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
     }
 
     it("Can Validate Wrong DateTime") {
@@ -34,9 +33,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
         errors => errors,
         signupReq => NonEmptyList((): Unit))
 
-      list should not be Nil
-      list.size should be(1)
-      list.head should be(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
+      assertResult(list.size)(1)
+      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
     }
 
     it("Can Validate Right DateTime Case 1") {
@@ -44,8 +42,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
       val dateTime = "2020-02-03 23:50:03"
 
       val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be("2020-02-03 23:50:03")
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)("2020-02-03 23:50:03")
     }
 
     it("Can Validate Right DateTime Case 2") {
@@ -53,8 +51,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
       val dateTime = "   2020-02-03     23:50:03   "
 
       val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be("2020-02-03 23:50:03")
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)("2020-02-03 23:50:03")
     }
 
     it("Can Validate Right DateTime Case 3") {
@@ -62,8 +60,8 @@ class DateTimeValidatorTest extends AgnosticLifeCycleValidatorTest {
       val dateTime = "2020-02-0323:50:03"
 
       val validation: Validated[String] = dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, messages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be("2020-02-03 23:50:03")
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)("2020-02-03 23:50:03")
     }
 
   }

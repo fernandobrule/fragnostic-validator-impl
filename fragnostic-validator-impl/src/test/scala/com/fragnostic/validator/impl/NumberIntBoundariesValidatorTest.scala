@@ -28,7 +28,7 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         number => number //
       )
 
-      validatedNumber should be(number)
+      assertResult(validatedNumber)(number)
     }
 
     it("Can Validate Number Too Short") {
@@ -43,9 +43,8 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         error => error,
         mistake => NonEmptyList((): Unit))
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooShort)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooShort)
     }
 
     it("Can Validate Number Too Long") {
@@ -60,9 +59,8 @@ class NumberIntBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         error => error,
         mistake => NonEmptyList((): Unit))
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooLong)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooLong)
     }
 
   }

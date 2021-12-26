@@ -87,8 +87,7 @@ lazy val frgValidatorImpl = Project(
       emailRfc2822Validator,
       javaxMail,
       logbackClassic,
-      scalactic,
-      scalatest,
+      scalatestFunSpec,
       scalazCore
     ),
     description := "fragnostic validator impl"

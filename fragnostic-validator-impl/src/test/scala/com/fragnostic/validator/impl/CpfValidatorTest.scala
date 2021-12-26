@@ -24,8 +24,8 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       cpfs foreach (cpf => {
         val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
-        validation.isSuccess should be(true)
-        validation.toList.head should be(cpf)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(cpf)
       } //
       )
 
@@ -35,32 +35,32 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val cpf = "  "
       val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgCpfIsEmpty)
+      }))(msgCpfIsEmpty)
     }
 
     it("Can Validate Black List") {
 
       cpfValidator.BLACKLIST foreach (cpf => {
         val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
-        validation.isFailure should be(true)
+        assertResult(validation.isFailure)(true)
 
-        (validation match {
+        assertResult((validation match {
           case Failure(f) =>
             f match {
               case NonEmptyList(a, value) => a
               case _ =>
             }
           case Success(s) =>
-        }) should be(msgCpfIsNotValid)
+        }))(msgCpfIsNotValid)
       })
     }
 
@@ -69,16 +69,16 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
       val cpf = "uyuyiuyiu89789"
 
       val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgCpfIsNotValid)
+      }))(msgCpfIsNotValid)
     }
 
   }

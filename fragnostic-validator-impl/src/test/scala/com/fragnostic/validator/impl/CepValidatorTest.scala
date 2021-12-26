@@ -20,21 +20,22 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       list foreach (cep => {
         val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, messages)
-        validation.isSuccess should be(true)
-        validation.toList.head should be(cep)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(cep)
       })
 
-      (cepValidator.validate(locale, domain, "", params, messages) fold (
+      assertResult((cepValidator.validate(locale, domain, "", params, messages) fold (
         errors => errors.head,
-        cep => "ooooops, this is wrong")) should be(msgCepIsEmpty)
+        cep => "ooooops, this is wrong") //
+      ))(msgCepIsEmpty)
 
-      (cepValidator.validate(locale, domain, "", params, Map(CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid)) fold (
+      assertResult((cepValidator.validate(locale, domain, "", params, Map(CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid)) fold (
         errors => errors.head,
-        cep => "ooooops, this is wrong")) should be(s"message___${CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available")
+        cep => "ooooops, this is wrong")))(s"message___${CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available")
 
-      (cepValidator.validate(locale, domain, "01414-00", params, Map(CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty)) fold (
+      assertResult((cepValidator.validate(locale, domain, "01414-00", params, Map(CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty)) fold (
         errors => errors.head,
-        cep => "ooooops, this is wrong")) should be(s"message___${CEP_VALIDATOR_CEP_IS_NOT_VALID}___is.not.vailable")
+        cep => "ooooops, this is wrong")))(s"message___${CEP_VALIDATOR_CEP_IS_NOT_VALID}___is.not.vailable")
 
     }
 

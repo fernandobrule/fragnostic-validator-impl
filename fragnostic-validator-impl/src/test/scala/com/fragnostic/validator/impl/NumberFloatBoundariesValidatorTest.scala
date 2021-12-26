@@ -28,9 +28,8 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooShort)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooShort)
     }
 
     it("Can Validate Number Too Long") {
@@ -45,9 +44,8 @@ class NumberFloatBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
         error => error,
         mistake => NonEmptyList((): Unit))
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(msgTooLong)
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(msgTooLong)
     }
 
   }

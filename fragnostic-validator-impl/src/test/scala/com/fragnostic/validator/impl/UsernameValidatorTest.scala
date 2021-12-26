@@ -28,8 +28,8 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
       )
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
-      validation.isSuccess should be(true)
-      validation.toList.head should be(username)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(username)
     }
 
     it("Can Validate Username Empty") {
@@ -43,9 +43,9 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY) should be(validation match {
+      assertResult(validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY))(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -65,7 +65,7 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isSuccess should be(true)
+      assertResult(validation.isSuccess)(true)
     }
 
     it("Can Validate Username Not Mandatory Too Short") {
@@ -81,9 +81,9 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      msgTooShort should be(validation match {
+      assertResult(msgTooShort)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -101,9 +101,9 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      msgTooShort should be(validation match {
+      assertResult(msgTooShort)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -123,9 +123,9 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      msgTooLong should be(validation match {
+      assertResult(msgTooLong)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -143,9 +143,9 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      msgTooLong should be(validation match {
+      assertResult(msgTooLong)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })

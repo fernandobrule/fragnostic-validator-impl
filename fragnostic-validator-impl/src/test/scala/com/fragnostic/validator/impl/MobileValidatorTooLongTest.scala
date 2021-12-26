@@ -24,16 +24,16 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgMobileIsTooLong)
+      }))(msgMobileIsTooLong)
 
     }
 

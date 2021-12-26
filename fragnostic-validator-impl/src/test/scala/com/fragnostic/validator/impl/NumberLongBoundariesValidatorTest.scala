@@ -29,9 +29,8 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
     }
 
     it("Can Validate Number Too Long") {
@@ -43,9 +42,8 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getFormattedString(locale, NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
     }
 
     it("Can Validate Message for Too Short does not exists") {
@@ -60,9 +58,8 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT}___is.not.available")
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT}___is.not.available")
     }
 
     it("Can Validate Message for Too Long does not exists") {
@@ -77,9 +74,8 @@ class NumberLongBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG}___is.not.available")
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(s"message___${NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG}___is.not.available")
     }
 
   }

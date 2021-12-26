@@ -29,9 +29,8 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getFormattedString(locale, NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, List(domain, number.toString, minValue.toString)))
     }
 
     it("Can Validate Number Too Long") {
@@ -43,9 +42,8 @@ class NumberShortBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest 
         mistake => NonEmptyList((): Unit) //
       )
 
-      nel should not be Nil
-      nel.size should be(1)
-      nel.head should be(validatorI18n.getFormattedString(locale, NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
+      assertResult(nel.size)(1)
+      assertResult(nel.head)(validatorI18n.getFormattedString(locale, NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, List(domain, number.toString, maxValue.toString)))
     }
 
   }

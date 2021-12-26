@@ -13,8 +13,8 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isSuccess should be(true)
-      validation.toList.head should be(email)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(email)
 
     }
 
@@ -24,16 +24,16 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgEmailIsNotValid)
+      }))(msgEmailIsNotValid)
 
     }
 
@@ -42,16 +42,16 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
       val email = "  "
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgEmailIsEmpty)
+      }))(msgEmailIsEmpty)
 
     }
 
@@ -61,16 +61,16 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
       val messageEmailTooLong = validatorI18n.getString(locale, EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG)
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(messageEmailTooLong)
+      }))(messageEmailTooLong)
 
     }
 
