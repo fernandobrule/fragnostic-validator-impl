@@ -1,7 +1,6 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api.Validated
-import com.fragnostic.validator.i18n.ValidatorI18n
 import scalaz.{ Failure, Success }
 
 class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
@@ -14,27 +13,39 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
   val usernameMaxLength = "18"
   val usernameValidatorParams: Map[String, String] = Map(
     "minLength" -> usernameMinLength,
-    "maxLength" -> usernameMaxLength)
-  val usernameValidatorMessages: List[String] = Nil
+    "maxLength" -> usernameMaxLength //
+  )
+
   val usernameValidatorMandatory: Boolean = true
 
   describe("*** Username Validator Test ***") {
 
     it("Can Validate Username") {
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
-      validation.isSuccess should be(true)
-      validation.toList.head should be(username)
+
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT) //
+      )
+
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(username)
     }
 
     it("Can Validate Username Empty") {
 
       val username: String = ""
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT) //
+      )
 
-      validation.isFailure should be(true)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validatorI18n.getString(locale, "username.validator.username.is.empty") should be(validation match {
+      assertResult(validation.isFailure)(true)
+
+      assertResult(validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY))(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -44,23 +55,35 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Username Not Mandatory Empty") {
 
       val username: String = ""
+
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT) //
+      )
+
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isSuccess should be(true)
+      assertResult(validation.isSuccess)(true)
     }
 
     it("Can Validate Username Not Mandatory Too Short") {
 
       val username: String = "asd"
+      val msgTooShort = validatorI18n.getFormattedString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, List(username.length.toString, usernameMinLength))
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT -> msgTooShort //
+      )
+
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      validatorI18n.getFormattedString(locale, "username.validator.username.is.too.short", List(username.length.toString, usernameMinLength)) should be(validation match {
+      assertResult(msgTooShort)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -70,12 +93,17 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Username Too Short") {
 
       val username: String = "asda"
+      val msgTooShort = validatorI18n.getFormattedString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, List(username.length.toString, usernameMinLength))
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT -> msgTooShort //
+      )
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      validatorI18n.getFormattedString(locale, "username.validator.username.is.too.short", List(username.length.toString, usernameMinLength)) should be(validation match {
+      assertResult(msgTooShort)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -85,13 +113,19 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Username Not Mandatory Too Long") {
 
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
+      val msgTooLong = validatorI18n.getFormattedString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, List(username.length.toString, usernameMaxLength))
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG -> msgTooLong //
+      )
+
       val usernameValidatorMandatory = false
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      validatorI18n.getFormattedString(locale, "username.validator.username.is.too.long", List(username.length.toString, usernameMaxLength)) should be(validation match {
+      assertResult(msgTooLong)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })
@@ -101,12 +135,17 @@ class UsernameValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Username Too Long") {
 
       val username: String = "asdasfsadfasdfasdfasdfasdfsafsdsd"
+      val msgTooLong = validatorI18n.getFormattedString(locale, USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, List(username.length.toString, usernameMaxLength))
+      val messages: Map[String, String] = Map(
+        USERNAME_VALIDATOR_USERNAME_IS_EMPTY -> validatorI18n.getString(locale, USERNAME_VALIDATOR_USERNAME_IS_EMPTY),
+        USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG -> msgTooLong //
+      )
 
-      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, usernameValidatorMessages, usernameValidatorMandatory)
+      val validation: Validated[String] = usernameValidator.validate(locale, domain, username, usernameValidatorParams, messages, usernameValidatorMandatory)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      validatorI18n.getFormattedString(locale, "username.validator.username.is.too.long", List(username.length.toString, usernameMaxLength)) should be(validation match {
+      assertResult(msgTooLong)(validation match {
         case Failure(f) => f.head
         case Success(s) => s
       })

@@ -14,13 +14,13 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
       val msg = validation.toEither.fold(
         error => error.head,
         success => "ooops")
 
-      msg should be(msgMobileIsNotValid)
+      assertResult(msg)(msgMobileIsNotValid)
 
     }
 

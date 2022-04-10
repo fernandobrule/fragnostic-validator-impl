@@ -16,7 +16,7 @@ class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBoo
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 
-      message should be("Value is true")
+      assertResult(message)("Value is true")
     }
 
     it("Can Handle Wrong Parameter") {
@@ -26,7 +26,7 @@ class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBoo
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 
-      message should be(s"type.boolean.handler.error.param.value.not.valid_$paramValue.domain.is\u005b$domain\u005d")
+      assertResult(message)(s"type.boolean.handler.error.param.value.not.valid_$paramValue.domain.is\u005b$domain\u005d")
     }
 
   }

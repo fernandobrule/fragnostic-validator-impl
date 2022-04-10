@@ -19,45 +19,48 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
         "17131749877",
         "171.317.498-77",
         "11144477735",
-        "111.444.777-35")
+        "111.444.777-35" //
+      )
 
       cpfs foreach (cpf => {
-        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, List(msgCpfIsEmpty, msgCpfIsNotValid))
-        validation.isSuccess should be(true)
-        validation.toList.head should be(cpf)
-      })
+        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(cpf)
+      } //
+      )
+
     }
 
     it("Can Validate Empty CPF") {
 
       val cpf = "  "
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, List(msgCpfIsEmpty, msgCpfIsNotValid))
-      validation.isFailure should be(true)
+      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgCpfIsEmpty)
+      }))(msgCpfIsEmpty)
     }
 
     it("Can Validate Black List") {
 
       cpfValidator.BLACKLIST foreach (cpf => {
-        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, List(msgCpfIsEmpty, msgCpfIsNotValid))
-        validation.isFailure should be(true)
+        val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
+        assertResult(validation.isFailure)(true)
 
-        (validation match {
+        assertResult((validation match {
           case Failure(f) =>
             f match {
               case NonEmptyList(a, value) => a
               case _ =>
             }
           case Success(s) =>
-        }) should be(msgCpfIsNotValid)
+        }))(msgCpfIsNotValid)
       })
     }
 
@@ -65,17 +68,17 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val cpf = "uyuyiuyiu89789"
 
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, List(msgCpfIsEmpty, msgCpfIsNotValid))
-      validation.isFailure should be(true)
+      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, cpfValidatorParams, cpfValidatorMessages)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgCpfIsNotValid)
+      }))(msgCpfIsNotValid)
     }
 
   }

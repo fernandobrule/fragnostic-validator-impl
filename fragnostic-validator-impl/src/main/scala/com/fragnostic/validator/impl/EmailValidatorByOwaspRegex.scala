@@ -1,4 +1,5 @@
 package com.fragnostic.validator.impl
+
 import com.fragnostic.validator.api.Validated
 import scalaz.Scalaz._
 

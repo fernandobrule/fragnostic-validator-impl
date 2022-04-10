@@ -15,8 +15,8 @@ class MobileValidatorWithCountryCodeTest extends AgnosticLifeCycleValidatorTest 
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
-      validation.isSuccess should be(true)
-      validation.toList.head should be(mobileRaw)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(mobileRaw)
 
     }
 

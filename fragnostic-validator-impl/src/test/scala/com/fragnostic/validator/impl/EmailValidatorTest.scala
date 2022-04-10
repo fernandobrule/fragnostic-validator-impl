@@ -13,8 +13,8 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isSuccess should be(true)
-      validation.toList.head should be(email)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(email)
 
     }
 
@@ -24,16 +24,16 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgEmailIsNotValid)
+      }))(msgEmailIsNotValid)
 
     }
 
@@ -42,36 +42,35 @@ class EmailValidatorTest extends AgnosticLifeCycleValidatorTest {
       val email = "  "
       val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(msgEmailIsEmpty)
+      }))(msgEmailIsEmpty)
 
     }
 
-    it("Can Validate Lengthier Email") {
+    it("Can Validate Email Too Long") {
 
       val email = "sdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsasdfasdfasdfasdfsa@sdfasdfas.com"
-      val messageLengthier = validatorI18n.getFormattedString(locale, "text.max.length.validator.text.is.too.long", List(email.length.toString, emailValidatorMaxLength))
-      val messages: List[String] = List(msgEmailIsEmpty, msgEmailIsNotValid, messageLengthier)
-      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, messages)
+      val messageEmailTooLong = validatorI18n.getString(locale, EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG)
+      val validation: Validated[String] = emailValidator.validate(locale, emailValidatorDomain, email, emailValidatorParams, emailValidatorMessages)
 
-      validation.isFailure should be(true)
+      assertResult(validation.isFailure)(true)
 
-      (validation match {
+      assertResult((validation match {
         case Failure(f) =>
           f match {
             case NonEmptyList(a, value) => a
             case _ =>
           }
         case Success(s) =>
-      }) should be(messageLengthier)
+      }))(messageEmailTooLong)
 
     }
 
