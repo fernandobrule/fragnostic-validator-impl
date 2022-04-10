@@ -2,22 +2,28 @@ package com.fragnostic.validator.i18n
 
 trait ValidatorMessagesKeys {
 
+  val CEP_VALIDATOR_CEP_IS_NULL = "cep.validator.cep.is.null"
   val CEP_VALIDATOR_CEP_IS_EMPTY = "cep.validator.cep.is.empty"
   val CEP_VALIDATOR_CEP_IS_NOT_VALID = "cep.validator.cep.is.not.valid"
 
+  val DNI_VALIDATOR_DNI_IS_NULL = "dni.validator.dni.is.null"
   val DNI_VALIDATOR_DNI_IS_EMPTY = "dni.validator.dni.is.empty"
 
+  val CPF_VALIDATOR_CPF_IS_NULL = "cpf.validator.cpf.is.null"
   val CPF_VALIDATOR_CPF_IS_EMPTY = "cpf.validator.cpf.is.empty"
   val CPF_VALIDATOR_CPF_IS_TOO_SHORT = "cpf.validator.cpf.is.too.short"
   val CPF_VALIDATOR_CPF_IS_TOO_LONG = "cpf.validator.cpf.is.too.long"
   val CPF_VALIDATOR_CPF_IS_NOT_VALID = "cpf.validator.cpf.is.not.valid"
 
+  val CNPJ_VALIDATOR_CNPJ_IS_NULL = "cnpj.validator.cnpj.is.null"
   val CNPJ_VALIDATOR_CNPJ_IS_EMPTY = "cnpj.validator.cnpj.is.empty"
   val CNPJ_VALIDATOR_CNPJ_IS_NOT_VALID = "cnpj.validator.cnpj.is.not.valid"
 
+  val DATE_TIME_VALIDATOR_DATE_TIME_IS_NULL = "date.time.validator.date.time.is.null"
   val DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY = "date.time.validator.date.time.is.empty"
   val DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID = "date.time.validator.date.time.is.not.valid"
 
+  val DATE_VALIDATOR_DATE_IS_NULL = "date.validator.date.is.null"
   val DATE_VALIDATOR_DATE_IS_EMPTY = "date.validator.date.is.empty"
   val DATE_VALIDATOR_DATE_IS_NOT_VALID = "date.validator.date.is.not.valid"
 
@@ -31,6 +37,10 @@ trait ValidatorMessagesKeys {
   val MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG = "mobile.validator.mobile.is.too.long"
   val MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE = "mobile.validator.mobile.without.country.code"
   val MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID = "mobile.validator.mobile.is.not.valid"
+
+  val NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_NULL = "number.big.decimal.boundaries.validator.number.is.null"
+  val NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.big.decimal.boundaries.validator.number.is.too.short"
+  val NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.big.decimal.boundaries.validator.number.is.too.long"
 
   val NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.float.boundaries.validator.number.is.too.long"
   val NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.float.boundaries.validator.number.is.too.short"

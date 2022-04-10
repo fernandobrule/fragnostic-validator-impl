@@ -22,16 +22,20 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
   )
 
   override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    textBoundariesValidator.validate(locale, domain, cpf, params, textBoundariesValidatorMessages(messages), mandatory) fold (
-      error => error.head.failureNel,
-      cpf =>
-        if (cpf.trim.isEmpty && !mandatory) {
-          cpf.successNel
-        } else if (!isValid(cpf.trim)) {
-          getFailureNel(CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
-        } else {
-          cpf.successNel
-        })
+    Option(cpf) match {
+      case None => getFailureNel(CPF_VALIDATOR_CPF_IS_NULL, messages)
+      case Some(cpf) =>
+        textBoundariesValidator.validate(locale, domain, cpf, params, textBoundariesValidatorMessages(messages), mandatory) fold (
+          error => error.head.failureNel,
+          cpf =>
+            if (cpf.trim.isEmpty && !mandatory) {
+              cpf.successNel
+            } else if (!isValid(cpf.trim)) {
+              getFailureNel(CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
+            } else {
+              cpf.successNel
+            }) //
+    }
 
   private val STRICT_STRIP_REGEX: String = """[.-]"""
 

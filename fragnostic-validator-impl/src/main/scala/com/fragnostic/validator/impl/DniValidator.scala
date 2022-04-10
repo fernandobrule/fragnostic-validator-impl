@@ -13,10 +13,14 @@ class DniValidator extends ValidatorApi[String] with ValidatorSupport with Valid
 
   override def validate(locale: Locale, domain: String, dni: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
-    if (dni.trim.isEmpty) {
-      getFailureNel(DNI_VALIDATOR_DNI_IS_EMPTY, messages)
-    } else {
-      dni.trim.successNel
+    Option(dni) match {
+      case None => getMessage(DNI_VALIDATOR_DNI_IS_NULL, messages).failureNel
+      case Some(dni) =>
+        if (dni.trim.isEmpty) {
+          getFailureNel(DNI_VALIDATOR_DNI_IS_EMPTY, messages)
+        } else {
+          dni.trim.successNel
+        }
     }
 
 }
