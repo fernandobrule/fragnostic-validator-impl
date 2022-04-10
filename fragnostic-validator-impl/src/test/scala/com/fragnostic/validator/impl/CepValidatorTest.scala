@@ -1,13 +1,16 @@
 package com.fragnostic.validator.impl
 
 import com.fragnostic.validator.api.Validated
-import scalaz.{ Failure, NonEmptyList, Success }
 
 class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   describe("***CEP Validator Test***") {
 
     val domain = "CEP"
+    val messages = Map(
+      CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty,
+      CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid //
+    )
 
     it("Can Validate CEP") {
 
@@ -16,22 +19,23 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
       val list = List("01414-000", "13214-206")
 
       list foreach (cep => {
-        val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, List(msgCepIsEmpty, msgCepIsNotValid))
-        validation.isSuccess should be(true)
-        validation.toList.head should be(cep)
+        val validation: Validated[String] = cepValidator.validate(locale, domain, cep, params, messages)
+        assertResult(validation.isSuccess)(true)
+        assertResult(validation.toList.head)(cep)
       })
 
-      val validation: Validated[String] = cepValidator.validate(locale, domain, "", params, List(msgCepIsEmpty, msgCepIsNotValid))
+      assertResult((cepValidator.validate(locale, domain, "", params, messages) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong") //
+      ))(msgCepIsEmpty)
 
-      validation.isFailure should be(true)
-      (validation match {
-        case Failure(f) =>
-          f match {
-            case NonEmptyList(a, value) => a
-            case _ =>
-          }
-        case Success(s) =>
-      }) should be(msgCepIsEmpty)
+      assertResult((cepValidator.validate(locale, domain, "", params, Map(CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid)) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong")))(s"message___${CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available")
+
+      assertResult((cepValidator.validate(locale, domain, "01414-00", params, Map(CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty)) fold (
+        errors => errors.head,
+        cep => "ooooops, this is wrong")))(s"message___${CEP_VALIDATOR_CEP_IS_NOT_VALID}___is.not.vailable")
 
     }
 

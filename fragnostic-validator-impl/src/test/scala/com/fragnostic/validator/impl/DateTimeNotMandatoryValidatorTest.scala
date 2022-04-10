@@ -1,7 +1,5 @@
 package com.fragnostic.validator.impl
 
-import scalaz.NonEmptyList
-
 class DateTimeNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   val domain = "DateTime"
@@ -13,7 +11,9 @@ class DateTimeNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val dateTime = "    "
       val mandatory = false
 
-      dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, List(msgDateTimeIsEmpty, msgDateTimeIsNotValid), mandatory).isSuccess should be(true)
+      assertResult(dateTimeValidator.validate(locale, domain, dateTime, paramsEmpty, Map(
+        DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY -> msgDateTimeIsEmpty,
+        DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID -> msgDateTimeIsNotValid), mandatory).isSuccess)(true)
 
     }
 

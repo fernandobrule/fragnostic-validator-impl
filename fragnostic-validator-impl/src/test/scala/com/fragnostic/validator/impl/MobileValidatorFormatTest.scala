@@ -21,8 +21,8 @@ class MobileValidatorFormatTest extends AgnosticLifeCycleValidatorTest {
       val mobileFormated: String = "(11) 951976773"
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
-      validation.isSuccess should be(true)
-      validation.toList.head should be(mobileFormated)
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(mobileFormated)
 
     }
 
@@ -40,8 +40,8 @@ class MobileValidatorFormatTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
 
-      validation.isSuccess should be(true)
-      validation.toList.head should be(mobile.replaceAll("\\s", "").replaceAll("\\+", ""))
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(mobile.replaceAll("\\s", "").replaceAll("\\+", ""))
 
     }
 
@@ -59,8 +59,8 @@ class MobileValidatorFormatTest extends AgnosticLifeCycleValidatorTest {
 
       val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, params, mobileValidatorMessages)
 
-      validation.isSuccess should be(true)
-      validation.toList.head should be(mobile.replaceAll("\\s", ""))
+      assertResult(validation.isSuccess)(true)
+      assertResult(validation.toList.head)(mobile.replaceAll("\\s", ""))
 
     }
 

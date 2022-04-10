@@ -1,27 +1,28 @@
-import com.jsuereth.sbtpgp.PgpKeys
-import scala.xml._
-import java.net.URL
 import Dependencies._
+import com.jsuereth.sbtpgp.PgpKeys
 
 val unusedOptions = Seq("-Ywarn-unused:imports")
 
-lazy val frgValidatorImplSettings = Seq(
+lazy val fragnosticSettings = Seq(
   organization := "com.fragnostic",
   Test / fork := true,
   Test / baseDirectory := (ThisBuild / baseDirectory).value,
-  crossScalaVersions := Seq("2.12.14", "2.13.6"),
+  crossScalaVersions := Seq("2.12.15", "2.13.7", "3.1.1-RC2"),
   scalaVersion := crossScalaVersions.value.head,
+  libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % "always",
   allDependencies := {
-    allDependencies.value
-  },
-  testFrameworks --= {
+    val values = allDependencies.value
+    // workaround for
+    // "Modules were resolved with conflicting cross-version suffixes"
+    // "   org.scala-lang.modules:scala-xml _3.0.0-RC1, _2.13"
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, _)) =>
-        Nil
+      case Some((3, _)) =>
+        values.map(
+          _.exclude("org.scala-lang.modules", "scala-xml_2.13")
+            .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
+        )
       case _ =>
-        // specs2 does not support Scala 3
-        // TODO remove this setting when specs2 for Scala 3 released
-        Seq(TestFrameworks.Specs2)
+        values
     }
   },
   scalacOptions ++= {
@@ -34,7 +35,6 @@ lazy val frgValidatorImplSettings = Seq(
         )
       case _ =>
         Seq(
-          "-Xignore-scala2-macros",
           "-source",
           "3.0-migration",
         )
@@ -51,52 +51,9 @@ lazy val frgValidatorImplSettings = Seq(
     "-language:existentials"
   ),
   manifestSetting,
-) ++ mavenCentralFrouFrou ++ Seq(Compile, Test).flatMap(c =>
+) ++ Seq(Compile, Test).flatMap(c =>
   c / console / scalacOptions --= unusedOptions
 )
-
-lazy val frgValidatorImplProject = Project(
-  id = "fragnostic-validator-impl-project",
-  base = file(".")).settings(
-    frgValidatorImplSettings ++ Seq(
-    name := "fragnostic validator impl project",
-    artifacts := Classpaths.artifactDefs(Seq(Compile / packageDoc, Compile / makePom)).value,
-    packagedArtifacts := Classpaths.packaged(Seq(Compile / packageDoc, Compile / makePom)).value,
-    description := "fragnostic validator impl project",
-    shellPrompt := { state =>
-      s"sbt:${Project.extract(state).currentProject.id}" + Def.withColor("> ", Option(scala.Console.CYAN))
-    }
-  ) ++ Defaults.packageTaskSettings(
-    Compile / packageDoc, (Compile / unidoc).map(_.flatMap(Path.allSubpaths))
-  )).aggregate(
-    frgValidatorImpl
-  ).enablePlugins(ScalaUnidocPlugin)
-
-
-//
-// fragnostic validator impl
-//
-lazy val frgValidatorImpl = Project(
-  id = "fragnostic-validator-impl",
-  base = file("fragnostic-validator-impl")).settings(
-    frgValidatorImplSettings ++ Seq(
-    libraryDependencies ++= Seq(
-      fragnosticI18n,
-      fragnosticValidatorApi,
-      fragnosticFormatter,
-      emailRfc2822Validator,
-      javaxMail,
-      logbackClassic,
-      scalactic,
-      scalatest,
-      scalazCore
-    ),
-    description := "fragnostic validator impl"
-  )
-) dependsOn(
-  //
-)
-
 
 lazy val manifestSetting = packageOptions += {
   Package.ManifestAttributes(
@@ -113,26 +70,38 @@ lazy val manifestSetting = packageOptions += {
   )
 }
 
-
-lazy val mavenCentralFrouFrou = Seq(
-  homepage := Some(new URL("http://www.distronica-admin.org/")),
-  startYear := Some(2009),
-  licenses := Seq(("BSD", new URL("http://github.com/distronica-admin/dist/raw/HEAD/LICENSE"))),
-  pomExtra := pomExtra.value ++ Group(
-    <scm>
-      <url>http://github.com/fragnostic/validator</url>
-      <connection>scm:git:git://github.com/fragnostic-validator-impl/dist.git</connection>
-    </scm>
-    <developers>
-      <developer>
-        <id>fernandobrule</id>
-        <name>Fernando Brûlé</name>
-        <url>http://www.fernando-brule.info</url>
-      </developer>
-    </developers>
-  )
-)
-
-
 lazy val doNotPublish = Seq(publish := {}, publishLocal := {}, PgpKeys.publishSigned := {}, PgpKeys.publishLocalSigned := {})
 
+lazy val fragnosticValidatorImplProject = Project(
+  id = "fragnostic-validator-impl-project",
+  base = file(".")).settings(
+  fragnosticSettings ++ Seq(
+    name := "fragnostic validator impl project",
+    artifacts := Classpaths.artifactDefs(Seq(Compile / packageDoc, Compile / makePom)).value,
+    packagedArtifacts := Classpaths.packaged(Seq(Compile / packageDoc, Compile / makePom)).value,
+    description := "A Fragnostic Validator Impl",
+    shellPrompt := { state =>
+      s"sbt:${Project.extract(state).currentProject.id}" + Def.withColor("> ", Option(scala.Console.CYAN))
+    }
+  )).aggregate(
+  fragnosticValidatorImpl,
+).enablePlugins()
+
+lazy val fragnosticValidatorImpl = Project(
+  id = "fragnostic-validator-impl",
+  base = file("fragnostic-validator-impl")).settings(fragnosticSettings ++ Seq(
+  libraryDependencies ++= Seq(
+    fragnosticI18nImpl,
+    fragnosticValidatorApi,
+    fragnosticFormatter,
+    emailRfc2822Validator,
+    javaxMail,
+    logbackClassic,
+    scalatestFunSpec,
+    scalazCore
+  ),
+  description := "fragnostic validator impl"
+)
+) dependsOn(
+  // maybe
+)
