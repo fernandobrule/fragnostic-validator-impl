@@ -12,10 +12,10 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
 
   private def textBoundariesValidator = new TextBoundariesValidator
 
-  private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
+  private def textBoundariesValidatorMessages(locale: Locale, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
+    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
+    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
   )
 
   private val validChars = List(
@@ -46,33 +46,33 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
   }
 
   private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] =
-    handleList("countryCodesWhiteList", domain, params) fold (
+    handleList(CONF_COUNTRY_CODES_WHITE_LIST, domain, params) fold (
       error => error.failureNel,
       countryCodesWhiteList => {
-        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE))
+        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE))
       } //
     ) //
 
   override def validate(locale: Locale, domain: String, rawMobile: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     val notNumbers = rawMobile.filter(c => !isValid(c)).toList
     if (notNumbers.nonEmpty) {
-      messages(MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID).failureNel
+      messages(MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID).failureNel
     } else {
       val numbers: List[Int] = rawMobile.filter(c => c.isDigit).map(c => c.asDigit).toList
       if (numbers.isEmpty) {
         if (mandatory) {
-          messages(MOBILE_VALIDATOR_MOBILE_IS_EMPTY).failureNel
+          messages(MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY).failureNel
         } else {
           "".successNel
         }
       } else {
         val mobile = numbers.mkString("")
-        textBoundariesValidator.validate(locale, domain, mobile, params, textBoundariesValidatorMessages(messages), mandatory) fold (
+        textBoundariesValidator.validate(locale, domain, mobile, params, textBoundariesValidatorMessages(locale, messages), mandatory) fold (
           error => error.head.failureNel,
           mobile => {
             (for {
-              hasToFormat <- handleBoolean("hasToFormat", domain, params)
-              needsValidateCountryCode <- handleBoolean("validateCountryCode", domain, params)
+              hasToFormat <- handleBoolean(CONF_HAS_TO_FORMAT, domain, params)
+              needsValidateCountryCode <- handleBoolean(CONF_VALIDATE_COUNTRY_CODE, domain, params)
             } yield {
               if (needsValidateCountryCode) {
                 validateCountryCode(locale, mobile, hasToFormat, domain, params, messages)

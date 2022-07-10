@@ -11,21 +11,21 @@ class UsernameValidator extends ValidatorApi[String] with ValidatorSupport with 
 
   override def validate(locale: Locale, domain: String, username: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
-    handleShort("minLength", domain, params) fold (
+    handleShort(CONF_MIN_LENGTH, domain, params) fold (
       error => error.failureNel,
-      usernameMinimumLength => handleShort("maxLength", domain, params) fold (
+      usernameMinimumLength => handleShort(CONF_MAX_LENGTH, domain, params) fold (
         error => error.failureNel,
         usernameMaximumLength =>
           if (username.trim.isEmpty) {
             if (mandatory) {
-              getFailureNel(USERNAME_VALIDATOR_USERNAME_IS_EMPTY, messages)
+              getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_EMPTY, messages)
             } else {
               "".successNel
             }
           } else if (username.trim.length < usernameMinimumLength) {
-            getFailureNel(USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, messages)
+            getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, messages)
           } else if (username.trim.length > usernameMaximumLength) {
-            getFailureNel(USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, messages)
+            getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, messages)
           } else {
             username.trim.successNel
           } //

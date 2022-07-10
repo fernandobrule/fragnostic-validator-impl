@@ -94,6 +94,7 @@ lazy val fragnosticValidatorImpl = Project(
     fragnosticI18nImpl,
     fragnosticValidatorApi,
     fragnosticFormatter,
+    fragnosticConfFacade,
     emailRfc2822Validator,
     javaxMail,
     logbackClassic,

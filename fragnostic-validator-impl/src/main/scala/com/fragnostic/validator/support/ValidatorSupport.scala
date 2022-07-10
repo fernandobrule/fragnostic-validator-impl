@@ -1,9 +1,23 @@
 package com.fragnostic.validator.support
 
 import com.fragnostic.validator.api.Validated
+import org.slf4j.{ Logger, LoggerFactory }
 import scalaz.Scalaz._
 
+import java.util.Locale
+
 trait ValidatorSupport {
+
+  private[this] val logger: Logger = LoggerFactory.getLogger("ValidatorSupport")
+
+  val CONF_DATE_FORMAT: String = "CONF_DATE_FORMAT"
+  val CONF_MAX_LENGTH: String = "CONF_MAX_LENGTH"
+  val CONF_MIN_LENGTH: String = "CONF_MIN_LENGTH"
+  val CONF_MIN_VALUE: String = "CONF_MIN_VALUE"
+  val CONF_MAX_VALUE: String = "CONF_MAX_VALUE"
+  val CONF_HAS_TO_FORMAT: String = "CONF_HAS_TO_FORMAT"
+  val CONF_VALIDATE_COUNTRY_CODE: String = "CONF_VALIDATE_COUNTRY_CODE"
+  val CONF_COUNTRY_CODES_WHITE_LIST: String = "CONF_COUNTRY_CODES_WHITE_LIST"
 
   def argsAreValid(numberExpected: Int, messages: Map[String, String]): Boolean = numberExpected == messages.size
 
@@ -46,10 +60,14 @@ trait ValidatorSupport {
       Map.empty[String, String]
     }
 
-  def getMessage(key: String, messages: Map[String, String]): String =
-    messages.getOrElse(key, s"message___${key}___is.not.available")
+  def getMessage(locale: Locale, key: String, messages: Map[String, String]): String =
+    messages.getOrElse(key, {
+      //messages.foreach(kv => logger.info(s"getMessage() - $kv"))
+      s"message___${locale}___${key}___is.not.available"
+    } //
+    )
 
-  def getFailureNel(key: String, messages: Map[String, String]): Validated[String] =
-    getMessage(key, messages).failureNel
+  def getFailureNel(locale: Locale, key: String, messages: Map[String, String]): Validated[String] =
+    getMessage(locale, key, messages).failureNel
 
 }

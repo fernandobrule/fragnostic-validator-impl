@@ -12,10 +12,10 @@ class CnpjValidator extends ValidatorApi[String] with ValidatorSupport with Vali
   override def validate(locale: Locale, domain: String, cnpj: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     // TODO esta es una implementación absolutamente mínima
     Option(cnpj) match {
-      case None => getFailureNel(CNPJ_VALIDATOR_CNPJ_IS_NULL, messages)
+      case None => getFailureNel(locale, MSG_CNPJ_VALIDATOR_CNPJ_IS_NULL, messages)
       case Some(cnpj) =>
         if (cnpj.trim.isEmpty) {
-          getFailureNel(CNPJ_VALIDATOR_CNPJ_IS_EMPTY, messages)
+          getFailureNel(locale, MSG_CNPJ_VALIDATOR_CNPJ_IS_EMPTY, messages)
         } else {
           cnpj.trim.successNel
         }

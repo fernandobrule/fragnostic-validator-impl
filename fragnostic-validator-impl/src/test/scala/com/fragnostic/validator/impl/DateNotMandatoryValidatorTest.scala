@@ -11,9 +11,9 @@ class DateNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
       val date = "    "
       val mandatory = false
 
-      assertResult(dateValidator.validate(locale, domain, date, paramsEmpty, Map(
-        DATE_VALIDATOR_DATE_IS_EMPTY -> msgDateIsEmpty,
-        DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid), mandatory).isSuccess)(true)
+      assertResult(dateValidator.validate(localePtBr, domain, date, paramsEmpty, Map(
+        MSG_DATE_VALIDATOR_DATE_IS_EMPTY -> msgDateIsEmpty,
+        MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid), mandatory).isSuccess)(true)
 
     }
 

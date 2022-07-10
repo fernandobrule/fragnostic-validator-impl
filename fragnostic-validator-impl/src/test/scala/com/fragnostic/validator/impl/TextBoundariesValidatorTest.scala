@@ -9,7 +9,10 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
   val minLength = "6"
   val maxLength = "15"
 
-  val params: Map[String, String] = Map("minLength" -> minLength, "maxLength" -> maxLength)
+  val params: Map[String, String] = Map(
+    CONF_MIN_LENGTH -> minLength,
+    CONF_MAX_LENGTH -> maxLength //
+  )
 
   describe("***Text Boundaries Validator Test***") {
 
@@ -17,18 +20,18 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = ""
       val messages: Map[String, String] = Map(
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
       )
 
-      val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
+      val nel = textBoundariesValidator.validate(localePtBr, domain, text, params, messages) fold (
         error => error,
         mistake => NonEmptyList((): Unit) //
       )
 
       assertResult(nel.size)(1)
-      assertResult(nel.head)(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY))
+      assertResult(nel.head)(validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY))
 
     }
 
@@ -36,19 +39,19 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val text = null
       val messages: Map[String, String] = Map(
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
       )
 
-      val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
+      val nel = textBoundariesValidator.validate(localePtBr, domain, text, params, messages) fold (
         error => error,
         mistake => NonEmptyList((): Unit) //
       )
 
       assertResult(nel.size)(1)
-      assertResult(nel.head)(validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL))
+      assertResult(nel.head)(validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL))
     }
 
     it("Can Validate Not Mandatory Empty Text") {
@@ -56,26 +59,26 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
       val text = ""
       val mandatory = false
       val messages: Map[String, String] = Map(
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
       )
 
-      val validation = textBoundariesValidator.validate(locale, domain, text, params, messages, mandatory)
+      val validation = textBoundariesValidator.validate(localePtBr, domain, text, params, messages, mandatory)
       assertResult(validation.isSuccess)(true)
     }
 
     it("Can Validate Text Too Short") {
 
       val text = "abc"
-      val msgTooShort = validatorI18n.getFormattedString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT, List(domain, text.length.toString, minLength))
+      val msgTooShort = validatorI18n.getFormattedString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT, List(domain, text.length.toString, minLength))
       val messages: Map[String, String] = Map(
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> msgTooShort,
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> msgTooShort,
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG) //
       )
 
-      val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
+      val nel = textBoundariesValidator.validate(localePtBr, domain, text, params, messages) fold (
         error => error,
         mistake => NonEmptyList((): Unit) //
       )
@@ -87,14 +90,14 @@ class TextBoundariesValidatorTest extends AgnosticLifeCycleValidatorTest {
     it("Can Validate Text Too Long") {
 
       val text = "abcdedfjhskdlfjklsdjfkljsdklfjksldjfklsdjflkjfjsdf"
-      val msgTooLong = validatorI18n.getFormattedString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG, List(domain, text.length.toString, maxLength))
+      val msgTooLong = validatorI18n.getFormattedString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG, List(domain, text.length.toString, maxLength))
       val messages: Map[String, String] = Map(
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(locale, TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
-        TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> msgTooLong //
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> validatorI18n.getString(localePtBr, MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT),
+        MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> msgTooLong //
       )
 
-      val nel = textBoundariesValidator.validate(locale, domain, text, params, messages) fold (
+      val nel = textBoundariesValidator.validate(localePtBr, domain, text, params, messages) fold (
         error => error,
         mistake => NonEmptyList((): Unit))
 

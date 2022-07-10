@@ -9,10 +9,10 @@ class TextBoundariesNotMandatoryValidatorTest extends AgnosticLifeCycleValidator
 
     it("Can Validate Empty Text") {
 
-      val params: Map[String, String] = Map("maxLength" -> "5")
+      val params: Map[String, String] = Map(CONF_MAX_LENGTH -> "5")
       val text = ""
       val mandatory = false
-      val validator = textBoundariesValidator.validate(locale, domain, text, params, Map.empty, mandatory)
+      val validator = textBoundariesValidator.validate(localePtBr, domain, text, params, Map.empty, mandatory)
 
       assertResult(validator.isSuccess)(true)
 
