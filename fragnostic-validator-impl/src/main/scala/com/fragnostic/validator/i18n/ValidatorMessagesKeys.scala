@@ -39,21 +39,21 @@ trait ValidatorMessagesKeys {
   val MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE = "mobile.validator.mobile.without.country.code"
   val MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID = "mobile.validator.mobile.is.not.valid"
 
-  val MSG_NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_NULL = "number.big.decimal.boundaries.validator.number.is.null"
-  val MSG_NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.big.decimal.boundaries.validator.number.is.too.short"
-  val MSG_NUMBER_BIG_DECIMAL_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.big.decimal.boundaries.validator.number.is.too.long"
+  val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_NULL = "number.big.decimal.validator.number.is.null"
+  val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.big.decimal.validator.number.is.too.short"
+  val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_LONG = "number.big.decimal.validator.number.is.too.long"
 
-  val MSG_NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.float.boundaries.validator.number.is.too.long"
-  val MSG_NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.float.boundaries.validator.number.is.too.short"
+  val MSG_NUMBER_FLOAT_VALIDATOR_NUMBER_IS_TOO_LONG = "number.float.validator.number.is.too.long"
+  val MSG_NUMBER_FLOAT_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.float.validator.number.is.too.short"
 
-  val MSG_NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.int.boundaries.validator.number.is.too.long"
-  val MSG_NUMBER_INT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.int.boundaries.validator.number.is.too.short"
+  val MSG_NUMBER_INT_VALIDATOR_NUMBER_IS_TOO_LONG = "number.int.validator.number.is.too.long"
+  val MSG_NUMBER_INT_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.int.validator.number.is.too.short"
 
-  val MSG_NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.long.boundaries.validator.number.is.too.long"
-  val MSG_NUMBER_LONG_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.long.boundaries.validator.number.is.too.short"
+  val MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_LONG = "number.long.validator.number.is.too.long"
+  val MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.long.validator.number.is.too.short"
 
-  val MSG_NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG = "number.short.boundaries.validator.number.is.too.long"
-  val MSG_NUMBER_SHORT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.short.boundaries.validator.number.is.too.short"
+  val MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_LONG = "number.short.validator.number.is.too.long"
+  val MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.short.validator.number.is.too.short"
 
   val MSG_PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY = "password.validator.password.is.empty"
   val MSG_PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT = "password.validator.password.is.too.short"
@@ -67,10 +67,10 @@ trait ValidatorMessagesKeys {
   val MSG_RUT_VALIDATOR_RUT_IS_NOT_VALID = "rut.validator.rut.is.not.valid"
   val MSG_RUT_VALIDATOR_RUT_IS_EMPTY = "rut.validator.rut.is.empty"
 
-  val MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY = "text.boundaries.validator.text.is.empty"
-  val MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL = "text.boundaries.validator.text.is.null"
-  val MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT = "text.boundaries.validator.text.is.too.short"
-  val MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG = "text.boundaries.validator.text.is.too.long"
+  val MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY = "text.validator.text.is.empty"
+  val MSG_TEXT_VALIDATOR_TEXT_IS_NULL = "text.validator.text.is.null"
+  val MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT = "text.validator.text.is.too.short"
+  val MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG = "text.validator.text.is.too.long"
 
   val MSG_URL_VALIDATOR_URL_IS_EMPTY = "url.validator.url.is.empty"
   val MSG_URL_VALIDATOR_URL_IS_NOT_VALID = "url.validator.url.is.not.valid"

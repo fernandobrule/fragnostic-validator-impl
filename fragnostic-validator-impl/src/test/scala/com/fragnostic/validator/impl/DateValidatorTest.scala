@@ -9,9 +9,9 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
     CONF_MAX_LENGTH -> "16" //
   )
   val messages = Map(
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL -> msgDateIsNull,
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> msgDateIsEmpty,
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> msgDateIsTooLong,
+    MSG_TEXT_VALIDATOR_TEXT_IS_NULL -> msgDateIsNull,
+    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> msgDateIsEmpty,
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> msgDateIsTooLong,
     MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid //
   )
 

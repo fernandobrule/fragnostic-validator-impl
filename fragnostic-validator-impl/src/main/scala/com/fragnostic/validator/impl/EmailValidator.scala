@@ -9,16 +9,16 @@ import java.util.Locale
 
 class EmailValidator extends ValidatorApi[String] with ValidatorSupport with EmailValidatorByRfc2822Validator with ValidatorMessagesKeys {
 
-  private def textBoundariesValidator = new TextBoundariesValidator
+  private def textValidator = new TextValidator
 
-  private def textBoundariesValidatorMessages(locale: Locale, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_EMPTY, messages),
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, messages),
-    MSG_TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, messages) //
+  private def textValidatorMessages(locale: Locale, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_EMPTY, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, email: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    textBoundariesValidator.validate(locale, domain, email, params, textBoundariesValidatorMessages(locale, messages), mandatory) fold (
+    textValidator.validate(locale, domain, email, params, textValidatorMessages(locale, messages), mandatory) fold (
       error => error.head.failureNel,
       email =>
         if (!mandatory && email.trim.isEmpty) {

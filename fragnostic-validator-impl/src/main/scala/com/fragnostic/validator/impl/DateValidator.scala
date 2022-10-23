@@ -3,7 +3,6 @@ package com.fragnostic.validator.impl
 import com.fragnostic.validator.api._
 import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.ValidatorSupport
-import org.slf4j.{ Logger, LoggerFactory }
 import scalaz.Scalaz._
 
 import java.text.SimpleDateFormat
@@ -12,10 +11,8 @@ import scala.util.Try
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  private[this] val logger: Logger = LoggerFactory.getLogger("DateValidator")
-
   private val defaultDateFormat = "dd/MM/yyyy"
-  private def textBoundariesValidator = new TextBoundariesValidator
+  private def textValidator = new TextValidator
 
   override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
 
@@ -23,7 +20,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
 
     //messages.foreach(kv => logger.info(s"validate() - messages tuple: ${kv}")) // deletemeplz
 
-    textBoundariesValidator.validate(locale, domain, date, params, messages, mandatory) fold (
+    textValidator.validate(locale, domain, date, params, messages, mandatory) fold (
       error => error.head.failureNel,
       date =>
         if (date.isEmpty) {

@@ -7,7 +7,7 @@ import scalaz.Scalaz._
 
 import java.util.Locale
 
-class NumberFloatBoundariesValidator extends ValidatorApi[Float] with ValidatorSupport with TypeFloatHandler with ValidatorMessagesKeys {
+class NumberFloatValidator extends ValidatorApi[Float] with ValidatorSupport with TypeFloatHandler with ValidatorMessagesKeys {
 
   override def validate(locale: Locale, domain: String, someNumber: Float, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[Float] =
     handleFloat(CONF_MAX_VALUE, domain, params) fold (
@@ -17,9 +17,9 @@ class NumberFloatBoundariesValidator extends ValidatorApi[Float] with ValidatorS
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              getMessage(locale, MSG_NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
+              getMessage(locale, MSG_NUMBER_FLOAT_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              getMessage(locale, MSG_NUMBER_FLOAT_BOUNDARIES_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
+              getMessage(locale, MSG_NUMBER_FLOAT_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }
