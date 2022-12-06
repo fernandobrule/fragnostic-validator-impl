@@ -31,7 +31,7 @@ class CepValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       assertResult((cepValidator.validate(localePtBr, domain, "", params, Map(MSG_CEP_VALIDATOR_CEP_IS_NOT_VALID -> msgCepIsNotValid)) fold (
         errors => errors.head,
-        cep => "ooooops, this is wrong")))(s"message___${localePtBr}___${MSG_CEP_VALIDATOR_CEP_IS_EMPTY}___is.not.available")
+        cep => "ooooops, this is wrong")))(s"message___${localePtBr}___${MSG_CEP_VALIDATOR_CEP_IS_EMPTY}___${domain}___is.not.available")
 
       assertResult((cepValidator.validate(localePtBr, domain, "01414-00", params, Map(MSG_CEP_VALIDATOR_CEP_IS_EMPTY -> msgCepIsEmpty)) fold (
         errors => errors.head,

@@ -15,23 +15,23 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
 
   private def textValidator = new TextValidator
 
-  private def textValidatorMessages(locale: Locale, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, MSG_CPF_VALIDATOR_CPF_IS_EMPTY, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, MSG_CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
+  private def textValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_EMPTY, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     Option(cpf) match {
-      case None => getFailureNel(locale, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
+      case None => getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
       case Some(cpf) =>
-        textValidator.validate(locale, domain, cpf, params, textValidatorMessages(locale, messages), mandatory) fold (
+        textValidator.validate(locale, domain, cpf, params, textValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
           cpf =>
             if (cpf.trim.isEmpty && !mandatory) {
               cpf.successNel
             } else if (!isValid(cpf.trim)) {
-              getFailureNel(locale, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
+              getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
             } else {
               cpf.successNel
             }) //

@@ -9,9 +9,12 @@ import java.util.Locale
 
 class NumberBigDecimalValidator extends ValidatorApi[BigDecimal] with ValidatorSupport with TypeBigDecimalHandler with ValidatorMessagesKeys {
 
-  override def validate(locale: Locale, domain: String, someNumber: BigDecimal, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[BigDecimal] =
+  //private[this] val logger: Logger = LoggerFactory.getLogger("NumberBigDecimalValidator")
+
+  override def validate(locale: Locale, domain: String, someNumber: BigDecimal, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[BigDecimal] = {
+    //logger.info(s"validate() - locale[$locale], domain[$domain], someNumber[$someNumber]")
     Option(someNumber) match {
-      case None => getMessage(locale, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_NULL, messages).failureNel
+      case None => getMessage(locale, domain, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_NULL, messages).failureNel
       case Some(someNumber) =>
         handleBigDecimal(CONF_MAX_VALUE, domain, params) fold (
           error => error.failureNel,
@@ -20,9 +23,9 @@ class NumberBigDecimalValidator extends ValidatorApi[BigDecimal] with ValidatorS
               error => error.failureNel,
               minValue => {
                 if (someNumber < minValue) {
-                  getMessage(locale, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
+                  getMessage(locale, domain, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
                 } else if (someNumber > maxValue) {
-                  getMessage(locale, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
+                  getMessage(locale, domain, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
                 } else {
                   someNumber.successNel
                 }
@@ -30,5 +33,6 @@ class NumberBigDecimalValidator extends ValidatorApi[BigDecimal] with ValidatorS
             ) //
         ) //
     }
+  }
 
 }

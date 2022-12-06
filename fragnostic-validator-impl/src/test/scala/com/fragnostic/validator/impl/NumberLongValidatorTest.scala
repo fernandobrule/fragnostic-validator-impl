@@ -62,7 +62,7 @@ class NumberLongValidatorTest extends AgnosticLifeCycleValidatorTest {
       )
 
       assertResult(nel.size)(1)
-      assertResult(nel.head)(s"message___${localePtBr}___${MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_SHORT}___is.not.available")
+      assertResult(nel.head)(s"message___${localePtBr}___${MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_SHORT}___${domain}___is.not.available")
     }
 
     it("Can Validate Message for Too Long does not exists") {
@@ -78,7 +78,7 @@ class NumberLongValidatorTest extends AgnosticLifeCycleValidatorTest {
       )
 
       assertResult(nel.size)(1)
-      assertResult(nel.head)(s"message___${localePtBr}___${MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_LONG}___is.not.available")
+      assertResult(nel.head)(s"message___${localePtBr}___${MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_LONG}___${domain}___is.not.available")
     }
 
   }

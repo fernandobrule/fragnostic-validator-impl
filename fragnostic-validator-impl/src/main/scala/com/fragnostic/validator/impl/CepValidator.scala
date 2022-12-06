@@ -13,11 +13,11 @@ class CepValidator extends ValidatorApi[String] with ValidatorSupport with TypeB
 
   override def validate(locale: Locale, domain: String, cep: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     Option(cep) match {
-      case None => getMessage(locale, MSG_CEP_VALIDATOR_CEP_IS_NULL, messages).failureNel
+      case None => getMessage(locale, domain, MSG_CEP_VALIDATOR_CEP_IS_NULL, messages).failureNel
       case Some(cep) =>
         if (cep.trim.isEmpty) {
           if (mandatory) {
-            getFailureNel(locale, MSG_CEP_VALIDATOR_CEP_IS_EMPTY, messages)
+            getFailureNel(locale, domain, MSG_CEP_VALIDATOR_CEP_IS_EMPTY, messages)
           } else {
             "".successNel
           }

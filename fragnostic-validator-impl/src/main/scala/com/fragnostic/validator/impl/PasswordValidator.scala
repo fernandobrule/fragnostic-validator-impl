@@ -43,7 +43,7 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
 
   override def validate(locale: Locale, domain: String, password: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (password.trim.isEmpty) {
-      getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY, messages)
+      getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_EMPTY, messages)
     } else {
       handleShort(CONF_MIN_LENGTH, domain, params) fold (
         error => error.failureNel,
@@ -51,18 +51,18 @@ class PasswordValidator extends ValidatorApi[String] with ValidatorSupport with 
           error => error.failureNel,
           maxLength =>
             if (password.trim.length < minLength) {
-              getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT, messages)
+              getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_TOO_SHORT, messages)
             } else if (password.trim.length > maxLength) {
-              getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG, messages)
+              getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_IS_TOO_LONG, messages)
             } else {
               containsAtLeastOneUppercaseLetter(password) fold (
-                error => getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER, messages),
+                error => getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_UPPERCASE_LETTER, messages),
                 password => containsAtLeastOneLowercaseLetter(password) fold (
-                  error => getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER, messages),
+                  error => getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_LOWERCASE_LETTER, messages),
                   password => containsAtLeastOneNumber(password) fold (
-                    error => getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER, messages),
+                    error => getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_NUMBER, messages),
                     password => containsAtLeastOneSymbol(password) fold (
-                      error => getFailureNel(locale, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL, messages),
+                      error => getFailureNel(locale, domain, MSG_PASSWORD_VALIDATOR_PASSWORD_MUST_HAVE_AT_LEAST_ONE_SYMBOL, messages),
                       password => password.trim.successNel) //
                   ) //
                 ) //

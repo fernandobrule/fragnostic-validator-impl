@@ -17,9 +17,9 @@ class NumberLongValidator extends ValidatorApi[Long] with ValidatorSupport with 
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              getMessage(locale, MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
+              getMessage(locale, domain, MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              getMessage(locale, MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
+              getMessage(locale, domain, MSG_NUMBER_LONG_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }

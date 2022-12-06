@@ -9,13 +9,16 @@ import java.util.Locale
 
 class TextValidator extends ValidatorApi[String] with ValidatorSupport with TypeIntHandler with ValidatorMessagesKeys {
 
+  //private[this] val logger: Logger = LoggerFactory.getLogger("TextValidator")
+
   override def validate(locale: Locale, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[String] = {
+    //logger.info(s"validate() - locale[$locale], domain[$domain], text[$text]")
     Option(text) match {
-      case None => getFailureNel(locale, MSG_TEXT_VALIDATOR_TEXT_IS_NULL, messages)
+      case None => getFailureNel(locale, domain, MSG_TEXT_VALIDATOR_TEXT_IS_NULL, messages)
       case Some(text) =>
         if (text.trim.isEmpty) {
           if (mandatory) {
-            getFailureNel(locale, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY, messages)
+            getFailureNel(locale, domain, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY, messages)
           } else {
             "".successNel
           }
@@ -29,9 +32,9 @@ class TextValidator extends ValidatorApi[String] with ValidatorSupport with Type
                   val textTrim = text.trim
                   val textLength = textTrim.length
                   if (textLength < minLength) {
-                    getFailureNel(locale, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT, messages)
+                    getFailureNel(locale, domain, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT, messages)
                   } else if (textLength > maxLength) {
-                    getFailureNel(locale, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG, messages)
+                    getFailureNel(locale, domain, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG, messages)
                   } else {
                     textTrim.successNel
                   }

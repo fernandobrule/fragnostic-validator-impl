@@ -11,20 +11,20 @@ class EmailValidator extends ValidatorApi[String] with ValidatorSupport with Ema
 
   private def textValidator = new TextValidator
 
-  private def textValidatorMessages(locale: Locale, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_EMPTY, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, messages) //
+  private def textValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, domain, MSG_EMAIL_VALIDATOR_EMAIL_IS_EMPTY, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, domain, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_SHORT, messages),
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_EMAIL_VALIDATOR_EMAIL_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, email: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    textValidator.validate(locale, domain, email, params, textValidatorMessages(locale, messages), mandatory) fold (
+    textValidator.validate(locale, domain, email, params, textValidatorMessages(locale, domain, messages), mandatory) fold (
       error => error.head.failureNel,
       email =>
         if (!mandatory && email.trim.isEmpty) {
           "".successNel
         } else {
-          validateByRfc2822Validator(email, getMessage(locale, MSG_EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID, messages))
+          validateByRfc2822Validator(email, getMessage(locale, domain, MSG_EMAIL_VALIDATOR_EMAIL_IS_NOT_VALID, messages))
         } //
     )
 

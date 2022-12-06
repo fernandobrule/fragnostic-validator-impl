@@ -18,14 +18,14 @@ class UsernameValidator extends ValidatorApi[String] with ValidatorSupport with 
         usernameMaximumLength =>
           if (username.trim.isEmpty) {
             if (mandatory) {
-              getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_EMPTY, messages)
+              getFailureNel(locale, domain, MSG_USERNAME_VALIDATOR_USERNAME_IS_EMPTY, messages)
             } else {
               "".successNel
             }
           } else if (username.trim.length < usernameMinimumLength) {
-            getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, messages)
+            getFailureNel(locale, domain, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_SHORT, messages)
           } else if (username.trim.length > usernameMaximumLength) {
-            getFailureNel(locale, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, messages)
+            getFailureNel(locale, domain, MSG_USERNAME_VALIDATOR_USERNAME_IS_TOO_LONG, messages)
           } else {
             username.trim.successNel
           } //

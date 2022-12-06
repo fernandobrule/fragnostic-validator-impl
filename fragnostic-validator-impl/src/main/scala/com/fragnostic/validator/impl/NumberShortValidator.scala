@@ -17,9 +17,9 @@ class NumberShortValidator extends ValidatorApi[Short] with ValidatorSupport wit
           error => error.failureNel,
           minValue => {
             if (someNumber < minValue) {
-              getMessage(locale, MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
+              getMessage(locale, domain, MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_SHORT, messages).failureNel
             } else if (someNumber > maxValue) {
-              getMessage(locale, MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
+              getMessage(locale, domain, MSG_NUMBER_SHORT_VALIDATOR_NUMBER_IS_TOO_LONG, messages).failureNel
             } else {
               someNumber.successNel
             }

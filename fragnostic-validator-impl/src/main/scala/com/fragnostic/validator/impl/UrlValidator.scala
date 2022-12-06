@@ -16,7 +16,7 @@ class UrlValidator extends ValidatorApi[String] with ValidatorSupport with TypeB
   override def validate(locale: Locale, domain: String, url: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     if (url.trim.isEmpty) {
       if (mandatory) {
-        getFailureNel(locale, MSG_URL_VALIDATOR_URL_IS_EMPTY, messages)
+        getFailureNel(locale, domain, MSG_URL_VALIDATOR_URL_IS_EMPTY, messages)
       } else {
         "".successNel
       }
@@ -29,7 +29,7 @@ class UrlValidator extends ValidatorApi[String] with ValidatorSupport with TypeB
 
           url.trim match {
             case urlRegex(url) => if (hasToFormat) urlFormat(url).successNel else url.successNel
-            case _ => getFailureNel(locale, MSG_URL_VALIDATOR_URL_IS_NOT_VALID, messages)
+            case _ => getFailureNel(locale, domain, MSG_URL_VALIDATOR_URL_IS_NOT_VALID, messages)
           }
         } //
       )
