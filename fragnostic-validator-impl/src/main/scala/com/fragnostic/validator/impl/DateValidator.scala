@@ -11,7 +11,7 @@ import scala.util.Try
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  //private[this] val logger: Logger = LoggerFactory.getLogger("TextValidator")
+  //private[this] val logger: Logger = LoggerFactory.getLogger("DateValidator")
 
   private val DEFAULT_DATE_FORMAT = "dd/MM/yyyy"
   private def textValidator = new TextValidator
@@ -19,7 +19,7 @@ class DateValidator extends ValidatorApi[String] with ValidatorSupport with Vali
   override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     //logger.info(s"validate() - enter, locale[$locale], domain[$domain], date[$date]")
     textValidator.validate(locale, domain, date, params, messages, mandatory) fold (
-      error => error.head.failureNel,
+      nel => nel.head.failureNel,
       date =>
         if (date.isEmpty) {
           "".successNel
