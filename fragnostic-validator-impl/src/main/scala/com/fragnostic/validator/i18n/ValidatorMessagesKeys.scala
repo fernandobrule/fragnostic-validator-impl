@@ -17,6 +17,8 @@ trait ValidatorMessagesKeys {
 
   val MSG_CNPJ_VALIDATOR_CNPJ_IS_NULL = "cnpj.validator.cnpj.is.null"
   val MSG_CNPJ_VALIDATOR_CNPJ_IS_EMPTY = "cnpj.validator.cnpj.is.empty"
+  val MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_SHORT = "cnpj.validator.cnpj.is.too.short"
+  val MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_LONG = "cnpj.validator.cnpj.is.too.long"
   val MSG_CNPJ_VALIDATOR_CNPJ_IS_NOT_VALID = "cnpj.validator.cnpj.is.not.valid"
 
   val MSG_DATE_TIME_VALIDATOR_DATE_TIME_IS_NULL = "date.time.validator.date.time.is.null"

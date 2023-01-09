@@ -21,9 +21,10 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
   )
 
-  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
+  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     Option(cpf) match {
-      case None => getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
+      case None =>
+        getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
       case Some(cpf) =>
         textValidator.validate(locale, domain, cpf, params, textValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
@@ -34,10 +35,12 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
               getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
             } else {
               cpf.successNel
-            }) //
+            } //
+        ) //
     }
+  }
 
-  private val STRICT_STRIP_REGEX: String = """[.-]"""
+  private val STRICT_STRIP_REGEX: String = """[.\-]"""
 
   // TODO esta lista tiene que estar en un archivo
   val BLACKLIST: Array[String] = Array(
@@ -53,8 +56,9 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     "99999999999",
     "12345678909")
 
-  private def addDigit(numbers: String): String =
+  private def addDigit(numbers: String): String = {
     s"$numbers${verifierDigit(numbers)}"
+  }
 
   private def verifierDigit(digits: String): Int = {
     val numbers: List[Int] = digits.map(c => c.asDigit).toList
@@ -63,13 +67,16 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     })
 
     val mod: Int = multiplied.sum % 11
-    if (mod < 2) 0 else {
+    if (mod < 2) {
+      0
+    } else {
       11 - mod
     }
   }
 
-  private def strip(number: String): String =
+  private def strip(number: String): String = {
     number.replaceAll(STRICT_STRIP_REGEX, "")
+  }
 
   private def isValid(number: String): Boolean = {
     val stripped: String = strip(number)
