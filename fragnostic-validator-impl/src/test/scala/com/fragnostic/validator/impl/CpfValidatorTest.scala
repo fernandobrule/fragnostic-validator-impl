@@ -3,7 +3,24 @@ package com.fragnostic.validator.impl
 import com.fragnostic.validator.api.Validated
 import scalaz.{ Failure, NonEmptyList, Success }
 
+import javax.swing.text.MaskFormatter
+
 class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
+
+  val STRICT_STRIP_REGEX: String = """[.\-]"""
+  def strip(number: String): String = {
+    number.trim.replaceAll(STRICT_STRIP_REGEX, "")
+  }
+
+  val maskCpf: MaskFormatter = {
+    val instance = new MaskFormatter("###.###.###-##")
+    instance.setValueContainsLiteralCharacters(false)
+    instance
+  }
+
+  def formatCpf(cpf: String): String = {
+    maskCpf.valueToString(strip(cpf))
+  }
 
   describe("Cpf Validator Test") {
 
@@ -20,13 +37,14 @@ class CpfValidatorTest extends AgnosticLifeCycleValidatorTest {
         "111.444.777-35" //
       )
 
-      cpfs foreach (cpf => {
-        val validation: Validated[String] = cpfValidator.validate(localePtBr, domain, cpf, Map.empty, cpfValidatorMessages)
-        assertResult(validation.isSuccess)(true)
-        assertResult(validation.toList.head)(cpf)
-      } //
+      cpfs foreach (
+        cpf => {
+          val validation: Validated[String] = cpfValidator.validate(localePtBr, domain, cpf, Map.empty, cpfValidatorMessages)
+          assertResult(true)(validation.isSuccess)
+          val formattedCpf = formatCpf(cpf)
+          assertResult(formattedCpf)(formatCpf(validation.toList.head))
+        } //
       )
-
     }
 
     it("Can Validate Empty CPF") {

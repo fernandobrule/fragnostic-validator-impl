@@ -38,16 +38,17 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
           cpf =>
             if (cpf.trim.isEmpty && !mandatory) {
               cpf.successNel
-            } else if (!isValid(cpf.trim)) {
-              getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
             } else {
-              cpf.successNel
+              val stripped: String = strip(cpf)
+              if (isValid(stripped)) {
+                stripped.successNel
+              } else {
+                getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
+              }
             } //
         ) //
     }
   }
-
-  private val STRICT_STRIP_REGEX: String = """[.\-]"""
 
   // TODO esta lista tiene que estar en un archivo
   val BLACKLIST: Array[String] = Array(
@@ -81,12 +82,13 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     }
   }
 
+  private val STRICT_STRIP_REGEX: String = """[.\-]"""
+
   private def strip(number: String): String = {
-    number.replaceAll(STRICT_STRIP_REGEX, "")
+    number.trim.replaceAll(STRICT_STRIP_REGEX, "")
   }
 
-  private def isValid(number: String): Boolean = {
-    val stripped: String = strip(number)
+  private def isValid(stripped: String): Boolean = {
     if (stripped.length != 11 || BLACKLIST.contains(stripped)) {
       false
     } else {
