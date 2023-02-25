@@ -54,6 +54,19 @@ class PasswordValidatorTest extends AgnosticLifeCycleValidatorTest {
 
     }
 
+    it("Can Validate Valid Password in the border") {
+
+      val password = "b%1Kdlrjfunhkujknpqkecrqywafqlsydpdjcpjlcsqnuybdqkqoqvqgbjyomhnb"
+      assertResult(64)(password.length)
+
+      val validation: Validated[String] = passwordValidator.validate(localePtBr, passwordValidatorDomain, password, passwordValidatorParams, messagesPasswordValidator(password.length.toString, passwordValidatorMaxLength))
+
+      assertResult(validation.isSuccess)(true)
+
+      assertResult(validation.toList.head)(password)
+
+    }
+
     it("Can Validate Password Without At Least One Uppercase Letter") {
 
       val password = "sdfddfssdfsdfsdfsdf"

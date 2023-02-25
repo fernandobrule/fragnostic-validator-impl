@@ -31,7 +31,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
 
   private def hasToFormatApply(mobile: String, hasToFormat: Boolean): Validated[String] =
     if (hasToFormat) {
-      format(mobile).successNel
+      formatMobile(mobile).successNel
     } else {
       mobile.successNel
     }
