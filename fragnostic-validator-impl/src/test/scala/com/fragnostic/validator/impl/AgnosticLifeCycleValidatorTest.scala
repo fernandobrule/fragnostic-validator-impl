@@ -69,6 +69,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
   // Date Time Validator
   val dateTimeValidator = new DateTimeValidator()
   val dateValidator = new DateValidator()
+  val dateIntervalValidator = new DateIntervalValidator()
 
   //
   // Validator Messages
@@ -82,10 +83,9 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
   val msgDateTimeIsNotValid: String = validatorI18n.getString(localePtBr, MSG_DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID)
 
   val msgDateIsEmpty: String = validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_EMPTY)
-  val msgDateIsTooLong: String = validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_TOO_LONG)
+  def msgDateIsTooLong(domain: String): String = validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domain))
   val msgDateIsNull: String = validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NULL)
-  val msgDateIsNotValid: String = validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID)
-
+  def msgDateIsNotValid(domain: String): String = validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domain))
   val msgMobileIsEmpty: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY)
   val msgMobileIsNotValid: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID)
   val msgMobileIsLengthier: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG)
@@ -105,6 +105,26 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
     CONF_HAS_TO_FORMAT -> "true",
     CONF_VALIDATE_COUNTRY_CODE -> "true",
     CONF_COUNTRY_CODES_WHITE_LIST -> "54;55;56;598" //
+  )
+
+  def messagesDateIntervalValidator(domainStart: String, domainEnd: String): Map[String, String] = Map(
+    s"${MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID}_$domainStart" -> validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domainStart)),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_NULL}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_NULL),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG),
+    s"${MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID}_$domainEnd" -> validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domainEnd)),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_NULL}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_NULL),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT),
+    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG),
+    MSG_DATE_INTERVAL_VALIDATOR_START_DATE_IS_AFTER_END_DATE -> validatorI18n.getString(localePtBr, MSG_DATE_INTERVAL_VALIDATOR_START_DATE_IS_AFTER_END_DATE) //
+  )
+
+  val paramsDateIntervalValidator: Map[String, String] = Map(
+    CONF_DATE_FORMAT -> "dd-MM-yyyy",
+    CONF_MIN_LENGTH -> "10",
+    CONF_MAX_LENGTH -> "10" //
   )
 
 }

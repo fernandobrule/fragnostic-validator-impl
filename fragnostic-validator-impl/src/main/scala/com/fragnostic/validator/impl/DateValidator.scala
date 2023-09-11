@@ -5,31 +5,34 @@ import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import scala.util.Try
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  //private[this] val logger: Logger = LoggerFactory.getLogger("DateValidator")
-
-  private val DEFAULT_DATE_FORMAT = "dd/MM/yyyy"
-  private def textValidator = new TextValidator
+  private val textValidator = new TextValidator
 
   override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
-    //logger.info(s"validate() - enter, locale[$locale], domain[$domain], date[$date]")
     textValidator.validate(locale, domain, date, params, messages, mandatory) fold (
       nel => nel.head.failureNel,
-      date =>
+      date => {
         if (date.isEmpty) {
           "".successNel
         } else {
-          val dateFormat = params.getOrElse(CONF_DATE_FORMAT, DEFAULT_DATE_FORMAT)
-          val simpl = new SimpleDateFormat(dateFormat)
-          Try(simpl.parse(date)) fold (
-            error => getFailureNel(locale, domain, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, messages),
-            jdate => s"$date".successNel)
+          if (!params.contains(CONF_DATE_FORMAT)) {
+            getMessage(locale, domain, MSG_DATE_VALIDATOR_YOU_HAVE_NOT_ENTERED_DATE_FORMAT, messages).failureNel
+          } else {
+            val dateFormat = params(CONF_DATE_FORMAT)
+            val dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
+            Try(LocalDate.parse(date, dateTimeFormatter)) fold (
+              error => getFailureNel(locale, domain, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, messages),
+              jdate => s"$date".successNel //
+            )
+          }
         } //
+      } //
     )
   }
 

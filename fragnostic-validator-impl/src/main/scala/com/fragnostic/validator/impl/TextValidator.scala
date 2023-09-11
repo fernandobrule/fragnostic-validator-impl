@@ -12,7 +12,6 @@ class TextValidator extends ValidatorApi[String] with ValidatorSupport with Type
   //private[this] val logger: Logger = LoggerFactory.getLogger("TextValidator")
 
   override def validate(locale: Locale, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[String] = {
-    //logger.info(s"validate() - locale[$locale], domain[$domain], text[$text]")
     Option(text) match {
       case None => getFailureNel(locale, domain, MSG_TEXT_VALIDATOR_TEXT_IS_NULL, messages)
       case Some(text) =>

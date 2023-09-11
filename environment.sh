@@ -8,5 +8,5 @@ export VALIDATOR_I18N_BASE_NAME=com.fragnostic.validator.i18n.validator-messages
 #
 # Redis
 #
-export REDIS_HOST=localhost
-export REDIS_PORT=6379
+export FRG_REDIS_HOST=localhost
+export FRG_REDIS_PORT=6379

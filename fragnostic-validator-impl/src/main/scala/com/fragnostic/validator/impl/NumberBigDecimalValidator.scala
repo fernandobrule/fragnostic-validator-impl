@@ -12,7 +12,6 @@ class NumberBigDecimalValidator extends ValidatorApi[BigDecimal] with ValidatorS
   //private[this] val logger: Logger = LoggerFactory.getLogger("NumberBigDecimalValidator")
 
   override def validate(locale: Locale, domain: String, someNumber: BigDecimal, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[BigDecimal] = {
-    //logger.info(s"validate() - locale[$locale], domain[$domain], someNumber[$someNumber]")
     Option(someNumber) match {
       case None => getMessage(locale, domain, MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_NULL, messages).failureNel
       case Some(someNumber) =>

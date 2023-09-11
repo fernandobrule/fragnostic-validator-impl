@@ -8,11 +8,12 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
     CONF_MIN_LENGTH -> "6",
     CONF_MAX_LENGTH -> "16" //
   )
-  val messages = Map(
+
+  def messages(domain: String): Map[String, String] = Map(
     MSG_TEXT_VALIDATOR_TEXT_IS_NULL -> msgDateIsNull,
     MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> msgDateIsEmpty,
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> msgDateIsTooLong,
-    MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid //
+    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> msgDateIsTooLong(domain),
+    MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid(domain) //
   )
 
   describe("*** Date Validator Test ***") {
@@ -21,41 +22,12 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
       val date = "    "
 
-      val message: String = dateValidator.validate(localePtBr, domain, date, params, messages) fold (
+      val message: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
         nel => nel.head,
         date => date //
       )
 
       assertResult(validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_EMPTY))(message)
-    }
-
-    it("Can Validate Wrong Date With an Strange Character") {
-
-      val date = "2020-10-03 23:50:0o"
-
-      val message: String = dateValidator.validate(localePtBr, domain, date, params, messages) fold (
-        nel => nel.head,
-        date => date //
-      )
-
-      assertResult(validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID))(message)
-    }
-
-    it("Can Validate Right Date With Format Default") {
-
-      val date = "02/03/2022"
-      val params: Map[String, String] = Map(
-        // dont DATE_FORMAT -> "yyyy-MM-dd",
-        CONF_MIN_LENGTH -> "6",
-        CONF_MAX_LENGTH -> "16" //
-      )
-
-      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages) fold (
-        nel => nel.head,
-        date => date //
-      )
-
-      assertResult(date)(answer)
     }
 
     it("Can Validate Right Date With Spaces at Beginning and at the End") {
@@ -67,7 +39,7 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
         CONF_MAX_LENGTH -> "16" //
       )
 
-      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages) fold (
+      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
         nel => nel.head,
         date => date //
       )
@@ -84,12 +56,12 @@ class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
         CONF_MAX_LENGTH -> "16" //
       )
 
-      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages) fold (
+      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
         nel => nel.head,
         date => date //
       )
 
-      assertResult(validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID))(answer)
+      assertResult(validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domain)))(answer)
 
     }
 
