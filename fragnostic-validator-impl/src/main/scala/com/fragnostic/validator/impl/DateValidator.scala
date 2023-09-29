@@ -12,10 +12,10 @@ import scala.util.Try
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  private val textValidator = new TextValidator
+  private val stringValidator = new StringValidator
 
   override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
-    textValidator.validate(locale, domain, date, params, messages, mandatory) fold (
+    stringValidator.validate(locale, domain, date, params, messages, mandatory) fold (
       nel => nel.head.failureNel,
       date => {
         if (date.isEmpty) {

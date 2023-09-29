@@ -109,15 +109,15 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
 
   def messagesDateIntervalValidator(domainStart: String, domainEnd: String): Map[String, String] = Map(
     s"${MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID}_$domainStart" -> validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domainStart)),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_NULL}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_NULL),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_NULL}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_NULL),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_EMPTY}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_EMPTY),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG}_$domainStart" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG),
     s"${MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID}_$domainEnd" -> validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domainEnd)),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_NULL}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_NULL),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT),
-    s"${MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_NULL}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_NULL),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_EMPTY}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_EMPTY),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT),
+    s"${MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG}_$domainEnd" -> validatorI18n.getString(localePtBr, MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG),
     MSG_DATE_INTERVAL_VALIDATOR_START_DATE_IS_AFTER_END_DATE -> validatorI18n.getString(localePtBr, MSG_DATE_INTERVAL_VALIDATOR_START_DATE_IS_AFTER_END_DATE) //
   )
 
@@ -126,5 +126,7 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
     CONF_MIN_LENGTH -> "10",
     CONF_MAX_LENGTH -> "10" //
   )
+
+  val deltaTimeValidator = new DeltaTimeValidator
 
 }

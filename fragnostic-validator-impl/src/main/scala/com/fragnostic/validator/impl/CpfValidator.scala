@@ -13,7 +13,7 @@ import java.util.Locale
 //
 class CpfValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  private def textValidator = new TextValidator
+  private def stringValidator = new StringValidator
 
   // 092.419.011-60
   // 09241901160
@@ -22,10 +22,10 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     CONF_MAX_LENGTH -> "14" //
   )
 
-  private def textValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_EMPTY, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
+  private def stringValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_EMPTY, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
   )
 
   override def validate(locale: Locale, domain: String, cpf: String, params_ : Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
@@ -33,7 +33,7 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
       case None =>
         getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
       case Some(cpf) =>
-        textValidator.validate(locale, domain, cpf, cpfValidatorParams, textValidatorMessages(locale, domain, messages), mandatory) fold (
+        stringValidator.validate(locale, domain, cpf, cpfValidatorParams, stringValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
           cpf =>
             if (cpf.trim.isEmpty && !mandatory) {

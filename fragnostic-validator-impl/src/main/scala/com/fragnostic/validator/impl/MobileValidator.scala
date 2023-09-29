@@ -10,12 +10,12 @@ import java.util.Locale
 
 class MobileValidator extends ValidatorApi[String] with ValidatorSupport with MobileFormatter with TypeBooleanHandler with TypeListHandler with ValidatorMessagesKeys {
 
-  private def textValidator = new TextValidator
+  private def stringValidator = new StringValidator
 
-  private def textValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
+  private def stringValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> getMessage(locale, domain, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG, messages) //
   )
 
   private val validChars = List(
@@ -67,7 +67,7 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
         }
       } else {
         val mobile = numbers.mkString("")
-        textValidator.validate(locale, domain, mobile, params, textValidatorMessages(locale, domain, messages), mandatory) fold (
+        stringValidator.validate(locale, domain, mobile, params, stringValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
           mobile => {
             (for {

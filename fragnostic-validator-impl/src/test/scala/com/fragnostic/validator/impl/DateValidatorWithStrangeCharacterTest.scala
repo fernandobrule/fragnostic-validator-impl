@@ -10,9 +10,9 @@ class DateValidatorWithStrangeCharacterTest extends AgnosticLifeCycleValidatorTe
   )
 
   def messages(domain: String): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_NULL -> msgDateIsNull,
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> msgDateIsEmpty,
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> msgDateIsTooLong(domain),
+    MSG_STRING_VALIDATOR_STRING_IS_NULL -> msgDateIsNull,
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> msgDateIsEmpty,
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> msgDateIsTooLong(domain),
     MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid(domain) //
   )
 

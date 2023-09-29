@@ -15,12 +15,12 @@ class CnpjValidator extends ValidatorApi[String] with ValidatorSupport with Vali
     CONF_MAX_LENGTH -> "18" //
   )
 
-  override def validate(locale: Locale, domain: String, cnpj: String, params_ : Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
+  override def validate(locale: Locale, domain: String, cnpj: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     Option(cnpj) match {
       case None =>
         getFailureNel(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_NULL, messages)
       case Some(cnpj) =>
-        textValidator.validate(locale, domain, cnpj, cnpjValidatorParams, textValidatorMessages(locale, domain, messages), mandatory) fold (
+        stringValidator.validate(locale, domain, cnpj, cnpjValidatorParams, stringValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
           cnpj => {
             if (cnpj.trim.isEmpty && !mandatory) {
@@ -35,7 +35,7 @@ class CnpjValidator extends ValidatorApi[String] with ValidatorSupport with Vali
     }
   }
 
-  private def textValidator = new TextValidator
+  private def stringValidator = new StringValidator
 
   val BLACKLIST: Array[String] = Array(
     "00000000000000",
@@ -50,10 +50,10 @@ class CnpjValidator extends ValidatorApi[String] with ValidatorSupport with Vali
     "99999999999999" //
   )
 
-  private def textValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
-    MSG_TEXT_VALIDATOR_TEXT_IS_EMPTY -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_EMPTY, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_SHORT, messages),
-    MSG_TEXT_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_LONG, messages) //
+  private def stringValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_EMPTY, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_SHORT, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> getMessage(locale, domain, MSG_CNPJ_VALIDATOR_CNPJ_IS_TOO_LONG, messages) //
   )
 
   private val STRICT_STRIP_REGEX: String = """[.\-/]"""
