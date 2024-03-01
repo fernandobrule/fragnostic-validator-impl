@@ -1,5 +1,5 @@
 package com.fragnostic.validator.impl
 
-class TextEmptyValidatorTest {
+class StringEmptyValidatorTest {
 
 }

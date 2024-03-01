@@ -4,15 +4,13 @@ import com.fragnostic.validator.impl.AgnosticLifeCycleValidatorTest
 
 class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBooleanHandler {
 
-  val param = "hasToFormat"
-
   describe("***Type Boolean Handler Test***") {
 
     val domain = "TypeBoolean"
 
     it("Can Handle Right Parameter") {
-      val params: Map[String, String] = Map(param -> "true")
-      val message: String = handleBoolean(param, domain, params) fold (
+      val params: Map[String, String] = Map(CONF_HAS_TO_FORMAT -> "true")
+      val message: String = handleBoolean(CONF_HAS_TO_FORMAT, domain, params) fold (
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 
@@ -21,8 +19,8 @@ class TypeBooleanHandlerTest extends AgnosticLifeCycleValidatorTest with TypeBoo
 
     it("Can Handle Wrong Parameter") {
       val paramValue = "true123"
-      val params: Map[String, String] = Map(param -> paramValue)
-      val message: String = handleBoolean(param, domain, params) fold (
+      val params: Map[String, String] = Map(CONF_HAS_TO_FORMAT -> paramValue)
+      val message: String = handleBoolean(CONF_HAS_TO_FORMAT, domain, params) fold (
         error => error,
         valueBoolean => s"Value is $valueBoolean")
 

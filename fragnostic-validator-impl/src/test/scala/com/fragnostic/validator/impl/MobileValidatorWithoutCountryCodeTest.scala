@@ -13,7 +13,7 @@ class MobileValidatorWithoutCountryCodeTest extends AgnosticLifeCycleValidatorTe
 
       val mobile: String = " (11) 9 5197 6773   "
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(localePtBr, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
       assertResult(validation.isFailure)(true)
 

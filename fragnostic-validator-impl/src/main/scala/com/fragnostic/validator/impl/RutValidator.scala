@@ -19,13 +19,13 @@ class RutValidator extends ValidatorApi[String] with ValidatorSupport with Valid
         if (isValidContraDv(base, dig)) {
           s"$base-$dig".successNel
         } else {
-          getFailureNel(RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
+          getFailureNel(locale, domain, MSG_RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
         }
       } else {
-        getFailureNel(RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
+        getFailureNel(locale, domain, MSG_RUT_VALIDATOR_RUT_IS_NOT_VALID, messages)
       }
     } else {
-      getFailureNel(RUT_VALIDATOR_RUT_IS_EMPTY, messages)
+      getFailureNel(locale, domain, MSG_RUT_VALIDATOR_RUT_IS_EMPTY, messages)
     }
 
   private lazy val k = "k"

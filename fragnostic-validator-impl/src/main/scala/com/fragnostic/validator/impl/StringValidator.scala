@@ -7,32 +7,33 @@ import scalaz.Scalaz._
 
 import java.util.Locale
 
-class TextBoundariesValidator extends ValidatorApi[String] with ValidatorSupport with TypeIntHandler with ValidatorMessagesKeys {
+class StringValidator extends ValidatorApi[String] with ValidatorSupport with TypeIntHandler with ValidatorMessagesKeys {
 
   override def validate(locale: Locale, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean): Validated[String] = {
     Option(text) match {
-      case None => getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_NULL, messages)
+      case None => getFailureNel(locale, domain, MSG_STRING_VALIDATOR_STRING_IS_NULL, messages)
       case Some(text) =>
         if (text.trim.isEmpty) {
           if (mandatory) {
-            getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY, messages)
+            getFailureNel(locale, domain, MSG_STRING_VALIDATOR_STRING_IS_EMPTY, messages)
           } else {
             "".successNel
           }
         } else {
-          handleInt("maxLength", domain, params) fold (
+          handleInt(CONF_MAX_LENGTH, domain, params) fold (
             error => error.failureNel,
             maxLength =>
-              handleInt("minLength", domain, params) fold (
+              handleInt(CONF_MIN_LENGTH, domain, params) fold (
                 error => error.failureNel,
                 minLength => {
-                  val textLength = text.length
+                  val textTrim = text.trim
+                  val textLength = textTrim.length
                   if (textLength < minLength) {
-                    getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT, messages)
+                    getFailureNel(locale, domain, MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT, messages)
                   } else if (textLength > maxLength) {
-                    getFailureNel(TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG, messages)
+                    getFailureNel(locale, domain, MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG, messages)
                   } else {
-                    text.trim.successNel
+                    textTrim.successNel
                   }
                 } //
               ) //
