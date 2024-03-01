@@ -7,15 +7,15 @@ import scalaz.Scalaz._
 
 import java.util.Locale
 
-class TextMaxLengthValidator extends ValidatorApi[String] with ValidatorSupport with TypeIntHandler with ValidatorMessagesKeys {
+class StringMaxLengthValidator extends ValidatorApi[String] with ValidatorSupport with TypeIntHandler with ValidatorMessagesKeys {
 
   override def validate(locale: Locale, domain: String, text: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    handleInt("maxLength", domain, params) fold (
+    handleInt(CONF_MAX_LENGTH, domain, params) fold (
       error => error.failureNel,
       maxLength => {
         val textLength = text.length
         if (textLength > maxLength) {
-          getFailureNel(TEXT_MAX_LENGTH_VALIDATOR_TEXT_IS_TOO_LONG, messages)
+          getFailureNel(locale, domain, MSG_STRING_MAX_LENGTH_VALIDATOR_STRING_IS_TOO_LONG, messages)
         } else {
           text.trim.successNel
         }

@@ -14,7 +14,11 @@ trait TypeListHandler {
       Left(s"type.list.handler.error.no.param\u005b$param\u005d.domain.is\u005b$domain\u005d")
     } else {
       val paramValue = params(param)
-      Try(Right(toList(paramValue))) getOrElse Left(s"type.list.handler.error.param.value.not.valid_$paramValue.domain.is\u005b$domain\u005d")
+      if (paramValue.trim.isEmpty) {
+        Right(List.empty[String])
+      } else {
+        Try(Right(toList(paramValue))) getOrElse Left(s"type.list.handler.error.param.value.not.valid_$paramValue.domain.is\u005b$domain\u005d")
+      }
     }
 
 }

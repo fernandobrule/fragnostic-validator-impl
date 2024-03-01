@@ -6,14 +6,14 @@ class CpfNotMandatoryValidatorTest extends AgnosticLifeCycleValidatorTest {
 
   describe("***CpfNotMandatoryValidatorTest***") {
 
-    val params: Map[String, String] = Map("maxLength" -> "64")
+    val params: Map[String, String] = Map(CONF_MAX_LENGTH -> "64")
     val domain = "CPF"
 
     it("Can Validate Not Mandatory Empty CPF") {
 
       val cpf = "  "
       val mandatory = false
-      val validation: Validated[String] = cpfValidator.validate(locale, domain, cpf, params, cpfValidatorMessages, mandatory)
+      val validation: Validated[String] = cpfValidator.validate(localePtBr, domain, cpf, params, cpfValidatorMessages, mandatory)
       assertResult(validation.isSuccess)(true)
 
     }

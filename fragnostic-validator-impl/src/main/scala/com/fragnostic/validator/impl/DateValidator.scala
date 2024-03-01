@@ -5,33 +5,36 @@ import com.fragnostic.validator.i18n.ValidatorMessagesKeys
 import com.fragnostic.validator.support.ValidatorSupport
 import scalaz.Scalaz._
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
+import scala.util.Try
 
 class DateValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  // TODO generalizar
-  private val datePattern = """\s*(\d{4}-\d{2}-\d{2})\s*"""
+  private val stringValidator = new StringValidator
 
-  override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
-    Option(date) match {
-      case None => getMessage(DATE_VALIDATOR_DATE_IS_NULL, messages).failureNel
-      case Some(date) =>
-        if (date.trim.isEmpty) {
-          if (mandatory) {
-            getFailureNel(DATE_VALIDATOR_DATE_IS_EMPTY, messages)
-          } else {
-            "".successNel
-          }
+  override def validate(locale: Locale, domain: String, date: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
+    stringValidator.validate(locale, domain, date, params, messages, mandatory) fold (
+      nel => nel.head.failureNel,
+      date => {
+        if (date.isEmpty) {
+          "".successNel
         } else {
-
-          val dateRegex = params.getOrElse("DATE_REGEX", datePattern).r
-
-          date match {
-            case dateRegex(date) => s"$date".successNel
-            case _ => getFailureNel(DATE_VALIDATOR_DATE_IS_NOT_VALID, messages)
+          if (!params.contains(CONF_DATE_FORMAT)) {
+            getMessage(locale, domain, MSG_DATE_VALIDATOR_YOU_HAVE_NOT_ENTERED_DATE_FORMAT, messages).failureNel
+          } else {
+            val dateFormat = params(CONF_DATE_FORMAT)
+            val dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
+            Try(LocalDate.parse(date, dateTimeFormatter)) fold (
+              error => getFailureNel(locale, domain, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, messages),
+              jdate => s"$date".successNel //
+            )
           }
-        }
-    }
+        } //
+      } //
+    )
+  }
 
 }
 

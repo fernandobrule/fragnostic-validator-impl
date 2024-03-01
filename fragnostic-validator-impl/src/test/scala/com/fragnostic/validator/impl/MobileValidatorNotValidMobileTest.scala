@@ -12,7 +12,7 @@ class MobileValidatorNotValidMobileTest extends AgnosticLifeCycleValidatorTest {
 
       val mobile: String = "ascsddsfds"
 
-      val validation: Validated[String] = mobileValidator.validate(locale, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
+      val validation: Validated[String] = mobileValidator.validate(localePtBr, domain, mobile, mobileValidatorParams, mobileValidatorMessages)
 
       assertResult(validation.isFailure)(true)
 

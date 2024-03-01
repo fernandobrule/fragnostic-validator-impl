@@ -13,31 +13,42 @@ import java.util.Locale
 //
 class CpfValidator extends ValidatorApi[String] with ValidatorSupport with ValidatorMessagesKeys {
 
-  private def textBoundariesValidator = new TextBoundariesValidator
+  private def stringValidator = new StringValidator
 
-  private def textBoundariesValidatorMessages(messages: Map[String, String]): Map[String, String] = Map(
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_EMPTY -> getMessage(CPF_VALIDATOR_CPF_IS_EMPTY, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_SHORT -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
-    TEXT_BOUNDARIES_VALIDATOR_TEXT_IS_TOO_LONG -> getMessage(CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
+  // 092.419.011-60
+  // 09241901160
+  private val cpfValidatorParams: Map[String, String] = Map(
+    CONF_MIN_LENGTH -> "11",
+    CONF_MAX_LENGTH -> "14" //
   )
 
-  override def validate(locale: Locale, domain: String, cpf: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
+  private def stringValidatorMessages(locale: Locale, domain: String, messages: Map[String, String]): Map[String, String] = Map(
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_EMPTY, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_SHORT -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_SHORT, messages),
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> getMessage(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_TOO_LONG, messages) //
+  )
+
+  override def validate(locale: Locale, domain: String, cpf: String, params_ : Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     Option(cpf) match {
-      case None => getFailureNel(CPF_VALIDATOR_CPF_IS_NULL, messages)
+      case None =>
+        getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NULL, messages)
       case Some(cpf) =>
-        textBoundariesValidator.validate(locale, domain, cpf, params, textBoundariesValidatorMessages(messages), mandatory) fold (
+        stringValidator.validate(locale, domain, cpf, cpfValidatorParams, stringValidatorMessages(locale, domain, messages), mandatory) fold (
           error => error.head.failureNel,
           cpf =>
             if (cpf.trim.isEmpty && !mandatory) {
               cpf.successNel
-            } else if (!isValid(cpf.trim)) {
-              getFailureNel(CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
             } else {
-              cpf.successNel
-            }) //
+              val stripped: String = strip(cpf)
+              if (isValid(stripped)) {
+                stripped.successNel
+              } else {
+                getFailureNel(locale, domain, MSG_CPF_VALIDATOR_CPF_IS_NOT_VALID, messages)
+              }
+            } //
+        ) //
     }
-
-  private val STRICT_STRIP_REGEX: String = """[.-]"""
+  }
 
   // TODO esta lista tiene que estar en un archivo
   val BLACKLIST: Array[String] = Array(
@@ -53,8 +64,9 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     "99999999999",
     "12345678909")
 
-  private def addDigit(numbers: String): String =
+  private def addDigit(numbers: String): String = {
     s"$numbers${verifierDigit(numbers)}"
+  }
 
   private def verifierDigit(digits: String): Int = {
     val numbers: List[Int] = digits.map(c => c.asDigit).toList
@@ -63,16 +75,20 @@ class CpfValidator extends ValidatorApi[String] with ValidatorSupport with Valid
     })
 
     val mod: Int = multiplied.sum % 11
-    if (mod < 2) 0 else {
+    if (mod < 2) {
+      0
+    } else {
       11 - mod
     }
   }
 
-  private def strip(number: String): String =
-    number.replaceAll(STRICT_STRIP_REGEX, "")
+  private val STRICT_STRIP_REGEX: String = """[.\-]"""
 
-  private def isValid(number: String): Boolean = {
-    val stripped: String = strip(number)
+  private def strip(number: String): String = {
+    number.trim.replaceAll(STRICT_STRIP_REGEX, "")
+  }
+
+  private def isValid(stripped: String): Boolean = {
     if (stripped.length != 11 || BLACKLIST.contains(stripped)) {
       false
     } else {

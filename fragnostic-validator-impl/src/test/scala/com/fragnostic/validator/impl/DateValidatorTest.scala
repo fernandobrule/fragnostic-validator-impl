@@ -1,61 +1,68 @@
 package com.fragnostic.validator.impl
 
-import com.fragnostic.validator.api.Validated
-import scalaz.NonEmptyList
-
 class DateValidatorTest extends AgnosticLifeCycleValidatorTest {
 
-  describe("*** Date Validator Test ***") {
+  val domain = "Date"
+  val params: Map[String, String] = Map(
+    CONF_DATE_FORMAT -> "yyyy-MM-dd",
+    CONF_MIN_LENGTH -> "6",
+    CONF_MAX_LENGTH -> "16" //
+  )
 
-    val domain = "Date"
-    val messages = Map(
-      DATE_VALIDATOR_DATE_IS_EMPTY -> msgDateIsEmpty,
-      DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid //
-    )
+  def messages(domain: String): Map[String, String] = Map(
+    MSG_STRING_VALIDATOR_STRING_IS_NULL -> msgDateIsNull,
+    MSG_STRING_VALIDATOR_STRING_IS_EMPTY -> msgDateIsEmpty,
+    MSG_STRING_VALIDATOR_STRING_IS_TOO_LONG -> msgDateIsTooLong(domain),
+    MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID -> msgDateIsNotValid(domain) //
+  )
+
+  describe("*** Date Validator Test ***") {
 
     it("Can Validate Empty Date") {
 
       val date = "    "
 
-      val list = dateValidator.validate(locale, domain, date, paramsEmpty, messages) fold (
-        errors => errors,
-        signupReq => NonEmptyList((): Unit) //
+      val message: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
+        nel => nel.head,
+        date => date //
       )
 
-      assertResult(list.size)(1)
-      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY))
+      assertResult(validatorI18n.getString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_EMPTY))(message)
+    }
+
+    it("Can Validate Right Date With Spaces at Beginning and at the End") {
+
+      val date = "   03-02-2020     "
+      val params: Map[String, String] = Map(
+        CONF_DATE_FORMAT -> "dd-MM-yyyy",
+        CONF_MIN_LENGTH -> "6",
+        CONF_MAX_LENGTH -> "16" //
+      )
+
+      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
+        nel => nel.head,
+        date => date //
+      )
+
+      assertResult("03-02-2020")(answer)
     }
 
     it("Can Validate Wrong Date") {
 
-      val date = "2020-10-03 23:50:0o"
+      val date = "03u02-2020"
+      val params: Map[String, String] = Map(
+        CONF_DATE_FORMAT -> "dd-MM-yyyy",
+        CONF_MIN_LENGTH -> "6",
+        CONF_MAX_LENGTH -> "16" //
+      )
 
-      val list = dateValidator.validate(locale, domain, date, paramsEmpty, messages) fold (
-        errors => errors,
-        signupReq => NonEmptyList((): Unit))
+      val answer: String = dateValidator.validate(localePtBr, domain, date, params, messages(domain)) fold (
+        nel => nel.head,
+        date => date //
+      )
 
-      assertResult(list.size)(1)
-      assertResult(list.head)(validatorI18n.getString(locale, DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID))
-    }
+      assertResult(validatorI18n.getFormattedString(localePtBr, MSG_DATE_VALIDATOR_DATE_IS_NOT_VALID, List(domain)))(answer)
 
-    it("Can Validate Right Date Case 1") {
-
-      val date = "2020-02-03"
-
-      val validation: Validated[String] = dateValidator.validate(locale, domain, date, paramsEmpty, messages)
-      assertResult(validation.isSuccess)(true)
-      assertResult(validation.toList.head)("2020-02-03")
-    }
-
-    it("Can Validate Right Date Case 2") {
-
-      val params: Map[String, String] = Map("DATE_REGEX" -> """\s*(\d{2}-\d{2}-\d{4})\s*""")
-
-      val date = "   03-02-2020     "
-
-      val validation: Validated[String] = dateValidator.validate(locale, domain, date, params, messages)
-      assertResult(validation.isSuccess)(true)
-      assertResult(validation.toList.head)("03-02-2020")
     }
 
   }

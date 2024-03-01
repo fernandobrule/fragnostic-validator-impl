@@ -14,11 +14,11 @@ class DateTimeValidator extends ValidatorApi[String] with ValidatorSupport with 
 
   override def validate(locale: Locale, domain: String, dateTime: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] =
     Option(dateTime) match {
-      case None => getFailureNel(DATE_TIME_VALIDATOR_DATE_TIME_IS_NULL, messages)
+      case None => getFailureNel(locale, domain, MSG_DATE_TIME_VALIDATOR_DATE_TIME_IS_NULL, messages)
       case Some(dateTime) =>
         if (dateTime.trim.isEmpty) {
           if (mandatory) {
-            getFailureNel(DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY, messages)
+            getFailureNel(locale, domain, MSG_DATE_TIME_VALIDATOR_DATE_TIME_IS_EMPTY, messages)
           } else {
             "".successNel
           }
@@ -28,7 +28,7 @@ class DateTimeValidator extends ValidatorApi[String] with ValidatorSupport with 
 
           dateTime match {
             case dateTimeRegex(date, time) => s"$date $time".successNel
-            case _ => getFailureNel(DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID, messages)
+            case _ => getFailureNel(locale, domain, MSG_DATE_TIME_VALIDATOR_DATE_TIME_IS_NOT_VALID, messages)
           }
         }
     }
