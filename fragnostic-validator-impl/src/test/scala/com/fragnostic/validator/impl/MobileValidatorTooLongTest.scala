@@ -19,7 +19,7 @@ class MobileValidatorTooLongTest extends AgnosticLifeCycleValidatorTest {
         MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY -> msgMobileIsEmpty,
         MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID -> msgMobileIsNotValid,
         MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG -> msgMobileIsTooLong,
-        MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE -> msgMobileWithoutCountryCode //
+        MSG_MOBILE_VALIDATOR_MOBILE_WITH_NOT_ALLOWED_COUNTRY_CODE -> msgMobileWithoutCountryCode //
       )
 
       val validation: Validated[String] = mobileValidator.validate(localePtBr, domain, mobile, mobileValidatorParams, mobileValidatorMessages)

@@ -38,20 +38,25 @@ class MobileValidator extends ValidatorApi[String] with ValidatorSupport with Mo
 
   private def validateCountryCode(mobile: String, countryCodesWhiteList: List[String], hasToFormat: Boolean, errorMessage: String): Validated[String] = {
     val code: String = mobile.substring(0, 2)
-    if (countryCodesWhiteList.contains(code)) {
-      hasToFormatApply(mobile, hasToFormat)
+    if (countryCodesWhiteList.nonEmpty) {
+      if (countryCodesWhiteList.contains(code)) {
+        hasToFormatApply(mobile, hasToFormat)
+      } else {
+        errorMessage.failureNel
+      }
     } else {
-      errorMessage.failureNel
+      hasToFormatApply(mobile, hasToFormat)
     }
   }
 
-  private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] =
+  private def validateCountryCode(locale: Locale, mobile: String, hasToFormat: Boolean, domain: String, params: Map[String, String], messages: Map[String, String]): Validated[String] = {
     handleList(CONF_COUNTRY_CODES_WHITE_LIST, domain, params) fold (
       error => error.failureNel,
       countryCodesWhiteList => {
-        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE))
+        validateCountryCode(mobile, countryCodesWhiteList, hasToFormat, messages(MSG_MOBILE_VALIDATOR_MOBILE_WITH_NOT_ALLOWED_COUNTRY_CODE))
       } //
-    ) //
+    )
+  } //
 
   override def validate(locale: Locale, domain: String, rawMobile: String, params: Map[String, String], messages: Map[String, String], mandatory: Boolean = true): Validated[String] = {
     val notNumbers = rawMobile.filter(c => !isValid(c)).toList

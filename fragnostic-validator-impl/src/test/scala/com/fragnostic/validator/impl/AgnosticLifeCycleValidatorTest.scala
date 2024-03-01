@@ -31,6 +31,16 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
 
   val mobileValidator = new MobileValidator()
 
+  val usernameDomain: String = "Username"
+  def usernameValidator = new UsernameValidator()
+  val usernameValidatorMandatory: Boolean = true
+  val usernameMinLength = "8"
+  val usernameMaxLength = "18"
+  val usernameValidatorParams: Map[String, String] = Map(
+    CONF_MIN_LENGTH -> usernameMinLength,
+    CONF_MAX_LENGTH -> usernameMaxLength //
+  )
+
   //
   // Email Validator
   val emailValidator = new EmailValidator()
@@ -89,11 +99,11 @@ class AgnosticLifeCycleValidatorTest extends AnyFunSpec
   val msgMobileIsEmpty: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY)
   val msgMobileIsNotValid: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID)
   val msgMobileIsLengthier: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG)
-  val msgMobileWithoutCountryCode: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE)
+  val msgMobileWithoutCountryCode: String = validatorI18n.getString(localePtBr, MSG_MOBILE_VALIDATOR_MOBILE_WITH_NOT_ALLOWED_COUNTRY_CODE)
   val mobileValidatorMessages: Map[String, String] = Map(
     MSG_MOBILE_VALIDATOR_MOBILE_IS_EMPTY -> msgMobileIsEmpty,
     MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID -> msgMobileIsNotValid,
-    MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE -> msgMobileWithoutCountryCode //
+    MSG_MOBILE_VALIDATOR_MOBILE_WITH_NOT_ALLOWED_COUNTRY_CODE -> msgMobileWithoutCountryCode //
   )
 
   //

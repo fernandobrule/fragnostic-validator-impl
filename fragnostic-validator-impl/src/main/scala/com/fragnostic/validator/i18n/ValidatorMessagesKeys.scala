@@ -35,7 +35,7 @@ trait ValidatorMessagesKeys {
   val MSG_MOBILE_VALIDATOR_MOBILE_IS_NOT_VALID = "mobile.validator.mobile.is.not.valid"
   val MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_LONG = "mobile.validator.mobile.is.too.long"
   val MSG_MOBILE_VALIDATOR_MOBILE_IS_TOO_SHORT = "mobile.validator.mobile.is.too.short"
-  val MSG_MOBILE_VALIDATOR_MOBILE_WITHOUT_COUNTRY_CODE = "mobile.validator.mobile.without.country.code"
+  val MSG_MOBILE_VALIDATOR_MOBILE_WITH_NOT_ALLOWED_COUNTRY_CODE = "mobile.validator.mobile.with.not.allowed.country.code"
   val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_NULL = "number.big.decimal.validator.number.is.null"
   val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_LONG = "number.big.decimal.validator.number.is.too.long"
   val MSG_NUMBER_BIG_DECIMAL_VALIDATOR_NUMBER_IS_TOO_SHORT = "number.big.decimal.validator.number.is.too.short"
